@@ -12,34 +12,51 @@
   "dir": "ltr",
   "id": "/jugalbandhi-self/reader.html",
   "categories": ["books", "education"],
+  "iarc_rating_id": "",
+  "prefer_related_applications": false,
+  "related_applications": [],
   "screenshots": [
     {
       "src": "icons/screenshot-phone-1.png",
-      "sizes": "1080x1920",
+      "sizes": "853x1600",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Read chapters in a beautifully formatted book reader"
+      "label": "Front cover with audio narration controls"
     },
     {
       "src": "icons/screenshot-phone-2.png",
-      "sizes": "1080x1920",
+      "sizes": "903x1600",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Translate passages into 30+ languages"
+      "label": "Introduction and book synopsis"
     },
     {
       "src": "icons/screenshot-phone-3.png",
-      "sizes": "1080x1920",
+      "sizes": "955x1600",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Listen with built-in TTS narration"
+      "label": "Read chapters with side-by-side, listen, and bookmark features"
+    },
+    {
+      "src": "icons/screenshot-phone-4.png",
+      "sizes": "955x1600",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Translate passages into Hindi and 30+ other languages"
+    },
+    {
+      "src": "icons/screenshot-phone-5.png",
+      "sizes": "380x1280",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Choose from 35+ languages including Arabic, Chinese, French, and more"
     },
     {
       "src": "icons/screenshot-wide-1.png",
-      "sizes": "1920x1080",
+      "sizes": "2412x1708",
       "type": "image/png",
       "form_factor": "wide",
-      "label": "Read chapters in a beautifully formatted book reader"
+      "label": "Desktop view with chapter navigation and reading progress"
     }
   ],
   "icons": [
