@@ -1,7 +1,7 @@
 // Jugalbandhi Self — Service Worker
 // Strategy: precache core shell, lazy-cache audio on first play
 const CACHE_VERSION = 'jb-v1';
-const CORE_CACHE   = 'jb-core-v2';
+const CORE_CACHE   = 'jb-core-v3';
 const AUDIO_CACHE  = 'jb-audio-v1';
 
 // Core files precached on install
@@ -13,7 +13,14 @@ const CORE_ASSETS = [
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/icon-1024.png',
-  './icons/apple-touch-icon.png'
+  './icons/apple-touch-icon.png',
+  // Fonts — required for offline rendering
+  './Cormorant_Garamond,Inter,Noto_Serif/Cormorant_Garamond/CormorantGaramond-VariableFont_wght.ttf',
+  './Cormorant_Garamond,Inter,Noto_Serif/Cormorant_Garamond/CormorantGaramond-Italic-VariableFont_wght.ttf',
+  './Cormorant_Garamond,Inter,Noto_Serif/Inter/Inter-VariableFont_opsz,wght.ttf',
+  './Cormorant_Garamond,Inter,Noto_Serif/Inter/Inter-Italic-VariableFont_opsz,wght.ttf',
+  './Cormorant_Garamond,Inter,Noto_Serif/Noto_Serif/NotoSerif-VariableFont_wdth,wght.ttf',
+  './Cormorant_Garamond,Inter,Noto_Serif/Noto_Serif/NotoSerif-Italic-VariableFont_wdth,wght.ttf'
 ];
 
 // Install: precache core shell
