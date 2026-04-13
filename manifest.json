@@ -53,7 +53,7 @@
     },
     {
       "src": "icons/screenshot-wide-1.png",
-      "sizes": "2412x1708",
+      "sizes": "1920x1080",
       "type": "image/png",
       "form_factor": "wide",
       "label": "Desktop view with chapter navigation and reading progress"
