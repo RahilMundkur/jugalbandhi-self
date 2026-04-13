@@ -5,6 +5,7 @@
   "start_url": "./reader.html",
   "scope": "./",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
   "orientation": "any",
   "background_color": "#faf8f4",
   "theme_color": "#c9952a",
@@ -57,6 +58,29 @@
       "type": "image/png",
       "form_factor": "wide",
       "label": "Desktop view with chapter navigation and reading progress"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Chapter 1: One Self",
+      "short_name": "Ch 1",
+      "url": "./reader.html#ch1",
+      "description": "Start reading from Chapter 1",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Random Chapter",
+      "short_name": "Random",
+      "url": "./reader.html#anywhere",
+      "description": "Open a random chapter",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Continue Reading",
+      "short_name": "Continue",
+      "url": "./reader.html",
+      "description": "Resume from where you left off",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
     }
   ],
   "icons": [
