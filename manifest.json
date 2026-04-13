@@ -2,7 +2,7 @@
   "name": "Jugalbandhi Self",
   "short_name": "Jugalbandhi",
   "description": "A dialogue on non-dual spirituality by Rahil Mundkur. Read in English with translations in 30+ languages and built-in TTS narration for English, Hindi, and French.",
-  "start_url": "./index.html",
+  "start_url": "./reader.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",

@@ -1,13 +1,14 @@
 // Jugalbandhi Self — Service Worker
 // Strategy: precache core shell, lazy-cache audio on first play
 const CACHE_VERSION = 'jb-v1';
-const CORE_CACHE   = 'jb-core-v1';
+const CORE_CACHE   = 'jb-core-v2';
 const AUDIO_CACHE  = 'jb-audio-v1';
 
 // Core files precached on install
 const CORE_ASSETS = [
   './',
   './index.html',
+  './reader.html',
   './manifest.json',
   './icons/icon-192.png',
   './icons/icon-512.png',
