@@ -5,14 +5,20 @@
   "start_url": "./reader.html",
   "scope": "./",
   "display": "standalone",
-  "display_override": ["standalone", "minimal-ui"],
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
   "orientation": "any",
   "background_color": "#faf8f4",
   "theme_color": "#c9952a",
   "lang": "en",
   "dir": "ltr",
   "id": "/jugalbandhi-self/reader.html",
-  "categories": ["books", "education"],
+  "categories": [
+    "books",
+    "education"
+  ],
   "iarc_rating_id": "",
   "prefer_related_applications": false,
   "related_applications": [],
@@ -66,21 +72,36 @@
       "short_name": "Ch 1",
       "url": "./reader.html#ch1",
       "description": "Start reading from Chapter 1",
-      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     },
     {
       "name": "Random Chapter",
       "short_name": "Random",
       "url": "./reader.html#anywhere",
       "description": "Open a random chapter",
-      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     },
     {
       "name": "Continue Reading",
       "short_name": "Continue",
       "url": "./reader.html",
       "description": "Resume from where you left off",
-      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ],
   "icons": [
@@ -91,27 +112,22 @@
       "purpose": "any"
     },
     {
-      "src": "icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
       "src": "icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "icons/icon-512.png",
-      "sizes": "512x512",
+      "src": "icons/icon-maskable-192.png",
+      "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "icons/icon-1024.png",
-      "sizes": "1024x1024",
-      "type": "image/png"
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "icons/apple-touch-icon.png",

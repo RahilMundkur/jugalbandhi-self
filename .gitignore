@@ -1,0 +1,31 @@
+
+# Local backups
+icons.backup-*/
+*.backup-*
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Working drafts and archives
+*.zip
+reader_backup.html
+thai_manifest.json
+thai_tts_manifest_*.json
+generate_thai_tts.py
+Jugalbandhi Self/
+Jugalbandhi Self 2/
+Jugalbandhi Self 3/
+App_Store_Launch_Plan.docx
+
+# Separate Android project — has its own repo
+jugalbandhi-android/
+
+# Work-in-progress audio
+audio/th/
+
+# Stray screenshots
+icons/rahilmundkur.github.io_*.png
+icons/phone-about-hindi.png
+icons/screenshot-languages_4.png
+icons/tablet-*.png
