@@ -210,18 +210,14 @@ body {
 .header-controls { display: flex; align-items: center; gap: 6px; width: 100%; flex-wrap: wrap; }
 
 .lang-pill {
-  display: flex; align-items: center; gap: 4px;
+  display: flex; align-items: center; gap: 6px;
   background: var(--bg); border: 1px solid var(--border);
-  border-radius: 20px; padding: 4px 10px;
+  border-radius: 20px; padding: 6px 12px;
+  cursor: pointer; font-size: 0.82rem;
+  font-family: var(--font-sans); color: var(--ink);
+  transition: background 0.15s;
 }
-.lang-pill label { display: none; }
-select#langSelect {
-  background: none; border: none;
-  font-family: var(--font-sans); font-size: 0.82rem;
-  color: var(--ink); cursor: pointer; outline: none;
-  padding: 0 2px;
-}
-select#langSelect option { background: var(--surface); color: var(--ink); }
+.lang-pill:hover { background: var(--border); }
 .para-wrap { position: relative; }
 
 
@@ -836,7 +832,6 @@ select#langSelect option { background: var(--surface); color: var(--ink); }
   #reader-pane { padding: 32px 18px 60px; touch-action: manipulation; }
   .cover-title { font-size: 2.4rem; }
   .header-controls { gap: 6px; }
-  .lang-pill label { display: none; }
   /* Hide font-size buttons on mobile — use pinch-to-zoom instead */
   .font-size-ctrl { display: none; }
   /* Stack side-by-side on mobile */
@@ -1609,47 +1604,49 @@ body.focus-mode #focus-exit-btn { display: block; }
 
   </div>
   <div class="header-controls">
-    <div class="lang-pill">
-      <label>Translate to</label>
-      <select id="langSelect">
-        <option value="en">🇬🇧 English original</option>
-        <option value="ar">🇸🇦 العربية (Arabic)</option>
-        <option value="bn">🇧🇩 বাংলা (Bengali)</option>
-        <option value="my">🇲🇲 မြန်မာ (Burmese)</option>
-        <option value="zh">🇨🇳 中文简体 (Chinese Simplified)</option>
-        <option value="zh-tw">🇹🇼 中文繁體 (Chinese Traditional)</option>
-        <option value="nl">🇳🇱 Nederlands (Dutch)</option>
-        <option value="fr">🇫🇷 Français (French)</option>
-        <option value="de">🇩🇪 Deutsch (German)</option>
-        <option value="el">🇬🇷 Ελληνικά (Greek)</option>
-        <option value="gu">🇮🇳 ગુજરાતી (Gujarati)</option>
-        <option value="he">🇮🇱 עברית (Hebrew)</option>
-        <option value="hi">🇮🇳 हिन्दी (Hindi)</option>
-        <option value="id">🇮🇩 Bahasa Indonesia (Indonesian)</option>
-        <option value="it">🇮🇹 Italiano (Italian)</option>
-        <option value="ja">🇯🇵 日本語 (Japanese)</option>
-        <option value="gom">🇮🇳 कोंकणी (Konkani)</option>
-        <option value="ko">🇰🇷 한국어 (Korean)</option>
-        <option value="ml">🇮🇳 മലയാളം (Malayalam)</option>
-        <option value="mr">🇮🇳 मराठी (Marathi)</option>
-        <option value="ne">🇳🇵 नेपाली (Nepali)</option>
-        <option value="fa">🇮🇷 فارسی (Persian)</option>
-        <option value="pl">🇵🇱 Polski (Polish)</option>
-        <option value="pt">🇵🇹 Português (Portuguese)</option>
-        <option value="pa">🇮🇳 ਪੰਜਾਬੀ (Punjabi)</option>
-        <option value="ru">🇷🇺 Русский (Russian)</option>
-        <option value="sa">🕉️ संस्कृतम् (Sanskrit)</option>
-        <option value="es">🇪🇸 Español (Spanish)</option>
-        <option value="sv">🇸🇪 Svenska (Swedish)</option>
-        <option value="ta">🇮🇳 தமிழ் (Tamil)</option>
-        <option value="te">🇮🇳 తెలుగు (Telugu)</option>
-        <option value="th">🇹🇭 ภาษาไทย (Thai)</option>
-        <option value="tr">🇹🇷 Türkçe (Turkish)</option>
-        <option value="uk">🇺🇦 Українська (Ukrainian)</option>
-        <option value="ur">🇵🇰 اردو (Urdu)</option>
-        <option value="vi">🇻🇳 Tiếng Việt (Vietnamese)</option>
-      </select>
-    </div>
+    <!-- Hidden select keeps all existing JS working unchanged -->
+    <select id="langSelect" style="display:none" aria-hidden="true">
+      <option value="en">🇬🇧 English original</option>
+      <option value="ar">🇸🇦 العربية (Arabic)</option>
+      <option value="bn">🇧🇩 বাংলা (Bengali)</option>
+      <option value="my">🇲🇲 မြန်မာ (Burmese)</option>
+      <option value="zh">🇨🇳 中文简体 (Chinese Simplified)</option>
+      <option value="zh-tw">🇹🇼 中文繁體 (Chinese Traditional)</option>
+      <option value="nl">🇳🇱 Nederlands (Dutch)</option>
+      <option value="fr">🇫🇷 Français (French)</option>
+      <option value="de">🇩🇪 Deutsch (German)</option>
+      <option value="el">🇬🇷 Ελληνικά (Greek)</option>
+      <option value="gu">🇮🇳 ગુજરાતી (Gujarati)</option>
+      <option value="he">🇮🇱 עברית (Hebrew)</option>
+      <option value="hi">🇮🇳 हिन्दी (Hindi)</option>
+      <option value="id">🇮🇩 Bahasa Indonesia (Indonesian)</option>
+      <option value="it">🇮🇹 Italiano (Italian)</option>
+      <option value="ja">🇯🇵 日本語 (Japanese)</option>
+      <option value="gom">🇮🇳 कोंकणी (Konkani)</option>
+      <option value="ko">🇰🇷 한국어 (Korean)</option>
+      <option value="ml">🇮🇳 മലയാളം (Malayalam)</option>
+      <option value="mr">🇮🇳 मराठी (Marathi)</option>
+      <option value="ne">🇳🇵 नेपाली (Nepali)</option>
+      <option value="fa">🇮🇷 فارسی (Persian)</option>
+      <option value="pl">🇵🇱 Polski (Polish)</option>
+      <option value="pt">🇵🇹 Português (Portuguese)</option>
+      <option value="pa">🇮🇳 ਪੰਜਾਬੀ (Punjabi)</option>
+      <option value="ru">🇷🇺 Русский (Russian)</option>
+      <option value="sa">🕉️ संस्कृतम् (Sanskrit)</option>
+      <option value="es">🇪🇸 Español (Spanish)</option>
+      <option value="sv">🇸🇪 Svenska (Swedish)</option>
+      <option value="ta">🇮🇳 தமிழ் (Tamil)</option>
+      <option value="te">🇮🇳 తెలుగు (Telugu)</option>
+      <option value="th">🇹🇭 ภาษาไทย (Thai)</option>
+      <option value="tr">🇹🇷 Türkçe (Turkish)</option>
+      <option value="uk">🇺🇦 Українська (Ukrainian)</option>
+      <option value="ur">🇵🇰 اردو (Urdu)</option>
+      <option value="vi">🇻🇳 Tiếng Việt (Vietnamese)</option>
+    </select>
+    <button class="lang-pill" id="btn-lang-picker" onclick="openLangModal()" aria-label="Select language">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M6.5 1C6.5 1 4 3.5 4 6.5s2.5 5.5 2.5 5.5M6.5 1C6.5 1 9 3.5 9 6.5S6.5 12 6.5 12M1 6.5h11" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+      <span id="lang-pill-label">EN</span>
+    </button>
     <div class="font-size-ctrl">
       <button class="fz-btn" onclick="changeFontSize(-1)" title="Smaller text" aria-label="Decrease font size" style="font-size:11px">A</button>
       <button class="fz-btn" onclick="changeFontSize(1)"  title="Larger text" aria-label="Increase font size" style="font-size:15px">A</button>
@@ -6164,5 +6161,107 @@ openChapter = function(num) {
     : _restore();
 })();
 
+// ── Language Picker Modal ──────────────────────────────────────────────────
+const LANG_OPTIONS = [
+  ['en','🇬🇧','English original'],['ar','🇸🇦','العربية (Arabic)'],
+  ['bn','🇧🇩','বাংলা (Bengali)'],['my','🇲🇲','မြန်မာ (Burmese)'],
+  ['zh','🇨🇳','中文简体 (Chinese Simplified)'],['zh-tw','🇹🇼','中文繁體 (Chinese Traditional)'],
+  ['nl','🇳🇱','Nederlands (Dutch)'],['fr','🇫🇷','Français (French)'],
+  ['de','🇩🇪','Deutsch (German)'],['el','🇬🇷','Ελληνικά (Greek)'],
+  ['gu','🇮🇳','ગુજરાતી (Gujarati)'],['he','🇮🇱','עברית (Hebrew)'],
+  ['hi','🇮🇳','हिन्दी (Hindi)'],['id','🇮🇩','Bahasa Indonesia (Indonesian)'],
+  ['it','🇮🇹','Italiano (Italian)'],['ja','🇯🇵','日本語 (Japanese)'],
+  ['gom','🇮🇳','कोंकणी (Konkani)'],['ko','🇰🇷','한국어 (Korean)'],
+  ['ml','🇮🇳','മലയാളം (Malayalam)'],['mr','🇮🇳','मराठी (Marathi)'],
+  ['ne','🇳🇵','नेपाली (Nepali)'],['fa','🇮🇷','فارسی (Persian)'],
+  ['pl','🇵🇱','Polski (Polish)'],['pt','🇵🇹','Português (Portuguese)'],
+  ['pa','🇮🇳','ਪੰਜਾਬੀ (Punjabi)'],['ru','🇷🇺','Русский (Russian)'],
+  ['sa','🕉️','संस्कृतम् (Sanskrit)'],['es','🇪🇸','Español (Spanish)'],
+  ['sv','🇸🇪','Svenska (Swedish)'],['ta','🇮🇳','தமிழ் (Tamil)'],
+  ['te','🇮🇳','తెలుగు (Telugu)'],['th','🇹🇭','ภาษาไทย (Thai)'],
+  ['tr','🇹🇷','Türkçe (Turkish)'],['uk','🇺🇦','Українська (Ukrainian)'],
+  ['ur','🇵🇰','اردو (Urdu)'],['vi','🇻🇳','Tiếng Việt (Vietnamese)']
+];
+
+// Inject modal HTML into DOM
+(function() {
+  const backdrop = document.createElement('div');
+  backdrop.id = 'lang-modal-backdrop';
+  backdrop.onclick = closeLangModal;
+  Object.assign(backdrop.style, {
+    display:'none', position:'fixed', inset:'0', zIndex:'1000',
+    background:'rgba(0,0,0,0.45)', backdropFilter:'blur(2px)'
+  });
+
+  const modal = document.createElement('div');
+  modal.id = 'lang-modal';
+  Object.assign(modal.style, {
+    display:'none', position:'fixed', bottom:'0', left:'0', right:'0',
+    zIndex:'1001', background:'var(--surface)',
+    borderRadius:'20px 20px 0 0', maxHeight:'80vh', overflow:'hidden',
+    boxShadow:'0 -4px 32px rgba(0,0,0,0.18)',
+    transition:'transform 0.28s cubic-bezier(.4,0,.2,1)'
+  });
+  modal.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;border-bottom:1px solid var(--border);">
+      <span style="font-family:var(--font-serif);font-size:1.1rem;font-weight:600;color:var(--ink)">Select Language</span>
+      <button onclick="closeLangModal()" style="background:none;border:none;cursor:pointer;color:var(--ink-light);font-size:1.4rem;line-height:1;padding:4px 8px;">✕</button>
+    </div>
+    <div id="lang-modal-list" style="overflow-y:auto;max-height:calc(80vh - 60px);padding:8px 0 env(safe-area-inset-bottom,0)"></div>
+  `;
+
+  document.body.appendChild(backdrop);
+  document.body.appendChild(modal);
+})();
+
+function openLangModal() {
+  const sel = document.getElementById('langSelect');
+  const cur = sel ? sel.value : 'en';
+  const list = document.getElementById('lang-modal-list');
+  list.innerHTML = LANG_OPTIONS.map(([val, flag, name]) => {
+    const isActive = val === cur;
+    return `<div onclick="pickLang('${val}')" style="display:flex;align-items:center;gap:14px;padding:13px 20px;cursor:pointer;border-bottom:1px solid var(--border);background:${isActive?'var(--accent-soft)':'transparent'}">
+      <span style="font-size:1.3rem">${flag}</span>
+      <span style="font-family:var(--font-sans);font-size:0.92rem;color:var(--ink);flex:1">${name}</span>
+      ${isActive?'<span style="color:var(--accent);font-size:1rem;font-weight:600">✓</span>':''}
+    </div>`;
+  }).join('');
+  document.getElementById('lang-modal-backdrop').style.display = 'block';
+  document.getElementById('lang-modal').style.display = 'block';
+  setTimeout(() => {
+    const active = list.querySelector('[style*="accent-soft"]');
+    if (active) active.scrollIntoView({block:'center'});
+  }, 50);
+}
+
+function closeLangModal() {
+  document.getElementById('lang-modal-backdrop').style.display = 'none';
+  document.getElementById('lang-modal').style.display = 'none';
+}
+
+function pickLang(val) {
+  const sel = document.getElementById('langSelect');
+  if (sel) {
+    sel.value = val;
+    sel.dispatchEvent(new Event('change', {bubbles:true}));
+  }
+  const opt = LANG_OPTIONS.find(o => o[0] === val);
+  const pill = document.getElementById('lang-pill-label');
+  if (pill && opt) {
+    // Show short label: use value uppercased, max 4 chars
+    pill.textContent = val.toUpperCase().slice(0, val === 'zh-tw' ? 5 : 2);
+  }
+  closeLangModal();
+}
+
+// Keep pill label in sync on load
+document.addEventListener('DOMContentLoaded', () => {
+  const sel = document.getElementById('langSelect');
+  const pill = document.getElementById('lang-pill-label');
+  if (sel && pill) {
+    const v = sel.value || 'en';
+    pill.textContent = v.toUpperCase().slice(0, v === 'zh-tw' ? 5 : 2);
+  }
+});
 
 </script>
