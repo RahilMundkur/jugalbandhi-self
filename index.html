@@ -916,8 +916,12 @@ body.side-by-side .para-wrap > .translation-block[dir="rtl"] {
 .translation-block .tts-from-here-btn:hover { opacity: 1; color: var(--gold); }
 .translation-block > .tts-from-here-btn { top: 6px; right: 74px; }
 
-/* TTS — hide config panels (API keys, voice selectors, pre-gen buttons) */
+/* TTS — hide config panels (API keys, voice selectors, pre-gen buttons).
+   Belt-and-suspenders: also hide the dev-only buttons by id, so they stay
+   hidden even if a future edit re-enables a parent panel by accident. */
 #hindi-tts-panel, #thai-tts-panel, #general-tts-panel { display: none !important; }
+#btn-export, #btn-tts-el-pregen, #btn-hindi-pregen, #btn-thai-pregen,
+#tts-el-fetch, #tts-th-fetch { display: none !important; }
 #btn-tts.tts-active { color: var(--gold); border-color: var(--gold); }
 #tts-progress-bar {
   position: fixed; bottom: 0; left: 0; height: 3px; background: var(--gold);
@@ -944,13 +948,13 @@ body.side-by-side .para-wrap > .translation-block[dir="rtl"] {
 #tts-el-key-wrap { display: none; align-items: center; gap: 4px; flex-wrap: wrap; }
 #tts-el-key-wrap.visible { display: flex; }
 #tts-el-key { font-size: 0.68rem; padding: 2px 6px; border: 1px solid var(--border); border-radius: 4px;
-  background: var(--bg); color: var(--text); width: 110px; }
+  background: var(--bg); color: var(--ink); width: 110px; }
 #tts-el-voices { display: none; align-items: center; gap: 4px; flex-wrap: wrap; }
 #tts-el-voices.visible { display: flex; }
 #tts-el-voices select { font-size: 0.68rem; padding: 2px 4px; border: 1px solid var(--border); border-radius: 4px;
-  background: var(--bg); color: var(--text); max-width: 160px; }
+  background: var(--bg); color: var(--ink); max-width: 160px; }
 #tts-el-voices .el-filter { font-size: 0.68rem; padding: 2px 5px; border: 1px solid var(--border); border-radius: 4px;
-  background: var(--bg); color: var(--text); width: 90px; }
+  background: var(--bg); color: var(--ink); width: 90px; }
 #tts-el-fetch { font-size: 0.68rem; padding: 2px 6px; }
 #tts-el-fetch.fetching { opacity: 0.5; pointer-events: none; }
 #btn-tts-el-pregen { font-size: 0.68rem; padding: 2px 6px; }
@@ -1729,6 +1733,14 @@ body.focus-mode #focus-exit-btn { display: block; }
         <svg id="tts-icon-stop" width="14" height="14" viewBox="0 0 14 14" fill="none" style="display:none"><rect x="2.5" y="2.5" width="9" height="9" rx="1.5" fill="currentColor" opacity="0.85"/></svg>
         <span id="tts-btn-label" data-ui-key="listen">Listen</span>
       </button>
+      <!-- Download Audio button: visible only when current language is FR/HI/TH
+           and the asset pack is not yet on device. Hidden for English (baked in)
+           and once a pack is downloaded successfully. -->
+      <button class="btn btn-ghost" id="btn-audio-pack-dl" onclick="downloadAudioPack()" style="display:none" title="Download the audio pack for this language">
+        <svg id="audio-pack-dl-icon" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5v7M3.5 5.5L7 9l3.5-3.5M2 11.5h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg id="audio-pack-dl-spinner" width="14" height="14" viewBox="0 0 14 14" fill="none" style="display:none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.4" stroke-dasharray="22 11" opacity="0.85"><animateTransform attributeName="transform" type="rotate" from="0 7 7" to="360 7 7" dur="0.9s" repeatCount="indefinite"/></circle></svg>
+        <span id="audio-pack-dl-label">Download audio</span>
+      </button>
       <span id="hindi-tts-panel" style="display:none;align-items:center;gap:4px;flex-wrap:wrap;">
         <label style="font-size:0.68rem;white-space:nowrap">🇮🇳 Hindi TTS:</label>
         <input id="tts-el-key-hi" type="password" placeholder="API key" style="font-size:0.68rem;padding:2px 6px;border:1px solid var(--border);border-radius:4px;width:110px" oninput="ttsHiSetKey(this.value)" autocomplete="off" spellcheck="false"/>
@@ -2438,6 +2450,7 @@ function renderChapterNav(num) {
 }
 
 function openChapter(num) {
+  if (window.jbMark) window.jbMark('chapter-open', 'start');
   const ch = BOOK_DATA.find(c => c.num === num);
   if (!ch) return;
 
@@ -2499,6 +2512,7 @@ function openChapter(num) {
 
   // Notify TTS to stop if a new chapter opens
   document.dispatchEvent(new CustomEvent('chapter-opened', { detail: { num } }));
+  if (window.jbMark) window.jbMark('chapter-open', 'end');
 
   // Instant sweep from bottom to top at 1000px per frame
   // Uses CSS transform — no scroll-position changes during animation.
@@ -2577,7 +2591,9 @@ function renderPara(t) {
 function renderTransPara(t) {
   // Captures the preceding char so it can be restored — avoids lookbehind which
   // overflows Safari's JavaScriptCore on long Unicode strings.
-  return escHtml(t).replace(/([^\s\d\-(])(\d{1,2})(?=[^\d)]|$)/gu,
+  // Uses safeMarkup() (not escHtml) so **bold** markers render as <strong>,
+  // matching renderPara() for the source language.
+  return safeMarkup(t).replace(/([^\s\d\-(])(\d{1,2})(?=[^\d)]|$)/gu,
     (_, pre, n) => pre + '<sup class="endnote-sup">' + n + '</sup>');
 }
 
@@ -3116,17 +3132,58 @@ function copyExcerpt() {
   closeModal();
 }
 
-function downloadExcerpt() {
+async function downloadExcerpt() {
   const text = document.getElementById('excerpt-box').value;
   const ch = BOOK_DATA.find(c => c.num === currentChapter);
   const filename = ch ? `Jugalbandhi-Self-Ch${ch.num}.txt` : 'Jugalbandhi-Self-excerpt.txt';
-  const blob = new Blob([text], {type: 'text/plain'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = filename;
-  a.click();
-  closeModal();
-  showToast('Downloaded!');
+  const title    = ch ? `Jugalbandhi Self — Chapter ${ch.num}` : 'Jugalbandhi Self — excerpt';
+
+  // Web Share API with file attachment is the most reliable on Android TWA;
+  // try it first when the platform claims to support sharing the .txt file.
+  // Fall back to Web Share with text-only, and finally to a blob/anchor download.
+  try {
+    if (navigator.canShare && typeof File !== 'undefined') {
+      const file = new File([text], filename, { type: 'text/plain' });
+      if (navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], title, text });
+        closeModal();
+        showToast('Shared!');
+        return;
+      }
+    }
+    if (navigator.share) {
+      await navigator.share({ title, text });
+      closeModal();
+      showToast('Shared!');
+      return;
+    }
+  } catch (err) {
+    // User cancelled the share sheet — that's not an error path.
+    if (err && err.name === 'AbortError') { closeModal(); return; }
+    // Any other failure falls through to the blob download below.
+    _warn && _warn(err);
+  }
+
+  // Desktop / browsers without Web Share: classic blob + download attribute.
+  let url = '';
+  try {
+    const blob = new Blob([text], {type: 'text/plain'});
+    url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.rel = 'noopener';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    closeModal();
+    showToast('Downloaded!');
+  } catch (err) {
+    _warn && _warn(err);
+    showToast('Download failed — try Copy instead.');
+  } finally {
+    if (url) setTimeout(() => URL.revokeObjectURL(url), 4000);
+  }
 }
 
 // ═══════════════════════════════
@@ -3166,6 +3223,7 @@ function closeSearchPanel() {
 }
 
 function runSearch(query) {
+  if (window.jbMark) window.jbMark('search', 'start');
   const q = query.trim().toLowerCase();
   const resultsEl  = $('search-results');
   const countEl    = $('search-results-count');
@@ -3175,7 +3233,11 @@ function runSearch(query) {
 
   if (q.length < 2) { countEl.textContent = ''; return; }
 
-  const re = new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+  // Build the highlight regex against the *escaped* query so it matches text
+  // that has already been HTML-escaped (otherwise queries containing &, <, >, "
+  // never highlight because the snippet is escaped first).
+  const reSrc = escHtml(q).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const re = new RegExp(reSrc, 'gi');
   const hits = [];
 
   BOOK_DATA.forEach(ch => {
@@ -3185,7 +3247,10 @@ function runSearch(query) {
         const matchIdx = para.toLowerCase().indexOf(q);
         const start = Math.max(0, matchIdx - 80);
         const end   = Math.min(para.length, matchIdx + q.length + 80);
-        let snippet = (start > 0 ? '…' : '') + escHtml(para.slice(start, end)).replace(re, m => `<mark>${escHtml(m)}</mark>`) + (end < para.length ? '…' : '');
+        // Escape the snippet first, then wrap matches in <mark>. The match `m`
+        // is already a substring of the escaped snippet, so it must NOT be
+        // escaped again (that was the previous double-escape bug).
+        let snippet = (start > 0 ? '…' : '') + escHtml(para.slice(start, end)).replace(re, m => `<mark>${m}</mark>`) + (end < para.length ? '…' : '');
         hits.push({ ch, pIdx, snippet });
       }
     });
@@ -3211,6 +3276,7 @@ function runSearch(query) {
     };
     resultsEl.appendChild(div);
   });
+  if (window.jbMark) window.jbMark('search', 'end');
 }
 
 // ═══════════════════════════════
@@ -3263,7 +3329,81 @@ function applyHighlight(color) {
   hideAnnotToolbar();
 }
 
-function annotAddNote() {
+// Bottom-sheet replacement for window.prompt(), which is blocked by default
+// in Android TWA WebViews. Returns a Promise that resolves to the user's
+// string (Save) or null (Cancel / backdrop / Esc / ✕). Built lazily on first
+// use so we don't pay for the DOM when the user never adds a note.
+function promptNote(initial = '', context = '') {
+  return new Promise(resolve => {
+    let backdrop = document.getElementById('note-modal-backdrop');
+    let modal    = document.getElementById('note-modal');
+    if (!backdrop || !modal) {
+      backdrop = document.createElement('div');
+      backdrop.id = 'note-modal-backdrop';
+      Object.assign(backdrop.style, {
+        display:'none', position:'fixed', inset:'0', zIndex:'1100',
+        background:'rgba(0,0,0,0.45)', backdropFilter:'blur(2px)'
+      });
+      modal = document.createElement('div');
+      modal.id = 'note-modal';
+      Object.assign(modal.style, {
+        display:'none', position:'fixed', bottom:'0', left:'0', right:'0',
+        zIndex:'1101', background:'var(--surface)',
+        borderRadius:'20px 20px 0 0', maxHeight:'80vh', overflow:'hidden',
+        boxShadow:'0 -4px 32px rgba(0,0,0,0.18)'
+      });
+      modal.innerHTML = `
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;border-bottom:1px solid var(--border);">
+          <span style="font-family:var(--font-serif);font-size:1.1rem;font-weight:600;color:var(--ink)">Add a Note</span>
+          <button id="note-modal-close" type="button" style="background:none;border:none;cursor:pointer;color:var(--ink-light);font-size:1.4rem;line-height:1;padding:4px 8px;">✕</button>
+        </div>
+        <div id="note-modal-context" style="padding:10px 20px 0;font-size:0.85rem;color:var(--ink-light);font-style:italic;max-height:5em;overflow:auto;display:none;"></div>
+        <div style="padding:14px 20px 12px;">
+          <textarea id="note-modal-input" rows="5" placeholder="Your note…" style="width:100%;box-sizing:border-box;font-family:var(--font-sans);font-size:0.95rem;color:var(--ink);background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px;resize:vertical;min-height:96px;"></textarea>
+        </div>
+        <div style="display:flex;gap:10px;justify-content:flex-end;padding:0 20px calc(16px + env(safe-area-inset-bottom,0));">
+          <button id="note-modal-cancel" type="button" class="btn btn-ghost">Cancel</button>
+          <button id="note-modal-save"   type="button" class="btn">Save</button>
+        </div>
+      `;
+      document.body.appendChild(backdrop);
+      document.body.appendChild(modal);
+    }
+    const input = modal.querySelector('#note-modal-input');
+    const ctx   = modal.querySelector('#note-modal-context');
+    input.value = initial || '';
+    if (context && context.length) {
+      ctx.textContent = '“' + (context.length > 240 ? context.slice(0, 240) + '…' : context) + '”';
+      ctx.style.display = 'block';
+    } else {
+      ctx.style.display = 'none';
+    }
+    backdrop.style.display = 'block';
+    modal.style.display    = 'block';
+    setTimeout(() => { try { input.focus(); input.setSelectionRange(input.value.length, input.value.length); } catch(_) {} }, 60);
+
+    function done(value) {
+      backdrop.style.display = 'none';
+      modal.style.display    = 'none';
+      backdrop.onclick = null;
+      modal.querySelector('#note-modal-close').onclick  = null;
+      modal.querySelector('#note-modal-cancel').onclick = null;
+      modal.querySelector('#note-modal-save').onclick   = null;
+      input.onkeydown = null;
+      resolve(value);
+    }
+    backdrop.onclick                                  = () => done(null);
+    modal.querySelector('#note-modal-close').onclick  = () => done(null);
+    modal.querySelector('#note-modal-cancel').onclick = () => done(null);
+    modal.querySelector('#note-modal-save').onclick   = () => done(input.value);
+    input.onkeydown = (e) => {
+      if (e.key === 'Escape') { e.preventDefault(); done(null); }
+      else if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); done(input.value); }
+    };
+  });
+}
+
+async function annotAddNote() {
   if (!_annotSelection) return;
   const { chNum, paraIdx, text } = _annotSelection;
   let existing = annotations.find(a => a.chNum === chNum && a.paraIdx === paraIdx && a.text === text);
@@ -3271,13 +3411,15 @@ function annotAddNote() {
     existing = { id: Date.now(), chNum, paraIdx, text, color: 'yellow', note: '', ts: new Date().toISOString() };
     annotations.push(existing);
   }
-  const note = prompt('Add a note for this passage:', existing.note || '');
+  // Hide the selection toolbar before showing the modal so they don't overlap.
+  hideAnnotToolbar();
+  // window.prompt() is blocked in Android TWA WebView, so use a custom modal.
+  const note = await promptNote(existing.note || '', text);
   if (note !== null) {
     existing.note = note;
     saveAnnotations();
     restoreAnnotations(chNum);
   }
-  hideAnnotToolbar();
 }
 
 function deleteAnnotation(id) {
@@ -3355,7 +3497,10 @@ document.addEventListener('mouseup', (e) => {
     _annotSelection = { chNum: currentChapter, paraIdx, text: sel.toString().trim() };
     const range = sel.getRangeAt(0);
     const rect = range.getBoundingClientRect();
-    showAnnotToolbar(rect.left + rect.width / 2 - 110, rect.top + window.scrollY);
+    // #annot-toolbar is position:fixed, so it must be placed using viewport
+    // coordinates. Previously we added window.scrollY here (document coords),
+    // which made the toolbar appear off-screen as soon as the page was scrolled.
+    showAnnotToolbar(rect.left + rect.width / 2 - 110, rect.top);
   }, 10);
 });
 
@@ -3540,6 +3685,12 @@ function openCoverAndHash() {
 document.getElementById('langSelect').addEventListener('change', () => {
   _syncDocLang(getStoredLang());
   requestAnimationFrame(updateHash);
+  // Show / hide the "Download audio" button based on the new language and
+  // its current pack state. Safe to call before _updateAudioPackButton is
+  // defined (it's set up below in the TTS module's IIFE).
+  if (typeof window._updateAudioPackButton === 'function') {
+    window._updateAudioPackButton();
+  }
 });
 
 // Read hash on page load (deferred until after DOMContentLoaded)
@@ -3611,10 +3762,12 @@ async function translatePage() {
   if (!currentChapter) return;
   const lang = $('langSelect').value;
   if (lang === 'en') return;
+  if (window.jbMark) window.jbMark('translate-page', 'start');
 
   // Use baked translation if available
   if (!pageTranslated && hasStoredTranslation(currentChapter)) {
     renderStoredTranslations(currentChapter);
+    if (window.jbMark) window.jbMark('translate-page', 'end');
     return;
   }
 
@@ -3657,6 +3810,7 @@ async function translatePage() {
   btn.disabled = false;
   btn.textContent = '✕ ' + (TRANSLATIONS[getStoredLang()]?.ui?.restoreOriginal || 'Restore Original');
   showToast(`Chapter translated to ${langName}`);
+  if (window.jbMark) window.jbMark('translate-page', 'end');
 }
 
 // ═══════════════════════════════
@@ -4435,6 +4589,198 @@ openChapter = function(num) {
   let _elKey         = '';    // ElevenLabs API key (persisted in localStorage)
   // Languages with pre-generated local audio files in audio/{lang}/
   const _LOCAL_TTS_LANGS = new Set(['en', 'fr', 'hi', 'th']);
+  // English audio is bundled with the APK (install-time / baked).
+  // French, Hindi, and Thai ship as separate Google Play Asset Delivery packs.
+  // From the TWA WebView's perspective they appear at the same audio/{lang}/...
+  // paths once the pack is installed; if the pack hasn't finished downloading
+  // (or hasn't been promoted on the Play Store yet during internal testing),
+  // those fetches will 404. We probe each pack once per session and cache the
+  // result so we can give the user a clear message instead of a silent skip.
+  const _BAKED_AUDIO_LANGS = new Set(['en']);
+  const _ASSET_PACK_LANGS  = new Set(['fr', 'hi', 'th']);
+  // User-visible names for the asset-pack languages (used by the Download
+  // button label and the missing-pack modal). Defined here so all callers
+  // in this closure can read it.
+  const _LANG_DISPLAY = { fr: 'French', hi: 'Hindi', th: 'Thai' };
+  const _AUDIO_PACK_PROBE_FILE = {
+    // A canary file that must exist in every published pack. Keep this in
+    // sync with the asset-pack manifest in the Android build.
+    // Chapter 1 paragraph 0 speaker is female in BOOK_DATA — pick the file
+    // that actually exists on disk.
+    fr: 'audio/fr/fr_ch01_p000_female.mp3',
+    hi: 'audio/hi/hi_ch01_p000_female.mp3',
+    th: 'audio/th/th_ch01_p000_female.mp3'
+  };
+  // Approximate pack size shown on the Download button. Update if you
+  // re-encode or add/remove paragraphs.
+  const _AUDIO_PACK_SIZE_MB = { fr: 40, hi: 36, th: 38 };
+  const _audioPackState = {}; // lang -> 'available' | 'missing' | 'probing'
+  // Prefer the Capacitor AudioPack plugin when running in the native shell;
+  // fall back to fetch-based probing in plain browsers / web demos.
+  function _hasNativeAudioPack() {
+    return !!(window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.AudioPack);
+  }
+  async function _probeAudioPack(lang) {
+    if (_BAKED_AUDIO_LANGS.has(lang)) return 'available';
+    if (!_ASSET_PACK_LANGS.has(lang)) return 'available';
+    if (_audioPackState[lang] === 'available' || _audioPackState[lang] === 'missing') {
+      return _audioPackState[lang];
+    }
+    _audioPackState[lang] = 'probing';
+
+    // ── Native (Capacitor) path ──────────────────────────────────────────
+    if (_hasNativeAudioPack()) {
+      try {
+        const res = await window.Capacitor.Plugins.AudioPack.getStatus({ lang });
+        _audioPackState[lang] = res.status === 'available' ? 'available' : 'missing';
+      } catch (err) {
+        _audioPackState[lang] = 'missing';
+      }
+      return _audioPackState[lang];
+    }
+
+    // ── Web fallback ─────────────────────────────────────────────────────
+    const url = _AUDIO_PACK_PROBE_FILE[lang];
+    try {
+      // HEAD avoids downloading the file; fall back to a tiny GET range if HEAD
+      // is rejected (some Android WebView versions disagree with HEAD on
+      // file:// or asset paths).
+      let res = await fetch(url, { method: 'HEAD', cache: 'no-store' }).catch(() => null);
+      if (!res || !res.ok) {
+        res = await fetch(url, { method: 'GET', cache: 'no-store', headers: { 'Range': 'bytes=0-0' } });
+      }
+      _audioPackState[lang] = res && res.ok ? 'available' : 'missing';
+    } catch (err) {
+      _audioPackState[lang] = 'missing';
+    }
+    return _audioPackState[lang];
+  }
+  // Resolve a single audio file URL via the native plugin if available,
+  // otherwise return the relative path the WebView already understands.
+  async function _resolveAudioUrl(lang, chapter, paragraph, speaker) {
+    if (_hasNativeAudioPack() && _ASSET_PACK_LANGS.has(lang)) {
+      try {
+        const res = await window.Capacitor.Plugins.AudioPack.getFileUri({
+          lang, chapter, paragraph, speaker
+        });
+        if (res && res.url) return res.url;
+      } catch (err) {
+        // Fall through to the relative-path URL below.
+      }
+    }
+    const fname = `${lang}_ch${chapter}_p${paragraph}_${speaker}.mp3`;
+    return `audio/${lang}/${fname}`;
+  }
+  // Expose for the language picker so it can tag missing packs in the UI,
+  // and for the speak-from-here flow which lives in a different closure.
+  window._probeAudioPack = _probeAudioPack;
+  window._audioPackState = _audioPackState;
+  window._resolveAudioUrl = _resolveAudioUrl;
+
+  // ── Download-audio button state machine ────────────────────────────────
+  // The button (id="btn-audio-pack-dl") sits next to Listen and is hidden
+  // by default. Visible only when:
+  //   - current language is FR/HI/TH  AND
+  //   - pack state is 'missing' (not yet on device)  AND
+  //   - we're not currently downloading
+  // While downloading, the button stays visible but disabled with a
+  // spinner. On success it briefly reads "Audio ready" then hides.
+  let _audioPackDownloading = null; // lang currently being fetched, or null
+  function _updateAudioPackButton() {
+    const btn   = document.getElementById('btn-audio-pack-dl');
+    const lbl   = document.getElementById('audio-pack-dl-label');
+    const icon  = document.getElementById('audio-pack-dl-icon');
+    const spin  = document.getElementById('audio-pack-dl-spinner');
+    if (!btn || !lbl) return;
+    const lang = (document.getElementById('langSelect')?.value || 'en');
+    if (!_ASSET_PACK_LANGS.has(lang)) {
+      btn.style.display = 'none';
+      return;
+    }
+    if (_audioPackDownloading === lang) {
+      btn.style.display = '';
+      btn.disabled = true;
+      lbl.textContent = 'Downloading…';
+      if (icon) icon.style.display = 'none';
+      if (spin) spin.style.display = '';
+      return;
+    }
+    const state = _audioPackState[lang];
+    if (state === 'available') {
+      btn.style.display = 'none';
+      return;
+    }
+    // 'missing', 'unknown', 'probing', or undefined — show the button.
+    btn.style.display = '';
+    btn.disabled = false;
+    if (icon) icon.style.display = '';
+    if (spin) spin.style.display = 'none';
+    const sizeMb = _AUDIO_PACK_SIZE_MB[lang];
+    const langName = _LANG_DISPLAY[lang] || lang.toUpperCase();
+    lbl.textContent = `Download ${langName} audio${sizeMb ? ` (~${sizeMb} MB)` : ''}`;
+  }
+  window._updateAudioPackButton = _updateAudioPackButton;
+  // Initial render once the DOM is ready.
+  function _initAudioPackUi() {
+    _updateAudioPackButton();
+    // Probe the current language in the background so the button reflects
+    // reality without the user having to interact first.
+    const lang = document.getElementById('langSelect')?.value;
+    if (lang && _ASSET_PACK_LANGS.has(lang)) {
+      _probeAudioPack(lang).then(_updateAudioPackButton).catch(() => {});
+    }
+  }
+  if (document.readyState !== 'loading') _initAudioPackUi();
+  else document.addEventListener('DOMContentLoaded', _initAudioPackUi);
+
+  // Public entry point wired to the button's onclick attribute. Triggers
+  // the native asset-pack fetch (Play on Android, ODR on iOS) and updates
+  // the UI as the download progresses. In a plain browser this just does
+  // a probe and resolves immediately if the file is reachable.
+  window.downloadAudioPack = async function() {
+    const lang = (document.getElementById('langSelect')?.value || 'en');
+    if (!_ASSET_PACK_LANGS.has(lang)) return;
+    if (_audioPackDownloading) return; // already in flight
+    _audioPackDownloading = lang;
+    _updateAudioPackButton();
+
+    try {
+      if (_hasNativeAudioPack()) {
+        await window.Capacitor.Plugins.AudioPack.requestPack({ lang });
+      } else {
+        // Web fallback: just confirm the canary file is reachable.
+        const url = _AUDIO_PACK_PROBE_FILE[lang];
+        const res = await fetch(url, { method: 'GET', cache: 'no-store',
+                                       headers: { 'Range': 'bytes=0-0' } });
+        if (!res || !res.ok) throw new Error('Audio file not reachable');
+      }
+      _audioPackState[lang] = 'available';
+      _audioPackDownloading = null;
+      _updateAudioPackButton();
+      // If the language picker happens to be open, refresh its badges so
+      // the user sees "Audio ready" without having to reopen the picker.
+      const openPicker = document.getElementById('lang-modal');
+      if (openPicker && openPicker.style.display === 'block' && typeof openLangModal === 'function') {
+        try { openLangModal(); } catch (_) {}
+      }
+      const langName = _LANG_DISPLAY[lang] || lang.toUpperCase();
+      showToast(`${langName} audio ready — tap Listen.`);
+    } catch (err) {
+      console.warn('[audio-pack] download failed:', err);
+      _audioPackState[lang] = 'missing';
+      _audioPackDownloading = null;
+      // Re-render with the original "Download …" label so the user can retry.
+      _updateAudioPackButton();
+      // Briefly mark the button as having errored out.
+      const btn = document.getElementById('btn-audio-pack-dl');
+      const lbl = document.getElementById('audio-pack-dl-label');
+      if (lbl) lbl.textContent = 'Download failed — retry';
+      if (btn) {
+        btn.style.background = 'rgba(155,58,42,0.08)';
+        setTimeout(() => { btn.style.background = ''; _updateAudioPackButton(); }, 3500);
+      }
+    }
+  };
   // ElevenLabs voice IDs
   // Default ElevenLabs voice IDs (overridden once user fetches their voice list)
   let _elVoiceF  = 'KleDBQ7etYG6NMjnQ9Jw'; // Ruhani — Indian accent female (Vidya)
@@ -5093,24 +5439,41 @@ openChapter = function(num) {
       const pStr  = String(idx).padStart(3, '0');
       const spk   = para.speaker;
       const fname = `${_curLang}_ch${chStr}_p${pStr}_${spk}.mp3`;
-      const audioUrl = `audio/${_curLang}/${fname}`;
+      // _resolveAudioUrl prefers the native Capacitor AudioPack plugin
+      // (Play Asset Delivery on Android, On-Demand Resources on iOS) and
+      // falls back to a relative path in plain browsers / web demos.
+      const audioUrl = await _resolveAudioUrl(_curLang, chStr, pStr, spk);
       console.log(`[TTS] idx=${idx} file=${fname} speaker=${spk} text="${para.text.slice(0,60)}..."`);
       try {
         const localRes = await fetch(audioUrl);
         if (localRes.ok) {
           const arrayBuf = await localRes.arrayBuffer();
           if (!_ttsActive) return;
+          // First successful play of this language confirms the pack is on
+          // device — remember so we don't keep probing.
+          if (_ASSET_PACK_LANGS.has(_curLang)) _audioPackState[_curLang] = 'available';
           _playElBuffer(arrayBuf, idx);
           return;
         }
       } catch(e) {
         console.warn(`Local TTS fetch failed for ${fname}:`, e);
       }
-      // For local-only TTS languages, don't fall through to ElevenLabs
+      // For local-only TTS languages, don't fall through to ElevenLabs.
+      // If this is an asset-pack language (FR/HI/TH) and we've never seen the
+      // pack succeed, treat the failure as "pack not installed yet" and stop
+      // playback with a clear user message instead of silently skipping unit
+      // after unit. The previous behaviour (showToast + recurse) could spam
+      // dozens of toasts on a single Listen tap when the pack was missing.
       if (_LOCAL_TTS_LANGS.has(_curLang)) {
+        if (_ASSET_PACK_LANGS.has(_curLang) && _audioPackState[_curLang] !== 'available') {
+          _audioPackState[_curLang] = 'missing';
+          _ttsStop();
+          _showAudioPackMissingModal(_curLang);
+          return;
+        }
         console.error(`Local audio file not found: audio/${_curLang}/${fname}`);
         showToast(`Audio file not found: ${fname}`);
-        _speakElevenLabs(idx + 1); // skip to next unit
+        _speakElevenLabs(idx + 1); // skip to next unit (English / unexpected)
         return;
       }
     }
@@ -5173,6 +5536,9 @@ openChapter = function(num) {
       };
       source.start(0);
       _currentSource = source;
+      // First audible audio of this Listen session — closes the timer
+      // started in toggleTTS / ttsStartFrom.
+      if (idx === 0 && window.jbMark) window.jbMark('tts-first-audio', 'end');
     }, (err) => {
       _err('[ElevenLabs] decode error:', err);
       if (_ttsActive) { _ttsIdx = idx + 1; _speakElevenLabs(_ttsIdx); }
@@ -5216,13 +5582,84 @@ openChapter = function(num) {
     if (bar)  bar.style.width = '0%';
   }
 
+  // ── User-facing modal when an FR/HI/TH audio pack isn't on device yet ─────
+  function _showAudioPackMissingModal(lang) {
+    const name = _LANG_DISPLAY[lang] || lang.toUpperCase();
+    let backdrop = document.getElementById('pack-modal-backdrop');
+    let modal    = document.getElementById('pack-modal');
+    if (!backdrop || !modal) {
+      backdrop = document.createElement('div');
+      backdrop.id = 'pack-modal-backdrop';
+      Object.assign(backdrop.style, {
+        display:'none', position:'fixed', inset:'0', zIndex:'1100',
+        background:'rgba(0,0,0,0.45)', backdropFilter:'blur(2px)'
+      });
+      modal = document.createElement('div');
+      modal.id = 'pack-modal';
+      Object.assign(modal.style, {
+        display:'none', position:'fixed', bottom:'0', left:'0', right:'0',
+        zIndex:'1101', background:'var(--surface)',
+        borderRadius:'20px 20px 0 0', maxHeight:'80vh', overflow:'hidden',
+        boxShadow:'0 -4px 32px rgba(0,0,0,0.18)'
+      });
+      modal.innerHTML = `
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;border-bottom:1px solid var(--border);">
+          <span style="font-family:var(--font-serif);font-size:1.1rem;font-weight:600;color:var(--ink)" id="pack-modal-title">Audio pack not yet available</span>
+          <button id="pack-modal-close" type="button" style="background:none;border:none;cursor:pointer;color:var(--ink-light);font-size:1.4rem;line-height:1;padding:4px 8px;">✕</button>
+        </div>
+        <div id="pack-modal-body" style="padding:14px 20px;font-size:0.92rem;color:var(--ink);line-height:1.5;"></div>
+        <div style="display:flex;gap:10px;justify-content:flex-end;padding:0 20px calc(16px + env(safe-area-inset-bottom,0));">
+          <button id="pack-modal-en"     type="button" class="btn btn-ghost">Listen in English</button>
+          <button id="pack-modal-dl"     type="button" class="btn">Download now</button>
+        </div>
+      `;
+      document.body.appendChild(backdrop);
+      document.body.appendChild(modal);
+    }
+    const sizeMb = _AUDIO_PACK_SIZE_MB[lang];
+    modal.querySelector('#pack-modal-title').textContent = `${name} audio not on device yet`;
+    modal.querySelector('#pack-modal-body').innerHTML =
+      `To listen in <strong>${name}</strong>, download the audio pack first` +
+      (sizeMb ? ` — about <strong>${sizeMb} MB</strong>.` : '.') +
+      ` You only need to do this once; the pack stays on your device until you uninstall the app.` +
+      ` Translated text is available without the audio pack.`;
+    backdrop.style.display = 'block';
+    modal.style.display    = 'block';
+    function done() {
+      backdrop.style.display = 'none';
+      modal.style.display    = 'none';
+    }
+    backdrop.onclick                                  = done;
+    modal.querySelector('#pack-modal-close').onclick  = done;
+    modal.querySelector('#pack-modal-en').onclick     = () => {
+      done();
+      const sel = document.getElementById('langSelect');
+      if (sel) { sel.value = 'en'; sel.dispatchEvent(new Event('change', { bubbles: true })); }
+      // Re-trigger Listen with English now that the pack switch is done.
+      setTimeout(() => { try { window.toggleTTS(); } catch(_) {} }, 200);
+    };
+    modal.querySelector('#pack-modal-dl').onclick = () => {
+      done();
+      // Trigger the same flow the visible Download button uses.
+      try { window.downloadAudioPack && window.downloadAudioPack(); } catch (_) {}
+    };
+  }
+  window._showAudioPackMissingModal = _showAudioPackMissingModal;
+
   // ── Public: toggle Listen/Stop ─────────────────────────────────────────────
-  window.toggleTTS = function() {
+  window.toggleTTS = async function() {
     if (_ttsActive) { _ttsStop(); return; }
+    if (window.jbMark) window.jbMark('tts-first-audio', 'start');
     _ttsParas = _getParas();
     if (!_ttsParas.length) { showToast('Nothing to read.'); return; }
     const _curLang = document.getElementById('langSelect')?.value || 'en';
     const _hasLocal = _LOCAL_TTS_LANGS.has(_curLang);
+    // For FR/HI/TH, probe the asset pack before we start playback so we can
+    // warn the user up front rather than after queuing units.
+    if (_ASSET_PACK_LANGS.has(_curLang)) {
+      const state = await _probeAudioPack(_curLang);
+      if (state !== 'available') { _showAudioPackMissingModal(_curLang); return; }
+    }
     if (!_hasLocal) {
       if (!_useElevenLabs) {
         showToast('Enable ElevenLabs and enter your API key first.');
@@ -5249,9 +5686,15 @@ openChapter = function(num) {
   };
 
   // ── Public: start TTS from a specific para-wrap element ───────────────────
-  window.ttsStartFrom = function(wrap) {
+  window.ttsStartFrom = async function(wrap) {
     const _curLang = document.getElementById('langSelect')?.value || 'en';
     const _hasLocal = _LOCAL_TTS_LANGS.has(_curLang);
+    // Probe the FR/HI/TH asset pack up front so we surface a proper modal
+    // rather than failing mid-playback.
+    if (_ASSET_PACK_LANGS.has(_curLang)) {
+      const state = await _probeAudioPack(_curLang);
+      if (state !== 'available') { _showAudioPackMissingModal(_curLang); return; }
+    }
     if (!_hasLocal) {
       if (!_useElevenLabs) { showToast('Enable ElevenLabs and enter your API key first.'); return; }
       if (!_elKey) { showToast('Paste your ElevenLabs API key in the Key field first.'); return; }
@@ -6214,15 +6657,25 @@ const LANG_OPTIONS = [
   document.body.appendChild(modal);
 })();
 
+// Languages whose audio ships as a separate Google Play asset pack.
+// Keep in sync with _ASSET_PACK_LANGS in the TTS module.
+const _LANG_ASSET_PACKS = new Set(['fr', 'hi', 'th']);
+
 function openLangModal() {
   const sel = document.getElementById('langSelect');
   const cur = sel ? sel.value : 'en';
   const list = document.getElementById('lang-modal-list');
   list.innerHTML = LANG_OPTIONS.map(([val, flag, name]) => {
     const isActive = val === cur;
+    const isPack   = _LANG_ASSET_PACKS.has(val);
+    const state    = (window._audioPackState && window._audioPackState[val]) || (isPack ? 'unknown' : 'available');
+    const badge    = isPack
+      ? `<span class="lang-pack-badge" data-lang="${val}" style="font-size:0.68rem;padding:2px 6px;border-radius:4px;border:1px solid var(--border);color:var(--ink-faint);white-space:nowrap;">${state === 'available' ? 'Audio ready' : state === 'missing' ? 'Audio downloading…' : 'Checking…'}</span>`
+      : '';
     return `<div onclick="pickLang('${val}')" style="display:flex;align-items:center;gap:14px;padding:13px 20px;cursor:pointer;border-bottom:1px solid var(--border);background:${isActive?'var(--accent-soft)':'transparent'}">
       <span style="font-size:1.3rem">${flag}</span>
       <span style="font-family:var(--font-sans);font-size:0.92rem;color:var(--ink);flex:1">${name}</span>
+      ${badge}
       ${isActive?'<span style="color:var(--accent);font-size:1rem;font-weight:600">✓</span>':''}
     </div>`;
   }).join('');
@@ -6232,6 +6685,17 @@ function openLangModal() {
     const active = list.querySelector('[style*="accent-soft"]');
     if (active) active.scrollIntoView({block:'center'});
   }, 50);
+  // Kick off background pack probes so the badges become accurate without
+  // blocking the modal from opening.
+  if (typeof window._probeAudioPack === 'function') {
+    _LANG_ASSET_PACKS.forEach(async (lang) => {
+      try {
+        const state = await window._probeAudioPack(lang);
+        const badge = list.querySelector(`.lang-pack-badge[data-lang="${lang}"]`);
+        if (badge) badge.textContent = state === 'available' ? 'Audio ready' : 'Audio downloading…';
+      } catch (_) { /* ignore */ }
+    });
+  }
 }
 
 function closeLangModal() {
@@ -6264,4 +6728,167 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+</script>
+
+<!-- ═══════════════════════════════
+     PERF OVERLAY (hidden in normal use)
+     Activate by appending ?perf=1 to the URL once, OR by tapping the
+     top-left 60×60 px corner 5 times in under 3 seconds. Disable with
+     ?perf=0 or another 5-tap. State persists in localStorage.
+     Provides FPS, JS heap, DOM node count, long-task counter, and a
+     last-mark readout fed by window.jbMark(name, 'start'|'end').
+     Ships in the production build because it's gated and tiny — remove
+     by deleting this block once internal testing is complete.
+═══════════════════════════════ -->
+<style id="jb-perf-style">
+#jb-perf-overlay {
+  position: fixed; bottom: 8px; right: 8px; z-index: 99999;
+  background: rgba(0,0,0,0.78); color: #fff;
+  font: 10px/1.3 ui-monospace, Menlo, monospace;
+  padding: 6px 8px; border-radius: 6px;
+  pointer-events: none; min-width: 150px;
+  display: none; user-select: none;
+}
+#jb-perf-overlay.visible { display: block; }
+#jb-perf-overlay .row { display: flex; justify-content: space-between; gap: 8px; }
+#jb-perf-overlay .lbl { color: #aaa; }
+#jb-perf-overlay .v.warn { color: #ffb84d; }
+#jb-perf-overlay .v.bad  { color: #ff6058; }
+</style>
+<div id="jb-perf-overlay" aria-hidden="true">
+  <div class="row"><span class="lbl">FPS</span><span class="v" id="pf-fps">--</span></div>
+  <div class="row"><span class="lbl">Heap</span><span class="v" id="pf-heap">--</span></div>
+  <div class="row"><span class="lbl">DOM</span><span class="v" id="pf-dom">--</span></div>
+  <div class="row"><span class="lbl">Long&gt;50ms</span><span class="v" id="pf-long">0</span></div>
+  <div class="row"><span class="lbl">Last mark</span><span class="v" id="pf-mark">—</span></div>
+</div>
+<script>
+(function() {
+  const ENABLED = (() => {
+    try {
+      const u = new URL(location.href);
+      const q = u.searchParams.get('perf');
+      if (q === '1') { localStorage.setItem('jb_perf', '1'); return true; }
+      if (q === '0') { localStorage.removeItem('jb_perf'); return false; }
+      return localStorage.getItem('jb_perf') === '1';
+    } catch (_) { return false; }
+  })();
+
+  // jbMark is always defined so the call sites below don't have to guard.
+  // When the overlay is off it's a cheap no-op.
+  if (!ENABLED) { window.jbMark = function() {}; }
+
+  // Five-tap activator: invisible 60×60 hit zone in the top-left corner.
+  let taps = 0, lastTap = 0;
+  document.addEventListener('click', e => {
+    if (e.clientX > 60 || e.clientY > 60) { taps = 0; return; }
+    const now = Date.now();
+    if (now - lastTap > 600) taps = 0;
+    lastTap = now; taps++;
+    if (taps >= 5) {
+      taps = 0;
+      try {
+        const on = localStorage.getItem('jb_perf') === '1';
+        if (on) { localStorage.removeItem('jb_perf'); }
+        else    { localStorage.setItem('jb_perf', '1'); }
+        alert('Perf overlay ' + (on ? 'OFF' : 'ON') + ' — reload to apply.');
+      } catch (_) {}
+    }
+  }, true);
+
+  if (!ENABLED) return;
+
+  const overlay = document.getElementById('jb-perf-overlay');
+  if (overlay) overlay.classList.add('visible');
+  const $$ = id => document.getElementById(id);
+
+  // ── Long-task observer ─────────────────────────────────────────────────
+  let longCount = 0, longTotalMs = 0;
+  if ('PerformanceObserver' in window) {
+    try {
+      new PerformanceObserver(list => {
+        for (const e of list.getEntries()) { longCount++; longTotalMs += e.duration; }
+        const el = $$('pf-long');
+        if (el) {
+          el.textContent = longCount + ' / ' + Math.round(longTotalMs) + 'ms';
+          el.className = 'v ' + (longCount > 5 ? 'bad' : longCount > 0 ? 'warn' : '');
+        }
+      }).observe({ entryTypes: ['longtask'] });
+    } catch (_) {}
+  }
+
+  // ── FPS via rAF (sampled twice a second) ───────────────────────────────
+  let frames = 0, lastT = performance.now();
+  function tick(t) {
+    frames++;
+    if (t - lastT >= 500) {
+      const fps = Math.round(1000 * frames / (t - lastT));
+      const el = $$('pf-fps');
+      if (el) {
+        el.textContent = fps;
+        el.className = 'v ' + (fps < 30 ? 'bad' : fps < 50 ? 'warn' : '');
+      }
+      frames = 0; lastT = t;
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  // ── Heap (Chromium only) + DOM node count ──────────────────────────────
+  setInterval(() => {
+    if (performance && performance.memory) {
+      const used  = performance.memory.usedJSHeapSize  / 1048576;
+      const total = performance.memory.totalJSHeapSize / 1048576;
+      const el = $$('pf-heap');
+      if (el) {
+        el.textContent = used.toFixed(0) + ' / ' + total.toFixed(0) + ' MB';
+        el.className = 'v ' + (used > 200 ? 'bad' : used > 120 ? 'warn' : '');
+      }
+    } else {
+      const el = $$('pf-heap'); if (el) el.textContent = 'n/a';
+    }
+    const dom = $$('pf-dom');
+    if (dom) dom.textContent = document.querySelectorAll('*').length;
+  }, 1000);
+
+  // ── Public mark API: window.jbMark('chapter-open', 'start' | 'end') ────
+  // Records a perf mark + measure pair; flashes the most recent timing
+  // in the overlay; logs to console so remote DevTools can capture it.
+  const marks = {};
+  window.jbMark = function(name, kind) {
+    try {
+      const tag = name + ':' + kind;
+      performance.mark(tag);
+      if (kind === 'start') {
+        marks[name] = performance.now();
+      } else if (kind === 'end' && marks[name] != null) {
+        const dur = Math.round(performance.now() - marks[name]);
+        const el = $$('pf-mark');
+        if (el) {
+          el.textContent = name + ' ' + dur + 'ms';
+          el.className = 'v ' + (dur > 800 ? 'bad' : dur > 300 ? 'warn' : '');
+        }
+        try { performance.measure(name, name + ':start', tag); } catch (_) {}
+        delete marks[name];
+        console.log('[jbMark]', name, dur + 'ms');
+      }
+    } catch (_) {}
+  };
+
+  // ── Cold-start summary, logged once after load ─────────────────────────
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const nav = performance.getEntriesByType('navigation')[0];
+      if (!nav) return;
+      console.log('[jb-perf] cold-start ' + JSON.stringify({
+        domInteractive:   Math.round(nav.domInteractive),
+        domContentLoaded: Math.round(nav.domContentLoadedEventEnd),
+        loaded:           Math.round(nav.loadEventEnd),
+        transferSize:     nav.transferSize,
+        encodedBodySize:  nav.encodedBodySize,
+        decodedBodySize:  nav.decodedBodySize
+      }));
+    }, 0);
+  });
+})();
 </script>
