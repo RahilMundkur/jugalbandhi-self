@@ -4605,9 +4605,11 @@ openChapter = function(num) {
   const _AUDIO_PACK_PROBE_FILE = {
     // A canary file that must exist in every published pack. Keep this in
     // sync with the asset-pack manifest in the Android build.
-    fr: 'audio/fr/fr_ch01_p000_male.mp3',
-    hi: 'audio/hi/hi_ch01_p000_male.mp3',
-    th: 'audio/th/th_ch01_p000_male.mp3'
+    // Chapter 1 paragraph 0 speaker is female in BOOK_DATA — pick the file
+    // that actually exists on disk.
+    fr: 'audio/fr/fr_ch01_p000_female.mp3',
+    hi: 'audio/hi/hi_ch01_p000_female.mp3',
+    th: 'audio/th/th_ch01_p000_female.mp3'
   };
   // Approximate pack size shown on the Download button. Update if you
   // re-encode or add/remove paragraphs.
