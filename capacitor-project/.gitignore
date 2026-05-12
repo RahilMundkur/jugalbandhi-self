@@ -22,6 +22,11 @@ ios/App/App.xcodeproj/project.xcworkspace/xcuserdata/
 # Plugin build output
 audio-pack-bridge/dist/
 audio-pack-bridge/node_modules/
+audio-pack-bridge/android/build/
+audio-pack-bridge/android/.gradle/
+
+# Asset-pack module build output
+audio-packs-android/*/build/
 
 # Audio pack staging — git-ignored because the MP3 files are heavy
 audio-packs-android/*/src/main/assets/audio/*/*.mp3
