@@ -1,0 +1,2 @@
+# Drop fr_chNN_pNNN_{male,female}.mp3 files in this folder before building.
+# Run from APIDeepL root:  cp -r audio/fr capacitor-project/audio-packs-android/audio_fr/src/main/assets/audio/

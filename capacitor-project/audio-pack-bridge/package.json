@@ -1,0 +1,36 @@
+{
+  "name": "audio-pack-bridge",
+  "version": "1.0.0",
+  "description": "Capacitor plugin exposing Play Asset Delivery (Android) and On-Demand Resources (iOS) to the WebView",
+  "main": "dist/plugin.cjs.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w"
+  },
+  "files": [
+    "dist/",
+    "android/",
+    "ios/",
+    "AudioPackBridge.podspec"
+  ],
+  "keywords": ["capacitor", "plugin", "asset-delivery", "on-demand-resources"],
+  "author": "Rahil Mundkur",
+  "license": "UNLICENSED",
+  "peerDependencies": {
+    "@capacitor/core": "^6.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/core": "^6.1.0",
+    "typescript": "^5.4.0"
+  },
+  "capacitor": {
+    "ios": {
+      "src": "ios"
+    },
+    "android": {
+      "src": "android"
+    }
+  }
+}

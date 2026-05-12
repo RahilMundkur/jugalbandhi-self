@@ -1,0 +1,18 @@
+// Play Asset Delivery pack: French audio
+// Files go in src/main/assets/audio/fr/  (matches the path the WebView fetches)
+plugins {
+    id 'com.android.asset-pack'
+}
+
+assetPack {
+    packName = "audio_fr"
+    dynamicDelivery {
+        // 'on-demand' = pack is NOT downloaded automatically. The user must
+        // explicitly trigger it (the in-app "Download French audio" button
+        // calls AudioPack.requestPack which invokes assetPackManager.fetch).
+        // Pros: smaller install footprint, users opt in to language they want.
+        // Cons: extra tap to download, brief wait before first Listen.
+        deliveryType = "on-demand"
+        instantDeliveryType = "on-demand"
+    }
+}

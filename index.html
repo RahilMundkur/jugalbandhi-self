@@ -4663,7 +4663,17 @@ openChapter = function(num) {
         const res = await window.Capacitor.Plugins.AudioPack.getFileUri({
           lang, chapter, paragraph, speaker
         });
-        if (res && res.url) return res.url;
+        if (res && res.url) {
+          // The plugin returns a raw file:// URL. Capacitor's WebView refuses
+          // to fetch file:// for same-origin reasons, so wrap it with
+          // Capacitor.convertFileSrc() — that converts the path to the
+          // bridge-served form (https://localhost/_capacitor_file_/... on
+          // Android, capacitor://localhost/_capacitor_file_/... on iOS).
+          if (window.Capacitor && typeof window.Capacitor.convertFileSrc === 'function') {
+            return window.Capacitor.convertFileSrc(res.url);
+          }
+          return res.url;
+        }
       } catch (err) {
         // Fall through to the relative-path URL below.
       }

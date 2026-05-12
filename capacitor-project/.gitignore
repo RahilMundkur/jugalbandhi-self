@@ -1,0 +1,27 @@
+# Capacitor / npm
+node_modules/
+www/
+.DS_Store
+
+# Android build artifacts
+android/.gradle/
+android/build/
+android/app/build/
+android/app/release/
+android/local.properties
+android/key.properties
+
+# iOS build artifacts
+ios/App/Pods/
+ios/App/build/
+ios/App/App.xcworkspace/xcuserdata/
+ios/App/App.xcodeproj/xcuserdata/
+ios/App/App.xcodeproj/project.xcworkspace/xcuserdata/
+*.ipa
+
+# Plugin build output
+audio-pack-bridge/dist/
+audio-pack-bridge/node_modules/
+
+# Audio pack staging — git-ignored because the MP3 files are heavy
+audio-packs-android/*/src/main/assets/audio/*/*.mp3
