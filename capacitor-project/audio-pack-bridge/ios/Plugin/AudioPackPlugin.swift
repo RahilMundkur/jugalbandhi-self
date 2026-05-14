@@ -46,28 +46,20 @@ public class AudioPackPlugin: CAPPlugin, CAPBridgedPlugin {
         let tag = tagFor(lang)
 
         // Cheap first check: is the canary file already on disk?
+        // On the iOS Simulator, ODR resources are usually already on disk
+        // regardless of tag category, so this short-circuit makes everything
+        // "just work" without needing a real ODR fetch.
         if let _ = Bundle.main.url(forResource: canaryFilename(lang), withExtension: "mp3") {
             call.resolve(["status": "available"])
             return
         }
 
-        // Not on disk — kick off a request and report status. We don't
-        // beginAccessingResources here (that downloads); we use
-        // conditionallyBeginAccessing to peek.
-        let req = activeRequests[tag] ?? NSBundleResourceRequest(tags: [tag])
-        activeRequests[tag] = req
-
-        req.conditionallyBeginAccessingResources { available in
-            DispatchQueue.main.async {
-                if available {
-                    call.resolve(["status": "available"])
-                } else {
-                    // iOS doesn't directly expose "downloading vs missing"
-                    // for an idle request; report "missing" and let JS call
-                    // requestPack to actually fetch.
-                    call.resolve(["status": "missing"])
-                }
-            }
+        // If we already have a kept-alive request for this tag, treat the
+        // pack as available. Otherwise tell JS to request a download.
+        if activeRequests[tag] != nil {
+            call.resolve(["status": "available"])
+        } else {
+            call.resolve(["status": "missing"])
         }
     }
 
@@ -99,13 +91,19 @@ public class AudioPackPlugin: CAPPlugin, CAPBridgedPlugin {
         }
         let tag = tagFor(lang)
 
-        let req = activeRequests[tag] ?? NSBundleResourceRequest(tags: [tag])
-        activeRequests[tag] = req
+        // Always create a fresh NSBundleResourceRequest. Reusing one across
+        // calls (or after a prior conditionallyBeginAccessingResources call)
+        // raises an NSException — "beginAccessingResources called more than
+        // once for the same request".
+        let req = NSBundleResourceRequest(tags: [tag])
         req.loadingPriority = NSBundleResourceRequestLoadingPriorityUrgent
+        activeRequests[tag] = req
 
         req.beginAccessingResources { error in
             DispatchQueue.main.async {
                 if let error = error {
+                    // Drop the request so the next call can retry cleanly.
+                    self.activeRequests.removeValue(forKey: tag)
                     call.reject("ODR fetch failed: \(error.localizedDescription)")
                 } else {
                     call.resolve()

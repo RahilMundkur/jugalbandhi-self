@@ -12,6 +12,13 @@ const config: CapacitorConfig = {
   // Resources for audio.
   server: {
     androidScheme: 'https',
+    // NOTE: iosScheme intentionally left at the default 'capacitor'. We
+    // tried switching to 'https' to work around the WKWebView custom-scheme
+    // audio limitation but it requires a clean `npx cap sync ios` which
+    // is currently broken on Xcode 26 (CocoaPods incompatibility). Real-
+    // device testing via TestFlight will surface whether this is actually
+    // an issue in production — the Simulator quirk doesn't necessarily
+    // apply on real hardware.
     // Optional: set hostname so the in-app origin is stable. Affects how
     // the service worker scope and any same-origin checks behave.
     // hostname: 'jugalbandhi.local'

@@ -1,5 +1,14 @@
 apply plugin: 'com.android.application'
 
+// Load signing config from key.properties (gitignored — contains passwords).
+// If the file isn't present, release builds will fall back to debug signing
+// so day-to-day Gradle work doesn't break.
+def keystorePropertiesFile = rootProject.file("key.properties")
+def keystoreProperties = new Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
     namespace "com.rahilmundkur.jugalbandhiself"
     compileSdk rootProject.ext.compileSdkVersion
@@ -11,8 +20,12 @@ android {
         applicationId "com.rahilmundkur.jugalbandhiself"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        // Bubblewrap shipped at versionCode 11 / versionName "3".
+        // First Capacitor build was 12 / "3.1" but Play reserved that
+        // versionCode on a draft upload, so used 13.
+        // 14 = same 3.1 release, rebuilt with the new yin-yang app icon.
+        versionCode 14
+        versionName "3.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
@@ -20,10 +33,26 @@ android {
             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+    signingConfigs {
+        release {
+            if (keystorePropertiesFile.exists()) {
+                storeFile     file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+                keyAlias      keystoreProperties['keyAlias']
+                keyPassword   keystoreProperties['keyPassword']
+            }
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // Use the release signing config when key.properties is present;
+            // otherwise fall through to debug signing so the build doesn't
+            // break for contributors who don't have the keystore.
+            if (keystorePropertiesFile.exists()) {
+                signingConfig signingConfigs.release
+            }
         }
     }
 }

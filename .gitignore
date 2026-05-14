@@ -21,6 +21,12 @@ App_Store_Launch_Plan.docx
 # Separate Android project — has its own repo
 jugalbandhi-android/
 
+# Signing keystores (never commit these — leaked keystore = lost app on store)
+.signing/
+*.keystore
+*.jks
+**/key.properties
+
 # Work-in-progress audio
 audio/th/
 
@@ -29,3 +35,6 @@ icons/rahilmundkur.github.io_*.png
 icons/phone-about-hindi.png
 icons/screenshot-languages_4.png
 icons/tablet-*.png
+
+capacitor-project/android/.idea/
+icon-previews/

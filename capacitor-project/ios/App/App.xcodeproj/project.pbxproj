@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 75;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -32,6 +32,2571 @@
 		FC68EB0AF532CFC21C3344DD /* Pods-App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App.debug.xcconfig"; path = "Pods/Target Support Files/Pods-App/Pods-App.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		5698FEE12FB32CAD000D59DD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			assetTagsByRelativePath = {
+				fr_ch01_p000_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch01_p001_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch01_p002_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch01_p003_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch01_p004_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch01_p005_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch01_p006_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch02_p000_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch02_p001_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch02_p002_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch03_p000_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch03_p001_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch04_p000_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch04_p001_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch04_p002_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch04_p003_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch04_p004_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch04_p005_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch04_p006_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch04_p007_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch04_p008_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch04_p009_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch04_p010_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch04_p011_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch04_p012_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch05_p000_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch05_p001_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch05_p002_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch05_p003_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch05_p004_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch05_p005_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch05_p006_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch05_p007_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch05_p008_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch05_p009_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch05_p010_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch05_p011_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch05_p012_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch05_p013_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch05_p014_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch05_p015_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch05_p016_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch05_p017_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch05_p018_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch05_p019_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch05_p020_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch05_p021_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch05_p022_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch05_p023_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch05_p024_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch05_p025_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch06_p000_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch06_p001_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch06_p002_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch06_p003_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch06_p004_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch06_p005_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch06_p006_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch06_p007_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch06_p008_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p000_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p001_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p002_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p003_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p004_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p005_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p006_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p007_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p008_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p009_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p010_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p011_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p012_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p013_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p014_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p015_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p016_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p017_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p018_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p019_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p020_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p021_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p022_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p023_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p024_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p025_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p026_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p027_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p028_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p029_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p030_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch07_p031_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch08_p000_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch08_p001_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch08_p002_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch08_p003_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch08_p004_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch08_p005_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch08_p006_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch08_p007_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch08_p008_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch08_p009_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch09_p000_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch09_p001_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch09_p002_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch09_p003_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch10_p000_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch10_p001_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch10_p002_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch10_p003_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch10_p004_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch10_p005_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch10_p006_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch10_p007_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch10_p008_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch10_p009_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch10_p010_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch10_p011_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch10_p012_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch10_p013_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch10_p014_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch10_p015_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch10_p016_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch11_p000_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch11_p001_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch11_p002_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch12_p000_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch12_p001_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch13_p000_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch13_p001_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch14_p000_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch14_p001_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch15_p000_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch15_p001_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch15_p002_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch15_p003_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch15_p004_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch15_p005_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch15_p006_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch15_p007_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch15_p008_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch15_p009_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch15_p010_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch15_p011_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch15_p012_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch15_p013_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch15_p014_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch16_p000_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch16_p001_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch16_p002_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch16_p003_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch16_p004_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch16_p005_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch16_p006_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch16_p007_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch16_p008_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch16_p009_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch17_p000_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch17_p001_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch18_p000_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch19_p000_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch19_p001_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch19_p002_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch20_p000_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch20_p001_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch21_p000_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch21_p001_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch21_p002_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch21_p003_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch21_p004_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch22_p000_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch22_p001_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch22_p002_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch22_p003_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch22_p004_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch22_p005_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch22_p006_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch22_p007_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch22_p008_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch22_p009_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch22_p010_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch22_p011_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch23_p000_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch23_p001_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch23_p002_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch23_p003_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch23_p004_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch23_p005_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch24_p000_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch24_p001_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch24_p002_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch24_p003_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch24_p004_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch24_p005_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch24_p006_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch24_p007_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch24_p008_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch24_p009_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch24_p010_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch24_p011_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch24_p012_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch24_p013_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch24_p014_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch24_p015_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch24_p016_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch24_p017_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch24_p018_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch24_p019_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch24_p020_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch24_p021_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch24_p022_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch24_p023_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch24_p024_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch25_p000_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch25_p001_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch25_p002_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch25_p003_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch25_p004_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch25_p005_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch25_p006_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch25_p007_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch25_p008_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch25_p009_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch25_p010_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch25_p011_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch25_p012_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch25_p013_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch25_p014_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch25_p015_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch25_p016_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch25_p017_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch25_p018_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch25_p019_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch25_p020_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch25_p021_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch26_p000_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch26_p001_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch26_p002_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch26_p003_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch27_p000_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch27_p001_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch27_p002_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch27_p003_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch27_p004_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch27_p005_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch27_p006_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch27_p007_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch27_p008_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch27_p009_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch27_p010_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch28_p000_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch28_p001_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch28_p002_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch28_p003_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch28_p004_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch28_p005_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch28_p006_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch29_p000_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch29_p001_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch29_p002_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch29_p003_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch29_p004_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch29_p005_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch29_p006_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch29_p007_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch30_p000_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch30_p001_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch30_p002_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch30_p003_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch30_p004_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch30_p005_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch30_p006_male.mp3 = (
+					audio_fr,
+				);
+				fr_ch30_p007_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch30_p008_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch30_p009_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch30_p010_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch30_p011_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch31_p000_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch31_p001_narrator.mp3 = (
+					audio_fr,
+				);
+				fr_ch32_p000_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch32_p001_female.mp3 = (
+					audio_fr,
+				);
+				fr_ch32_p002_female.mp3 = (
+					audio_fr,
+				);
+			};
+			target = 504EC3031FED79650016851F /* App */;
+		};
+		5698FEE22FB32CC7000D59DD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			assetTagsByRelativePath = {
+				hi_ch01_p000_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch01_p001_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch01_p002_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch01_p003_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch01_p004_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch01_p005_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch01_p006_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch02_p000_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch02_p001_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch02_p002_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch03_p000_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch03_p001_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch04_p000_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch04_p001_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch04_p002_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch04_p003_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch04_p004_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch04_p005_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch04_p006_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch04_p007_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch04_p008_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch04_p009_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch04_p010_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch04_p011_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch04_p012_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch05_p000_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch05_p001_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch05_p002_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch05_p003_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch05_p004_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch05_p005_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch05_p006_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch05_p007_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch05_p008_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch05_p009_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch05_p010_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch05_p011_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch05_p012_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch05_p013_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch05_p014_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch05_p015_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch05_p016_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch05_p017_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch05_p018_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch05_p019_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch05_p020_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch05_p021_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch05_p022_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch05_p023_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch05_p024_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch05_p025_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch06_p000_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch06_p001_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch06_p002_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch06_p003_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch06_p004_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch06_p005_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch06_p006_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch06_p007_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch06_p008_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p000_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p001_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p002_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p003_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p004_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p005_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p006_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p007_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p008_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p009_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p010_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p011_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p012_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p013_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p014_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p015_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p016_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p017_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p018_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p019_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p020_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p021_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p022_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p023_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p024_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p025_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p026_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p027_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p028_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p029_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p030_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch07_p031_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch08_p000_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch08_p001_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch08_p002_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch08_p003_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch08_p004_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch08_p005_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch08_p006_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch08_p007_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch08_p008_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch08_p009_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch09_p000_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch09_p001_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch09_p002_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch09_p003_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch10_p000_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch10_p001_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch10_p002_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch10_p003_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch10_p004_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch10_p005_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch10_p006_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch10_p007_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch10_p008_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch10_p009_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch10_p010_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch10_p011_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch10_p012_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch10_p013_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch10_p014_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch10_p015_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch10_p016_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch11_p000_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch11_p001_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch11_p002_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch12_p000_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch12_p001_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch13_p000_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch13_p001_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch14_p000_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch14_p001_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch15_p000_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch15_p001_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch15_p002_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch15_p003_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch15_p004_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch15_p005_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch15_p006_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch15_p007_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch15_p008_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch15_p009_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch15_p010_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch15_p011_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch15_p012_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch15_p013_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch15_p014_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch16_p000_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch16_p001_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch16_p002_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch16_p003_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch16_p004_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch16_p005_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch16_p006_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch16_p007_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch16_p008_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch16_p009_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch17_p000_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch17_p001_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch18_p000_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch19_p000_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch19_p001_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch19_p002_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch20_p000_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch20_p001_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch21_p000_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch21_p001_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch21_p002_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch21_p003_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch21_p004_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch22_p000_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch22_p001_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch22_p002_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch22_p003_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch22_p004_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch22_p005_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch22_p006_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch22_p007_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch22_p008_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch22_p009_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch22_p010_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch22_p011_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch23_p000_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch23_p001_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch23_p002_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch23_p003_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch23_p004_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch23_p005_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch24_p000_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch24_p001_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch24_p002_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch24_p003_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch24_p004_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch24_p005_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch24_p006_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch24_p007_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch24_p008_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch24_p009_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch24_p010_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch24_p011_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch24_p012_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch24_p013_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch24_p014_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch24_p015_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch24_p016_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch24_p017_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch24_p018_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch24_p019_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch24_p020_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch24_p021_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch24_p022_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch24_p023_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch24_p024_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch25_p000_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch25_p001_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch25_p002_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch25_p003_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch25_p004_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch25_p005_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch25_p006_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch25_p007_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch25_p008_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch25_p009_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch25_p010_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch25_p011_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch25_p012_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch25_p013_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch25_p014_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch25_p015_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch25_p016_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch25_p017_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch25_p018_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch25_p019_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch25_p020_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch25_p021_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch26_p000_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch26_p001_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch26_p002_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch26_p003_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch27_p000_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch27_p001_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch27_p002_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch27_p003_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch27_p004_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch27_p005_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch27_p006_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch27_p007_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch27_p008_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch27_p009_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch27_p010_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch28_p000_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch28_p001_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch28_p002_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch28_p003_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch28_p004_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch28_p005_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch28_p006_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch29_p000_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch29_p001_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch29_p002_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch29_p003_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch29_p004_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch29_p005_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch29_p006_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch29_p007_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch30_p000_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch30_p001_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch30_p002_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch30_p003_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch30_p004_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch30_p005_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch30_p006_male.mp3 = (
+					audio_hi,
+				);
+				hi_ch30_p007_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch30_p008_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch30_p009_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch30_p010_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch30_p011_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch31_p000_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch31_p001_narrator.mp3 = (
+					audio_hi,
+				);
+				hi_ch32_p000_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch32_p001_female.mp3 = (
+					audio_hi,
+				);
+				hi_ch32_p002_female.mp3 = (
+					audio_hi,
+				);
+			};
+			target = 504EC3031FED79650016851F /* App */;
+		};
+		5698FEE32FB32CEB000D59DD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			assetTagsByRelativePath = {
+				th_ch01_p000_female.mp3 = (
+					audio_th,
+				);
+				th_ch01_p001_male.mp3 = (
+					audio_th,
+				);
+				th_ch01_p002_male.mp3 = (
+					audio_th,
+				);
+				th_ch01_p003_female.mp3 = (
+					audio_th,
+				);
+				th_ch01_p004_male.mp3 = (
+					audio_th,
+				);
+				th_ch01_p005_female.mp3 = (
+					audio_th,
+				);
+				th_ch01_p006_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch02_p000_male.mp3 = (
+					audio_th,
+				);
+				th_ch02_p001_female.mp3 = (
+					audio_th,
+				);
+				th_ch02_p002_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch03_p000_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch03_p001_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch04_p000_male.mp3 = (
+					audio_th,
+				);
+				th_ch04_p001_female.mp3 = (
+					audio_th,
+				);
+				th_ch04_p002_male.mp3 = (
+					audio_th,
+				);
+				th_ch04_p003_female.mp3 = (
+					audio_th,
+				);
+				th_ch04_p004_male.mp3 = (
+					audio_th,
+				);
+				th_ch04_p005_female.mp3 = (
+					audio_th,
+				);
+				th_ch04_p006_male.mp3 = (
+					audio_th,
+				);
+				th_ch04_p007_male.mp3 = (
+					audio_th,
+				);
+				th_ch04_p008_female.mp3 = (
+					audio_th,
+				);
+				th_ch04_p009_male.mp3 = (
+					audio_th,
+				);
+				th_ch04_p010_female.mp3 = (
+					audio_th,
+				);
+				th_ch04_p011_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch04_p012_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch05_p000_male.mp3 = (
+					audio_th,
+				);
+				th_ch05_p001_male.mp3 = (
+					audio_th,
+				);
+				th_ch05_p002_female.mp3 = (
+					audio_th,
+				);
+				th_ch05_p003_male.mp3 = (
+					audio_th,
+				);
+				th_ch05_p004_male.mp3 = (
+					audio_th,
+				);
+				th_ch05_p005_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch05_p006_male.mp3 = (
+					audio_th,
+				);
+				th_ch05_p007_female.mp3 = (
+					audio_th,
+				);
+				th_ch05_p008_male.mp3 = (
+					audio_th,
+				);
+				th_ch05_p009_female.mp3 = (
+					audio_th,
+				);
+				th_ch05_p010_male.mp3 = (
+					audio_th,
+				);
+				th_ch05_p011_female.mp3 = (
+					audio_th,
+				);
+				th_ch05_p012_male.mp3 = (
+					audio_th,
+				);
+				th_ch05_p013_female.mp3 = (
+					audio_th,
+				);
+				th_ch05_p014_male.mp3 = (
+					audio_th,
+				);
+				th_ch05_p015_female.mp3 = (
+					audio_th,
+				);
+				th_ch05_p016_male.mp3 = (
+					audio_th,
+				);
+				th_ch05_p017_female.mp3 = (
+					audio_th,
+				);
+				th_ch05_p018_male.mp3 = (
+					audio_th,
+				);
+				th_ch05_p019_female.mp3 = (
+					audio_th,
+				);
+				th_ch05_p020_male.mp3 = (
+					audio_th,
+				);
+				th_ch05_p021_female.mp3 = (
+					audio_th,
+				);
+				th_ch05_p022_male.mp3 = (
+					audio_th,
+				);
+				th_ch05_p023_female.mp3 = (
+					audio_th,
+				);
+				th_ch05_p024_male.mp3 = (
+					audio_th,
+				);
+				th_ch05_p025_female.mp3 = (
+					audio_th,
+				);
+				th_ch06_p000_female.mp3 = (
+					audio_th,
+				);
+				th_ch06_p001_male.mp3 = (
+					audio_th,
+				);
+				th_ch06_p002_male.mp3 = (
+					audio_th,
+				);
+				th_ch06_p003_female.mp3 = (
+					audio_th,
+				);
+				th_ch06_p004_male.mp3 = (
+					audio_th,
+				);
+				th_ch06_p005_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch06_p006_female.mp3 = (
+					audio_th,
+				);
+				th_ch06_p007_male.mp3 = (
+					audio_th,
+				);
+				th_ch06_p008_female.mp3 = (
+					audio_th,
+				);
+				th_ch07_p000_female.mp3 = (
+					audio_th,
+				);
+				th_ch07_p001_male.mp3 = (
+					audio_th,
+				);
+				th_ch07_p002_female.mp3 = (
+					audio_th,
+				);
+				th_ch07_p003_male.mp3 = (
+					audio_th,
+				);
+				th_ch07_p004_female.mp3 = (
+					audio_th,
+				);
+				th_ch07_p005_male.mp3 = (
+					audio_th,
+				);
+				th_ch07_p006_female.mp3 = (
+					audio_th,
+				);
+				th_ch07_p007_male.mp3 = (
+					audio_th,
+				);
+				th_ch07_p008_female.mp3 = (
+					audio_th,
+				);
+				th_ch07_p009_male.mp3 = (
+					audio_th,
+				);
+				th_ch07_p010_female.mp3 = (
+					audio_th,
+				);
+				th_ch07_p011_male.mp3 = (
+					audio_th,
+				);
+				th_ch07_p012_female.mp3 = (
+					audio_th,
+				);
+				th_ch07_p013_male.mp3 = (
+					audio_th,
+				);
+				th_ch07_p014_female.mp3 = (
+					audio_th,
+				);
+				th_ch07_p015_male.mp3 = (
+					audio_th,
+				);
+				th_ch07_p016_female.mp3 = (
+					audio_th,
+				);
+				th_ch07_p017_male.mp3 = (
+					audio_th,
+				);
+				th_ch07_p018_female.mp3 = (
+					audio_th,
+				);
+				th_ch07_p019_male.mp3 = (
+					audio_th,
+				);
+				th_ch07_p020_female.mp3 = (
+					audio_th,
+				);
+				th_ch07_p021_male.mp3 = (
+					audio_th,
+				);
+				th_ch07_p022_female.mp3 = (
+					audio_th,
+				);
+				th_ch07_p023_male.mp3 = (
+					audio_th,
+				);
+				th_ch07_p024_female.mp3 = (
+					audio_th,
+				);
+				th_ch07_p025_male.mp3 = (
+					audio_th,
+				);
+				th_ch07_p026_female.mp3 = (
+					audio_th,
+				);
+				th_ch07_p027_male.mp3 = (
+					audio_th,
+				);
+				th_ch07_p028_female.mp3 = (
+					audio_th,
+				);
+				th_ch07_p029_male.mp3 = (
+					audio_th,
+				);
+				th_ch07_p030_male.mp3 = (
+					audio_th,
+				);
+				th_ch07_p031_female.mp3 = (
+					audio_th,
+				);
+				th_ch08_p000_male.mp3 = (
+					audio_th,
+				);
+				th_ch08_p001_female.mp3 = (
+					audio_th,
+				);
+				th_ch08_p002_male.mp3 = (
+					audio_th,
+				);
+				th_ch08_p003_female.mp3 = (
+					audio_th,
+				);
+				th_ch08_p004_male.mp3 = (
+					audio_th,
+				);
+				th_ch08_p005_female.mp3 = (
+					audio_th,
+				);
+				th_ch08_p006_male.mp3 = (
+					audio_th,
+				);
+				th_ch08_p007_female.mp3 = (
+					audio_th,
+				);
+				th_ch08_p008_male.mp3 = (
+					audio_th,
+				);
+				th_ch08_p009_female.mp3 = (
+					audio_th,
+				);
+				th_ch09_p000_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch09_p001_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch09_p002_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch09_p003_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch10_p000_female.mp3 = (
+					audio_th,
+				);
+				th_ch10_p001_male.mp3 = (
+					audio_th,
+				);
+				th_ch10_p002_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch10_p003_male.mp3 = (
+					audio_th,
+				);
+				th_ch10_p004_female.mp3 = (
+					audio_th,
+				);
+				th_ch10_p005_male.mp3 = (
+					audio_th,
+				);
+				th_ch10_p006_female.mp3 = (
+					audio_th,
+				);
+				th_ch10_p007_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch10_p008_male.mp3 = (
+					audio_th,
+				);
+				th_ch10_p009_female.mp3 = (
+					audio_th,
+				);
+				th_ch10_p010_male.mp3 = (
+					audio_th,
+				);
+				th_ch10_p011_female.mp3 = (
+					audio_th,
+				);
+				th_ch10_p012_male.mp3 = (
+					audio_th,
+				);
+				th_ch10_p013_female.mp3 = (
+					audio_th,
+				);
+				th_ch10_p014_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch10_p015_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch10_p016_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch11_p000_male.mp3 = (
+					audio_th,
+				);
+				th_ch11_p001_female.mp3 = (
+					audio_th,
+				);
+				th_ch11_p002_female.mp3 = (
+					audio_th,
+				);
+				th_ch12_p000_male.mp3 = (
+					audio_th,
+				);
+				th_ch12_p001_female.mp3 = (
+					audio_th,
+				);
+				th_ch13_p000_male.mp3 = (
+					audio_th,
+				);
+				th_ch13_p001_female.mp3 = (
+					audio_th,
+				);
+				th_ch14_p000_male.mp3 = (
+					audio_th,
+				);
+				th_ch14_p001_female.mp3 = (
+					audio_th,
+				);
+				th_ch15_p000_male.mp3 = (
+					audio_th,
+				);
+				th_ch15_p001_female.mp3 = (
+					audio_th,
+				);
+				th_ch15_p002_male.mp3 = (
+					audio_th,
+				);
+				th_ch15_p003_female.mp3 = (
+					audio_th,
+				);
+				th_ch15_p004_male.mp3 = (
+					audio_th,
+				);
+				th_ch15_p005_female.mp3 = (
+					audio_th,
+				);
+				th_ch15_p006_male.mp3 = (
+					audio_th,
+				);
+				th_ch15_p007_female.mp3 = (
+					audio_th,
+				);
+				th_ch15_p008_male.mp3 = (
+					audio_th,
+				);
+				th_ch15_p009_female.mp3 = (
+					audio_th,
+				);
+				th_ch15_p010_male.mp3 = (
+					audio_th,
+				);
+				th_ch15_p011_female.mp3 = (
+					audio_th,
+				);
+				th_ch15_p012_male.mp3 = (
+					audio_th,
+				);
+				th_ch15_p013_female.mp3 = (
+					audio_th,
+				);
+				th_ch15_p014_male.mp3 = (
+					audio_th,
+				);
+				th_ch16_p000_male.mp3 = (
+					audio_th,
+				);
+				th_ch16_p001_female.mp3 = (
+					audio_th,
+				);
+				th_ch16_p002_male.mp3 = (
+					audio_th,
+				);
+				th_ch16_p003_female.mp3 = (
+					audio_th,
+				);
+				th_ch16_p004_male.mp3 = (
+					audio_th,
+				);
+				th_ch16_p005_female.mp3 = (
+					audio_th,
+				);
+				th_ch16_p006_male.mp3 = (
+					audio_th,
+				);
+				th_ch16_p007_female.mp3 = (
+					audio_th,
+				);
+				th_ch16_p008_male.mp3 = (
+					audio_th,
+				);
+				th_ch16_p009_female.mp3 = (
+					audio_th,
+				);
+				th_ch17_p000_male.mp3 = (
+					audio_th,
+				);
+				th_ch17_p001_female.mp3 = (
+					audio_th,
+				);
+				th_ch18_p000_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch19_p000_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch19_p001_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch19_p002_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch20_p000_male.mp3 = (
+					audio_th,
+				);
+				th_ch20_p001_female.mp3 = (
+					audio_th,
+				);
+				th_ch21_p000_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch21_p001_female.mp3 = (
+					audio_th,
+				);
+				th_ch21_p002_male.mp3 = (
+					audio_th,
+				);
+				th_ch21_p003_female.mp3 = (
+					audio_th,
+				);
+				th_ch21_p004_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch22_p000_male.mp3 = (
+					audio_th,
+				);
+				th_ch22_p001_female.mp3 = (
+					audio_th,
+				);
+				th_ch22_p002_male.mp3 = (
+					audio_th,
+				);
+				th_ch22_p003_male.mp3 = (
+					audio_th,
+				);
+				th_ch22_p004_female.mp3 = (
+					audio_th,
+				);
+				th_ch22_p005_male.mp3 = (
+					audio_th,
+				);
+				th_ch22_p006_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch22_p007_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch22_p008_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch22_p009_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch22_p010_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch22_p011_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch23_p000_male.mp3 = (
+					audio_th,
+				);
+				th_ch23_p001_female.mp3 = (
+					audio_th,
+				);
+				th_ch23_p002_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch23_p003_female.mp3 = (
+					audio_th,
+				);
+				th_ch23_p004_male.mp3 = (
+					audio_th,
+				);
+				th_ch23_p005_female.mp3 = (
+					audio_th,
+				);
+				th_ch24_p000_male.mp3 = (
+					audio_th,
+				);
+				th_ch24_p001_male.mp3 = (
+					audio_th,
+				);
+				th_ch24_p002_female.mp3 = (
+					audio_th,
+				);
+				th_ch24_p003_male.mp3 = (
+					audio_th,
+				);
+				th_ch24_p004_female.mp3 = (
+					audio_th,
+				);
+				th_ch24_p005_male.mp3 = (
+					audio_th,
+				);
+				th_ch24_p006_female.mp3 = (
+					audio_th,
+				);
+				th_ch24_p007_male.mp3 = (
+					audio_th,
+				);
+				th_ch24_p008_female.mp3 = (
+					audio_th,
+				);
+				th_ch24_p009_male.mp3 = (
+					audio_th,
+				);
+				th_ch24_p010_female.mp3 = (
+					audio_th,
+				);
+				th_ch24_p011_male.mp3 = (
+					audio_th,
+				);
+				th_ch24_p012_female.mp3 = (
+					audio_th,
+				);
+				th_ch24_p013_male.mp3 = (
+					audio_th,
+				);
+				th_ch24_p014_female.mp3 = (
+					audio_th,
+				);
+				th_ch24_p015_male.mp3 = (
+					audio_th,
+				);
+				th_ch24_p016_female.mp3 = (
+					audio_th,
+				);
+				th_ch24_p017_male.mp3 = (
+					audio_th,
+				);
+				th_ch24_p018_female.mp3 = (
+					audio_th,
+				);
+				th_ch24_p019_male.mp3 = (
+					audio_th,
+				);
+				th_ch24_p020_female.mp3 = (
+					audio_th,
+				);
+				th_ch24_p021_male.mp3 = (
+					audio_th,
+				);
+				th_ch24_p022_female.mp3 = (
+					audio_th,
+				);
+				th_ch24_p023_male.mp3 = (
+					audio_th,
+				);
+				th_ch24_p024_female.mp3 = (
+					audio_th,
+				);
+				th_ch25_p000_male.mp3 = (
+					audio_th,
+				);
+				th_ch25_p001_female.mp3 = (
+					audio_th,
+				);
+				th_ch25_p002_male.mp3 = (
+					audio_th,
+				);
+				th_ch25_p003_female.mp3 = (
+					audio_th,
+				);
+				th_ch25_p004_male.mp3 = (
+					audio_th,
+				);
+				th_ch25_p005_female.mp3 = (
+					audio_th,
+				);
+				th_ch25_p006_male.mp3 = (
+					audio_th,
+				);
+				th_ch25_p007_female.mp3 = (
+					audio_th,
+				);
+				th_ch25_p008_male.mp3 = (
+					audio_th,
+				);
+				th_ch25_p009_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch25_p010_male.mp3 = (
+					audio_th,
+				);
+				th_ch25_p011_male.mp3 = (
+					audio_th,
+				);
+				th_ch25_p012_female.mp3 = (
+					audio_th,
+				);
+				th_ch25_p013_male.mp3 = (
+					audio_th,
+				);
+				th_ch25_p014_female.mp3 = (
+					audio_th,
+				);
+				th_ch25_p015_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch25_p016_male.mp3 = (
+					audio_th,
+				);
+				th_ch25_p017_female.mp3 = (
+					audio_th,
+				);
+				th_ch25_p018_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch25_p019_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch25_p020_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch25_p021_female.mp3 = (
+					audio_th,
+				);
+				th_ch26_p000_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch26_p001_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch26_p002_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch26_p003_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch27_p000_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch27_p001_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch27_p002_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch27_p003_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch27_p004_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch27_p005_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch27_p006_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch27_p007_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch27_p008_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch27_p009_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch27_p010_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch28_p000_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch28_p001_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch28_p002_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch28_p003_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch28_p004_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch28_p005_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch28_p006_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch29_p000_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch29_p001_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch29_p002_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch29_p003_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch29_p004_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch29_p005_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch29_p006_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch29_p007_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch30_p000_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch30_p001_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch30_p002_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch30_p003_male.mp3 = (
+					audio_th,
+				);
+				th_ch30_p004_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch30_p005_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch30_p006_male.mp3 = (
+					audio_th,
+				);
+				th_ch30_p007_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch30_p008_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch30_p009_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch30_p010_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch30_p011_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch31_p000_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch31_p001_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch32_p000_female.mp3 = (
+					audio_th,
+				);
+				th_ch32_p001_female.mp3 = (
+					audio_th,
+				);
+				th_ch32_p002_female.mp3 = (
+					audio_th,
+				);
+			};
+			target = 504EC3031FED79650016851F /* App */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		5698F95C2FB327B3000D59DD /* fr */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5698FEE12FB32CAD000D59DD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = fr; sourceTree = "<group>"; };
+		5698FB912FB328BD000D59DD /* hi */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5698FEE22FB32CC7000D59DD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = hi; sourceTree = "<group>"; };
+		5698FDC62FB328E3000D59DD /* th */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5698FEE32FB32CEB000D59DD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = th; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		504EC3011FED79650016851F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -59,6 +2624,9 @@
 				504EC3051FED79650016851F /* Products */,
 				7F8756D8B27F46E3366F6CEA /* Pods */,
 				27E2DDA53C4D2A4D1A88CE4A /* Frameworks */,
+				5698F95C2FB327B3000D59DD /* fr */,
+				5698FB912FB328BD000D59DD /* hi */,
+				5698FDC62FB328E3000D59DD /* th */,
 			);
 			sourceTree = "<group>";
 		};
@@ -111,6 +2679,11 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				5698F95C2FB327B3000D59DD /* fr */,
+				5698FB912FB328BD000D59DD /* hi */,
+				5698FDC62FB328E3000D59DD /* th */,
+			);
 			name = App;
 			productName = App;
 			productReference = 504EC3041FED79650016851F /* App.app */;
@@ -122,6 +2695,11 @@
 		504EC2FC1FED79650016851F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				KnownAssetTags = (
+					audio_fr,
+					audio_hi,
+					audio_th,
+				);
 				LastSwiftUpdateCheck = 0920;
 				LastUpgradeCheck = 0920;
 				TargetAttributes = {
@@ -133,7 +2711,6 @@
 				};
 			};
 			buildConfigurationList = 504EC2FF1FED79650016851F /* Build configuration list for PBXProject "App" */;
-			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -143,6 +2720,7 @@
 			mainGroup = 504EC2FB1FED79650016851F;
 			packageReferences = (
 			);
+			preferredProjectObjectVersion = 48;
 			productRefGroup = 504EC3051FED79650016851F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -337,7 +2915,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -351,7 +2930,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" \"-DDEBUG\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rahilmundkur.jugalbandhiself;
@@ -371,7 +2953,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rahilmundkur.jugalbandhiself;
 				PRODUCT_NAME = "$(TARGET_NAME)";
