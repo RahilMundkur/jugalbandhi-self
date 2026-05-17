@@ -6661,7 +6661,7 @@ const LANG_OPTIONS = [
       <span style="font-family:var(--font-serif);font-size:1.1rem;font-weight:600;color:var(--ink)">Select Language</span>
       <button onclick="closeLangModal()" style="background:none;border:none;cursor:pointer;color:var(--ink-light);font-size:1.4rem;line-height:1;padding:4px 8px;">✕</button>
     </div>
-    <div id="lang-modal-list" style="overflow-y:auto;max-height:calc(80vh - 60px);padding:8px 0 env(safe-area-inset-bottom,0)"></div>
+    <div id="lang-modal-list" style="overflow-y:auto;max-height:calc(80vh - 60px);padding:8px 0 env(safe-area-inset-bottom,0);overscroll-behavior:none"></div>
   `;
 
   document.body.appendChild(backdrop);
@@ -6681,12 +6681,14 @@ function openLangModal() {
     const isPack   = _LANG_ASSET_PACKS.has(val);
     const state    = (window._audioPackState && window._audioPackState[val]) || (isPack ? 'unknown' : 'available');
     const badge    = isPack
-      ? `<span class="lang-pack-badge" data-lang="${val}" style="font-size:0.68rem;padding:2px 6px;border-radius:4px;border:1px solid var(--border);color:var(--ink-faint);white-space:nowrap;">${state === 'available' ? 'Audio ready' : state === 'missing' ? 'Audio downloading…' : 'Checking…'}</span>`
+      ? `<span class="lang-pack-badge" data-lang="${val}" style="font-size:0.68rem;padding:2px 6px;border-radius:4px;border:1px solid var(--border);color:var(--ink-faint);white-space:nowrap;">${state === 'available' ? 'Audio ready' : state === 'missing' ? 'Downloadable audio' : 'Checking…'}</span>`
       : '';
     // No inline onclick — click is delegated below so we can suppress it
     // when the touch was actually a scroll (mobile WebViews otherwise fire
     // a stray click on whichever row the finger started on).
-    return `<div data-lang="${val}" style="display:flex;align-items:center;gap:14px;padding:13px 20px;cursor:pointer;border-bottom:1px solid var(--border);background:${isActive?'var(--accent-soft)':'transparent'}">
+    // Taller rows (padding 22px) reduce the visual scroll velocity — each
+    // flick advances fewer language entries, so the list feels less loose.
+    return `<div data-lang="${val}" style="display:flex;align-items:center;gap:14px;padding:22px 20px;cursor:pointer;border-bottom:1px solid var(--border);background:${isActive?'var(--accent-soft)':'transparent'}">
       <span style="font-size:1.3rem">${flag}</span>
       <span style="font-family:var(--font-sans);font-size:0.92rem;color:var(--ink);flex:1">${name}</span>
       ${badge}
@@ -6716,6 +6718,14 @@ function openLangModal() {
     const row = e.target.closest('[data-lang]');
     if (row && row.dataset.lang) pickLang(row.dataset.lang);
   };
+  // Dampen mouse-wheel scrolling: emulator wheel deltas are large, which makes
+  // the list feel too loose. Apply ~40% of native delta and stop the browser's
+  // own scroll handling.
+  list.onwheel = (e) => {
+    if (!e.deltaY) return;
+    e.preventDefault();
+    list.scrollTop += e.deltaY * 0.4;
+  };
   document.getElementById('lang-modal-backdrop').style.display = 'block';
   document.getElementById('lang-modal').style.display = 'block';
   setTimeout(() => {
@@ -6729,7 +6739,7 @@ function openLangModal() {
       try {
         const state = await window._probeAudioPack(lang);
         const badge = list.querySelector(`.lang-pack-badge[data-lang="${lang}"]`);
-        if (badge) badge.textContent = state === 'available' ? 'Audio ready' : 'Audio downloading…';
+        if (badge) badge.textContent = state === 'available' ? 'Audio ready' : 'Downloadable audio';
       } catch (_) { /* ignore */ }
     });
   }
