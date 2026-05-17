@@ -4615,6 +4615,70 @@ openChapter = function(num) {
   // Approximate pack size shown on the Download button. Update if you
   // re-encode or add/remove paragraphs.
   const _AUDIO_PACK_SIZE_MB = { fr: 40, hi: 36, th: 38 };
+  // Localized strings for the picker badge + chapter-header download button.
+  // The button shows in the CURRENT language. The picker badge shows in the
+  // language of the row (so the French row's badge is in French, etc.).
+  // English isn't in this table because its badge text is "Audio included"
+  // and it never needs a download button (audio is baked in).
+  // Attached to window so both the chapter-header code (this closure) and
+  // the language-picker code (further down, separate scope) can read it.
+  window._AUDIO_UI_TEXT = {
+    fr: {
+      ready:        "Audio prêt",
+      downloadable: "Audio téléchargeable",
+      checking:     "Vérification…",
+      download:     (mb) => `Télécharger l'audio${mb ? ` (~${mb} Mo)` : ''}`,
+      downloading:  "Téléchargement…",
+      modalTitle:      "Audio français pas encore sur l'appareil",
+      modalBody:       (mb) => `Pour écouter en <strong>français</strong>, téléchargez d'abord le pack audio${mb ? ` — environ <strong>${mb} Mo</strong>` : ''}. Vous n'avez à le faire qu'une seule fois ; le pack reste sur votre appareil jusqu'à ce que vous désinstalliez l'application. Le texte traduit est disponible sans le pack audio.`,
+      listenInEnglish: "Écouter en anglais",
+      downloadNow:     "Télécharger maintenant",
+      readyToast:      "Audio français prêt",
+      downloadFailed:  "Échec — réessayer"
+    },
+    hi: {
+      ready:        "ऑडियो तैयार है",
+      downloadable: "डाउनलोड करने योग्य ऑडियो",
+      checking:     "जाँच की जा रही है…",
+      download:     (mb) => `ऑडियो डाउनलोड करें${mb ? ` (~${mb} MB)` : ''}`,
+      downloading:  "डाउनलोड हो रहा है…",
+      modalTitle:      "हिंदी ऑडियो अभी डिवाइस पर नहीं है",
+      modalBody:       (mb) => `<strong>हिंदी</strong> में सुनने के लिए, पहले ऑडियो पैक डाउनलोड करें${mb ? ` — लगभग <strong>${mb} MB</strong>` : ''}। आपको यह केवल एक बार करना है; पैक तब तक आपके डिवाइस पर रहता है जब तक आप ऐप अनइंस्टॉल नहीं करते। अनुवादित पाठ ऑडियो पैक के बिना भी उपलब्ध है।`,
+      listenInEnglish: "अंग्रेज़ी में सुनें",
+      downloadNow:     "अभी डाउनलोड करें",
+      readyToast:      "हिंदी ऑडियो तैयार है",
+      downloadFailed:  "विफल — पुनः प्रयास करें"
+    },
+    th: {
+      ready:        "เสียงพร้อมแล้ว",
+      downloadable: "เสียงพร้อมดาวน์โหลด",
+      checking:     "กำลังตรวจสอบ…",
+      download:     (mb) => `ดาวน์โหลดเสียง${mb ? ` (~${mb} MB)` : ''}`,
+      downloading:  "กำลังดาวน์โหลด…",
+      modalTitle:      "ยังไม่มีเสียงภาษาไทยบนอุปกรณ์",
+      modalBody:       (mb) => `เพื่อฟังเป็น<strong>ภาษาไทย</strong> โปรดดาวน์โหลดชุดเสียงก่อน${mb ? ` — ประมาณ <strong>${mb} MB</strong>` : ''} คุณต้องทำเพียงครั้งเดียว ชุดจะอยู่ในอุปกรณ์ของคุณจนกว่าคุณจะถอนการติดตั้งแอป ข้อความที่แปลแล้วสามารถใช้ได้โดยไม่ต้องดาวน์โหลดเสียง`,
+      listenInEnglish: "ฟังเป็นภาษาอังกฤษ",
+      downloadNow:     "ดาวน์โหลดเลย",
+      readyToast:      "เสียงภาษาไทยพร้อมแล้ว",
+      downloadFailed:  "ล้มเหลว — ลองอีกครั้ง"
+    }
+  };
+  // English fallback used when a language isn't in _AUDIO_UI_TEXT yet —
+  // protects us if someone adds a 4th audio pack and forgets to add strings.
+  const _AUDIO_UI_FALLBACK = {
+    ready:        'Audio ready',
+    downloadable: 'Downloadable audio',
+    checking:     'Checking…',
+    download:     (mb) => `Download audio${mb ? ` (~${mb} MB)` : ''}`,
+    downloading:  'Downloading…',
+    modalTitle:      'Audio not on device yet',
+    modalBody:       (mb) => `Download the audio pack first${mb ? ` — about <strong>${mb} MB</strong>` : ''}. You only need to do this once; the pack stays on your device until you uninstall the app. Translated text is available without the audio pack.`,
+    listenInEnglish: 'Listen in English',
+    downloadNow:     'Download now',
+    readyToast:      'Audio ready',
+    downloadFailed:  'Download failed — retry'
+  };
+  window._audioUiText = (lang) => (window._AUDIO_UI_TEXT && window._AUDIO_UI_TEXT[lang]) || _AUDIO_UI_FALLBACK;
   const _audioPackState = {}; // lang -> 'available' | 'missing' | 'probing'
   // Prefer the Capacitor AudioPack plugin when running in the native shell;
   // fall back to fetch-based probing in plain browsers / web demos.
@@ -4708,10 +4772,11 @@ openChapter = function(num) {
       btn.style.display = 'none';
       return;
     }
+    const t = window._audioUiText(lang);
     if (_audioPackDownloading === lang) {
       btn.style.display = '';
       btn.disabled = true;
-      lbl.textContent = 'Downloading…';
+      lbl.textContent = t.downloading;
       if (icon) icon.style.display = 'none';
       if (spin) spin.style.display = '';
       return;
@@ -4727,8 +4792,7 @@ openChapter = function(num) {
     if (icon) icon.style.display = '';
     if (spin) spin.style.display = 'none';
     const sizeMb = _AUDIO_PACK_SIZE_MB[lang];
-    const langName = _LANG_DISPLAY[lang] || lang.toUpperCase();
-    lbl.textContent = `Download ${langName} audio${sizeMb ? ` (~${sizeMb} MB)` : ''}`;
+    lbl.textContent = t.download(sizeMb);
   }
   window._updateAudioPackButton = _updateAudioPackButton;
   // Initial render once the DOM is ready.
@@ -4774,8 +4838,8 @@ openChapter = function(num) {
       if (openPicker && openPicker.style.display === 'block' && typeof openLangModal === 'function') {
         try { openLangModal(); } catch (_) {}
       }
-      const langName = _LANG_DISPLAY[lang] || lang.toUpperCase();
-      showToast(`${langName} audio ready — tap Listen.`);
+      const t2 = window._audioUiText(lang);
+      showToast(t2.readyToast);
     } catch (err) {
       console.warn('[audio-pack] download failed:', err);
       _audioPackState[lang] = 'missing';
@@ -4785,7 +4849,8 @@ openChapter = function(num) {
       // Briefly mark the button as having errored out.
       const btn = document.getElementById('btn-audio-pack-dl');
       const lbl = document.getElementById('audio-pack-dl-label');
-      if (lbl) lbl.textContent = 'Download failed — retry';
+      const t2 = window._audioUiText(lang);
+      if (lbl) lbl.textContent = t2.downloadFailed;
       if (btn) {
         btn.style.background = 'rgba(155,58,42,0.08)';
         setTimeout(() => { btn.style.background = ''; _updateAudioPackButton(); }, 3500);
@@ -5628,12 +5693,11 @@ openChapter = function(num) {
       document.body.appendChild(modal);
     }
     const sizeMb = _AUDIO_PACK_SIZE_MB[lang];
-    modal.querySelector('#pack-modal-title').textContent = `${name} audio not on device yet`;
-    modal.querySelector('#pack-modal-body').innerHTML =
-      `To listen in <strong>${name}</strong>, download the audio pack first` +
-      (sizeMb ? ` — about <strong>${sizeMb} MB</strong>.` : '.') +
-      ` You only need to do this once; the pack stays on your device until you uninstall the app.` +
-      ` Translated text is available without the audio pack.`;
+    const t = window._audioUiText(lang);
+    modal.querySelector('#pack-modal-title').textContent = t.modalTitle;
+    modal.querySelector('#pack-modal-body').innerHTML    = t.modalBody(sizeMb);
+    modal.querySelector('#pack-modal-en').textContent    = t.listenInEnglish;
+    modal.querySelector('#pack-modal-dl').textContent    = t.downloadNow;
     backdrop.style.display = 'block';
     modal.style.display    = 'block';
     function done() {
@@ -6680,9 +6744,18 @@ function openLangModal() {
     const isActive = val === cur;
     const isPack   = _LANG_ASSET_PACKS.has(val);
     const state    = (window._audioPackState && window._audioPackState[val]) || (isPack ? 'unknown' : 'available');
-    const badge    = isPack
-      ? `<span class="lang-pack-badge" data-lang="${val}" style="font-size:0.68rem;padding:2px 6px;border-radius:4px;border:1px solid var(--border);color:var(--ink-faint);white-space:nowrap;">${state === 'available' ? 'Audio ready' : state === 'missing' ? 'Downloadable audio' : 'Checking…'}</span>`
-      : '';
+    // English audio is baked into the app (always available). Downloadable
+    // packs show their own state IN THE ROW'S LANGUAGE — so the French row's
+    // badge reads in French, Hindi row in Hindi, etc. Other languages have
+    // no audio at all and show no badge.
+    let badge = '';
+    if (val === 'en') {
+      badge = `<span style="font-size:0.68rem;padding:2px 6px;border-radius:4px;border:1px solid var(--border);color:var(--ink-faint);white-space:nowrap;">Audio included</span>`;
+    } else if (isPack) {
+      const t = window._audioUiText(val);
+      const txt = state === 'available' ? t.ready : state === 'missing' ? t.downloadable : t.checking;
+      badge = `<span class="lang-pack-badge" data-lang="${val}" style="font-size:0.68rem;padding:2px 6px;border-radius:4px;border:1px solid var(--border);color:var(--ink-faint);white-space:nowrap;">${txt}</span>`;
+    }
     // No inline onclick — click is delegated below so we can suppress it
     // when the touch was actually a scroll (mobile WebViews otherwise fire
     // a stray click on whichever row the finger started on).
@@ -6739,7 +6812,10 @@ function openLangModal() {
       try {
         const state = await window._probeAudioPack(lang);
         const badge = list.querySelector(`.lang-pack-badge[data-lang="${lang}"]`);
-        if (badge) badge.textContent = state === 'available' ? 'Audio ready' : 'Downloadable audio';
+        if (badge) {
+          const t = window._audioUiText(lang);
+          badge.textContent = state === 'available' ? t.ready : t.downloadable;
+        }
       } catch (_) { /* ignore */ }
     });
   }
