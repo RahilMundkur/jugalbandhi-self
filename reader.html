@@ -4615,6 +4615,9 @@ openChapter = function(num) {
   // Approximate pack size shown on the Download button. Update if you
   // re-encode or add/remove paragraphs.
   const _AUDIO_PACK_SIZE_MB = { fr: 40, hi: 36, th: 38 };
+  // Expose to the picker scope so badge labels can show the size up front
+  // ("Audio téléchargeable (40 Mo)") before the user commits to downloading.
+  window._AUDIO_PACK_SIZE_MB = _AUDIO_PACK_SIZE_MB;
   // Localized strings for the picker badge + chapter-header download button.
   // The button shows in the CURRENT language. The picker badge shows in the
   // language of the row (so the French row's badge is in French, etc.).
@@ -4625,7 +4628,7 @@ openChapter = function(num) {
   window._AUDIO_UI_TEXT = {
     fr: {
       ready:        "Audio prêt",
-      downloadable: "Audio téléchargeable",
+      downloadable: (mb) => `Audio téléchargeable${mb ? ` (${mb} Mo)` : ''}`,
       checking:     "Vérification…",
       download:     (mb) => `Télécharger l'audio${mb ? ` (~${mb} Mo)` : ''}`,
       downloading:  "Téléchargement…",
@@ -4638,7 +4641,7 @@ openChapter = function(num) {
     },
     hi: {
       ready:        "ऑडियो तैयार है",
-      downloadable: "डाउनलोड करने योग्य ऑडियो",
+      downloadable: (mb) => `डाउनलोड करने योग्य ऑडियो${mb ? ` (${mb} MB)` : ''}`,
       checking:     "जाँच की जा रही है…",
       download:     (mb) => `ऑडियो डाउनलोड करें${mb ? ` (~${mb} MB)` : ''}`,
       downloading:  "डाउनलोड हो रहा है…",
@@ -4651,7 +4654,7 @@ openChapter = function(num) {
     },
     th: {
       ready:        "เสียงพร้อมแล้ว",
-      downloadable: "เสียงพร้อมดาวน์โหลด",
+      downloadable: (mb) => `เสียงพร้อมดาวน์โหลด${mb ? ` (${mb} MB)` : ''}`,
       checking:     "กำลังตรวจสอบ…",
       download:     (mb) => `ดาวน์โหลดเสียง${mb ? ` (~${mb} MB)` : ''}`,
       downloading:  "กำลังดาวน์โหลด…",
@@ -4667,7 +4670,7 @@ openChapter = function(num) {
   // protects us if someone adds a 4th audio pack and forgets to add strings.
   const _AUDIO_UI_FALLBACK = {
     ready:        'Audio ready',
-    downloadable: 'Downloadable audio',
+    downloadable: (mb) => `Downloadable audio${mb ? ` (${mb} MB)` : ''}`,
     checking:     'Checking…',
     download:     (mb) => `Download audio${mb ? ` (~${mb} MB)` : ''}`,
     downloading:  'Downloading…',
@@ -4802,8 +4805,10 @@ openChapter = function(num) {
   // the native asset-pack fetch (Play on Android, ODR on iOS) and updates
   // the UI as the download progresses. In a plain browser this just does
   // a probe and resolves immediately if the file is reachable.
-  window.downloadAudioPack = async function() {
-    const lang = (document.getElementById('langSelect')?.value || 'en');
+  // Optional langArg lets the picker pre-fetch a pack for a different language
+  // than the one the user is currently reading in (used by the badge click).
+  window.downloadAudioPack = async function(langArg) {
+    const lang = langArg || (document.getElementById('langSelect')?.value || 'en');
     if (!_ASSET_PACK_LANGS.has(lang)) return;
     if (_audioPackDownloading) return; // already in flight
     _audioPackDownloading = lang;
@@ -6743,8 +6748,14 @@ function openLangModal() {
       badge = `<span style="font-size:0.68rem;padding:2px 6px;border-radius:4px;border:1px solid var(--border);color:var(--ink-faint);white-space:nowrap;">Audio included</span>`;
     } else if (isPack) {
       const t = window._audioUiText(val);
-      const txt = state === 'available' ? t.ready : state === 'missing' ? t.downloadable : t.checking;
-      badge = `<span class="lang-pack-badge" data-lang="${val}" style="font-size:0.68rem;padding:2px 6px;border-radius:4px;border:1px solid var(--border);color:var(--ink-faint);white-space:nowrap;">${txt}</span>`;
+      const mb = (window._AUDIO_PACK_SIZE_MB || {})[val];
+      const txt = state === 'available' ? t.ready
+                : state === 'missing'   ? t.downloadable(mb)
+                : t.checking;
+      // "Downloadable …" badges are tappable to trigger a pre-fetch (handled
+      // in the click delegation below). "Audio ready" stays inert.
+      const tappable = state === 'missing';
+      badge = `<span class="lang-pack-badge${tappable ? ' lang-pack-badge-tappable' : ''}" data-lang="${val}" data-state="${state}" style="font-size:0.68rem;padding:2px 6px;border-radius:4px;border:1px solid var(--border);color:var(--ink-faint);white-space:nowrap;">${txt}</span>`;
     }
     // No inline onclick — click is delegated below so we can suppress it
     // when the touch was actually a scroll (mobile WebViews otherwise fire
@@ -6778,6 +6789,19 @@ function openLangModal() {
     const dragged = _scrolled;
     _downX = _downY = null; _scrolled = false;
     if (moved || dragged) return;  // swallow — was a scroll, not a tap
+    // Badge click — pre-fetch the audio pack without switching language.
+    // Only "Downloadable …" badges are actionable; "Audio ready" stays inert.
+    const badgeEl = e.target.closest('.lang-pack-badge');
+    if (badgeEl && badgeEl.dataset.lang && badgeEl.dataset.state === 'missing') {
+      const lang = badgeEl.dataset.lang;
+      const t = window._audioUiText(lang);
+      badgeEl.textContent = t.downloading;
+      badgeEl.dataset.state = 'downloading';
+      badgeEl.classList.remove('lang-pack-badge-tappable');
+      try { window.downloadAudioPack && window.downloadAudioPack(lang); } catch (_) {}
+      return;
+    }
+    if (badgeEl) return;  // ready/checking badges — inert, no language switch
     const row = e.target.closest('[data-lang]');
     if (row && row.dataset.lang) pickLang(row.dataset.lang);
   };
@@ -6804,7 +6828,9 @@ function openLangModal() {
         const badge = list.querySelector(`.lang-pack-badge[data-lang="${lang}"]`);
         if (badge) {
           const t = window._audioUiText(lang);
-          badge.textContent = state === 'available' ? t.ready : t.downloadable;
+          const mb = (window._AUDIO_PACK_SIZE_MB || {})[lang];
+          badge.textContent = state === 'available' ? t.ready : t.downloadable(mb);
+          badge.dataset.state = state;
         }
       } catch (_) { /* ignore */ }
     });
