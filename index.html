@@ -2348,6 +2348,7 @@ let _asDelayTimer = null;
 let _asSpeed = 2;          // pixels per frame-tick (1–5 scale)
 let _asRunning = false;
 let _asStoppedAt = 0;      // timestamp when auto-scroll last stopped
+let _asStartedAt = 0;      // timestamp when auto-scroll last started
 let _asCoverActive = false; // true when front cover is showing & auto-scroll allowed
 const _asSpeeds = [0.3, 0.6, 1.0, 1.8, 3.0]; // px/frame at 60fps
 
@@ -2358,9 +2359,9 @@ function _isAutoScrollAllowed() {
 
 function toggleAutoScroll() {
   if (!_isAutoScrollAllowed()) return;
-  if (_prefersReducedMotion()) return; // respect OS reduced-motion preference
   if (_asRunning) { pauseAutoScroll(); return; }
   _asRunning = true;
+  _asStartedAt = Date.now();
   document.getElementById('autoscroll-btn').classList.add('playing');
   document.getElementById('autoscroll-bar').classList.add('visible');
   document.getElementById('as-pause-btn').innerHTML = '&#10074;&#10074;';
@@ -2404,7 +2405,11 @@ function _hideAutoScrollUI() {
 
 // Pause auto-scroll on manual user interaction
 window.addEventListener('wheel', () => { if (_asRunning) pauseAutoScroll(); }, { passive: true });
-window.addEventListener('touchstart', () => { if (_asRunning) pauseAutoScroll(); }, { passive: true });
+window.addEventListener('touchstart', () => {
+  // Only interrupt auto-scroll after it has been running for at least 500ms
+  // (prevents the 5-second delay timer being cancelled by incidental touches)
+  if (_asRunning && (Date.now() - _asStartedAt > 500)) pauseAutoScroll();
+}, { passive: true });
 
 
 const TABLET_BREAKPOINT = 1199;
@@ -5460,6 +5465,14 @@ openChapter = function(num) {
     return _audioCtx;
   }
 
+  async function _getAudioCtxAsync() {
+    const ctx = _getAudioCtx();
+    if (ctx.state === 'suspended') {
+      try { await ctx.resume(); } catch(e) {}
+    }
+    return ctx;
+  }
+
   // ── Speak one paragraph (ElevenLabs) ──────────────────────────────────────
   // ── IndexedDB audio cache helpers ─────────────────────────────────────────
   function _elOpenDb() {
@@ -5603,7 +5616,7 @@ openChapter = function(num) {
   }
 
   function _playElBuffer(arrayBuf, idx) {
-    const ctx = _getAudioCtx();
+    _getAudioCtxAsync().then(ctx => {
     ctx.decodeAudioData(arrayBuf.slice(0), (decoded) => {
       if (!_ttsActive) return;
       const source = ctx.createBufferSource();
@@ -5617,6 +5630,8 @@ openChapter = function(num) {
       };
       source.start(0);
       _currentSource = source;
+      // Re-highlight at the moment audio actually starts (decode can take time on Android)
+      _highlightPara(idx);
       // First audible audio of this Listen session — closes the timer
       // started in toggleTTS / ttsStartFrom.
       if (idx === 0 && window.jbMark) window.jbMark('tts-first-audio', 'end');
@@ -5624,6 +5639,7 @@ openChapter = function(num) {
       _err('[ElevenLabs] decode error:', err);
       if (_ttsActive) { _ttsIdx = idx + 1; _speakElevenLabs(_ttsIdx); }
     });
+    }); // end _getAudioCtxAsync().then()
   }
 
   // ── Shared helpers ─────────────────────────────────────────────────────────
@@ -5727,8 +5743,11 @@ openChapter = function(num) {
   window._showAudioPackMissingModal = _showAudioPackMissingModal;
 
   // ── Public: toggle Listen/Stop ─────────────────────────────────────────────
+  let _ttsStarting = false; // guard against rapid double-tap
   window.toggleTTS = async function() {
     if (_ttsActive) { _ttsStop(); return; }
+    if (_ttsStarting) return;
+    _ttsStarting = true;
     if (window.jbMark) window.jbMark('tts-first-audio', 'start');
     _ttsParas = _getParas();
     if (!_ttsParas.length) { showToast('Nothing to read.'); return; }
@@ -5738,18 +5757,21 @@ openChapter = function(num) {
     // warn the user up front rather than after queuing units.
     if (_ASSET_PACK_LANGS.has(_curLang)) {
       const state = await _probeAudioPack(_curLang);
-      if (state !== 'available') { _showAudioPackMissingModal(_curLang); return; }
+      if (state !== 'available') { _ttsStarting = false; _showAudioPackMissingModal(_curLang); return; }
     }
     if (!_hasLocal) {
       if (!_useElevenLabs) {
+        _ttsStarting = false;
         showToast('Enable ElevenLabs and enter your API key first.');
         return;
       }
       if (!_elKey) {
+        _ttsStarting = false;
         showToast('Paste your ElevenLabs API key in the Key field first.');
         return;
       }
     }
+    _ttsStarting = false;
     _ttsActive = true;
     _ttsIdx    = 0;
     const btn  = document.getElementById('btn-tts');
