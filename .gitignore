@@ -27,6 +27,9 @@ jugalbandhi-android/
 *.jks
 **/key.properties
 
+# Firebase config — identifies your Firebase project, keep it out of git
+**/google-services.json
+
 # Work-in-progress audio
 audio/th/
 
