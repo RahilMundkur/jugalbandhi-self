@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -7,12 +7,26 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <!-- The reader WebView has its own carefully-tuned light/dark theme
+             (see reader.html's :root / body.dark CSS vars). Without this,
+             Android's WebView "force dark" algorithmic color-inversion can
+             kick in on top of that when the system is in dark mode (this
+             theme's DayNight-derived variant follows system dark mode),
+             producing muddy/low-contrast text that doesn't match any of the
+             page's actual declared colors. android:forceDarkAllowed="false"
+             plus the page's own <meta name="color-scheme"> (see reader.html)
+             makes the page's real colors authoritative on all API levels. -->
+        <item name="android:forceDarkAllowed" tools:targetApi="29">false</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:background">@null</item>
+        <!-- See AppTheme's forceDarkAllowed comment above — this is the
+             theme actually applied at runtime (MainActivity switches to it
+             after the splash theme), so this is the one that matters. -->
+        <item name="android:forceDarkAllowed" tools:targetApi="29">false</item>
     </style>
 
 

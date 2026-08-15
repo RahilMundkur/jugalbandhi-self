@@ -3,7 +3,7 @@
  * and iOS (On-Demand Resources). Returns a "browser" status when running
  * outside a Capacitor native shell so the existing fetch fallback runs.
  */
-export type PackLang = 'fr' | 'hi' | 'th';
+export type PackLang = 'en' | 'fr' | 'hi' | 'th' | 'es' | 'zh' | 'zh-tw';
 export type PackStatus =
   | 'available'        // pack is on device, files reachable
   | 'downloading'      // platform is fetching the pack now

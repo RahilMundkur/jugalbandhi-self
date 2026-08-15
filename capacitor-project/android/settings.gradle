@@ -4,9 +4,13 @@ project(':capacitor-cordova-android-plugins').projectDir = new File('./capacitor
 
 // Play Asset Delivery pack modules. Sources live under audio-packs-android/
 // in the parent capacitor-project/ folder.
-include ':audio_fr', ':audio_hi', ':audio_th'
+include ':audio_en', ':audio_fr', ':audio_hi', ':audio_th', ':audio_es', ':audio_zh', ':audio_zh_tw'
+project(':audio_en').projectDir = new File('../audio-packs-android/audio_en')
 project(':audio_fr').projectDir = new File('../audio-packs-android/audio_fr')
 project(':audio_hi').projectDir = new File('../audio-packs-android/audio_hi')
 project(':audio_th').projectDir = new File('../audio-packs-android/audio_th')
+project(':audio_es').projectDir = new File('../audio-packs-android/audio_es')
+project(':audio_zh').projectDir = new File('../audio-packs-android/audio_zh')
+project(':audio_zh_tw').projectDir = new File('../audio-packs-android/audio_zh_tw')
 
 apply from: 'capacitor.settings.gradle'

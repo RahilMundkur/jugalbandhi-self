@@ -1,0 +1,36 @@
+{
+  "name": "crash-report-bridge",
+  "version": "1.0.0",
+  "description": "Capacitor plugin exposing Firebase Crashlytics (crash/error logging) to the WebView. No-ops safely if google-services.json / GoogleService-Info.plist hasn't been added yet.",
+  "main": "dist/plugin.cjs.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w"
+  },
+  "files": [
+    "dist/",
+    "android/",
+    "ios/",
+    "CrashReportBridge.podspec"
+  ],
+  "keywords": ["capacitor", "plugin", "crashlytics", "crash-reporting"],
+  "author": "Rahil Mundkur",
+  "license": "UNLICENSED",
+  "peerDependencies": {
+    "@capacitor/core": "^6.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/core": "^6.1.0",
+    "typescript": "^5.4.0"
+  },
+  "capacitor": {
+    "ios": {
+      "src": "ios"
+    },
+    "android": {
+      "src": "android"
+    }
+  }
+}

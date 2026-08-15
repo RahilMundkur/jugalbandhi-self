@@ -1,5 +1,6 @@
 import UIKit
 import Capacitor
+import FirebaseCore
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -7,6 +8,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // Mirrors the conditional `apply plugin: 'com.google.gms.google-services'`
+        // block in Android's app/build.gradle: only configure Firebase if
+        // GoogleService-Info.plist has actually been added to the app
+        // target. Calling FirebaseApp.configure() with no plist present
+        // throws a fatal error and crashes on launch, so this check has to
+        // happen before the call rather than relying on try/catch — unlike
+        // Android, this isn't a recoverable exception on iOS.
+        // CrashReportPlugin.swift's own Firebase calls all check
+        // FirebaseApp.app() != nil independently, so this is the only place
+        // that needs to guard the configure() call itself.
+        if Bundle.main.path(forResource: "GoogleService-Info", ofType: "plist") != nil {
+            FirebaseApp.configure()
+        }
         // Override point for customization after application launch.
         return true
     }

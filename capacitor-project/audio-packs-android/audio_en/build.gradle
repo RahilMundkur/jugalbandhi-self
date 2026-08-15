@@ -1,0 +1,18 @@
+// Play Asset Delivery pack: English audio
+// Files go in src/main/assets/audio/en/  (matches the path the WebView fetches)
+plugins {
+    id 'com.android.asset-pack'
+}
+
+assetPack {
+    packName = "audio_en"
+    dynamicDelivery {
+        // 'on-demand' = pack is NOT downloaded automatically. The user must
+        // explicitly trigger it (the in-app "Download English audio" button
+        // calls AudioPack.requestPack which invokes assetPackManager.fetch).
+        // English used to be baked into the base APK; moved on-demand to
+        // shrink the base install size (matches fr/hi/th's existing pattern).
+        deliveryType = "on-demand"
+        instantDeliveryType = "on-demand"
+    }
+}

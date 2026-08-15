@@ -1,8 +1,25 @@
 // Jugalbandhi Self — Service Worker
 // Strategy: precache core shell, lazy-cache audio on first play
 const CACHE_VERSION = 'jb-v1';
-const CORE_CACHE   = 'jb-core-v3';
-const AUDIO_CACHE  = 'jb-audio-v1';
+// Bump this string (jb-core-vN) whenever reader.html/index.html/fonts change.
+// Browsers only detect a service worker update by byte-diffing sw.js itself
+// — editing reader.html/index.html alone doesn't trigger that check, so the
+// old service worker keeps running with its existing (stale) cache contents
+// indefinitely, no matter how many times the app itself gets rebuilt and
+// reinstalled. Bumping this string changes sw.js's own bytes, which forces
+// the browser to register a new worker, re-run install() against the
+// current CORE_ASSETS, and (via the activate handler below) delete the old
+// cache entirely instead of leaving stale entries mixed in with fresh ones.
+const CORE_CACHE   = 'jb-core-v28';
+// Bump this whenever an already-shipped audio file's CONTENT changes at the
+// same filename/URL (e.g. re-splicing a paragraph's clip) — the fetch
+// handler below is cache-first for audio, so a web/PWA user who already
+// played a paragraph once has it cached indefinitely and would otherwise
+// keep hearing the old bytes forever at that same URL. Bumping this string
+// changes sw.js's own bytes (forcing the SW update), and the activate
+// handler deletes any cache not matching the current AUDIO_CACHE name,
+// clearing stale audio so it's re-fetched fresh.
+const AUDIO_CACHE  = 'jb-audio-v3';
 
 // Core files precached on install
 const CORE_ASSETS = [

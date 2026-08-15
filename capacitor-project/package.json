@@ -11,24 +11,32 @@
     "run:ios": "cap run ios",
     "live:android": "cap run android --live-reload",
     "live:ios": "cap run ios --live-reload",
-    "copy-www": "rm -rf www && mkdir -p www/audio && cp ../index.html www/ && cp ../manifest.json www/ && cp ../sw.js www/ && cp -r ../icons www/ && cp -r ../Cormorant_Garamond,Inter,Noto_Serif www/ && cp -r ../audio/en www/audio/"
+    "copy-www": "rm -rf www && mkdir -p www && cp ../index.html www/ && cp ../manifest.json www/ && cp ../sw.js www/ && cp -r ../icons www/ && cp -r ../Cormorant_Garamond,Inter,Noto_Serif www/",
+    "verify": "node ../verify.js"
   },
-  "keywords": ["reading", "ebook", "tts"],
+  "keywords": [
+    "reading",
+    "ebook",
+    "tts"
+  ],
   "author": "Rahil Mundkur",
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@capacitor/android": "^6.1.0",
-    "@capacitor/app": "^6.0.1",
-    "@capacitor/core": "^6.1.0",
-    "@capacitor/ios": "^6.1.0",
-    "@capacitor/preferences": "^6.0.2",
-    "@capacitor/share": "^6.0.2",
-    "@capacitor/splash-screen": "^6.0.2",
-    "audio-pack-bridge": "file:./audio-pack-bridge"
+    "@capacitor/android": "^8.0.0",
+    "@capacitor/app": "^8.0.0",
+    "@capacitor/core": "^8.0.0",
+    "@capacitor/filesystem": "^8.0.0",
+    "@capacitor/ios": "^8.0.0",
+    "@capacitor/preferences": "^8.0.0",
+    "@capacitor/screen-orientation": "^8.0.0",
+    "@capacitor/share": "^8.0.0",
+    "@capacitor/splash-screen": "^8.0.0",
+    "audio-pack-bridge": "file:./audio-pack-bridge",
+    "crash-report-bridge": "file:./crash-report-bridge"
   },
   "devDependencies": {
-    "@capacitor/cli": "^6.1.0",
+    "@capacitor/cli": "^8.0.0",
     "typescript": "^5.4.0"
   }
 }

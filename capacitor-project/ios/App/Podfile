@@ -1,6 +1,14 @@
 require_relative '../../node_modules/@capacitor/ios/scripts/pods_helpers'
 
-platform :ios, '13.0'
+# Bumped from 13.0: recent Xcode versions (this project last failed to sync
+# on Xcode 26) keep raising the minimum deployment target their bundled
+# Simulator SDKs will actually build/run, and 13.0 fell below that floor —
+# CocoaPods/xcodebuild would error out during `pod install`/`cap sync ios`
+# rather than produce a working build. 15.0 matches the App target's own
+# IPHONEOS_DEPLOYMENT_TARGET in project.pbxproj (bumped alongside this).
+# Unverified: no Xcode/macOS environment was available to actually run
+# `pod install` and confirm this clears the error — see capacitor.config.ts.
+platform :ios, '15.0'
 use_frameworks!
 
 # workaround to avoid Xcode caching of Pods that requires
@@ -12,10 +20,16 @@ def capacitor_pods
   pod 'Capacitor', :path => '../../node_modules/@capacitor/ios'
   pod 'CapacitorCordova', :path => '../../node_modules/@capacitor/ios'
   pod 'CapacitorApp', :path => '../../node_modules/@capacitor/app'
+  pod 'CapacitorFilesystem', :path => '../../node_modules/@capacitor/filesystem'
   pod 'CapacitorPreferences', :path => '../../node_modules/@capacitor/preferences'
+  pod 'CapacitorScreenOrientation', :path => '../../node_modules/@capacitor/screen-orientation'
   pod 'CapacitorShare', :path => '../../node_modules/@capacitor/share'
   pod 'CapacitorSplashScreen', :path => '../../node_modules/@capacitor/splash-screen'
   pod 'AudioPackBridge', :path => '../../audio-pack-bridge'
+  # Firebase Crashlytics + Analytics bridge, mirroring Android's
+  # crash-report-bridge. Safe to keep even before GoogleService-Info.plist
+  # exists — see CrashReportPlugin.swift, which no-ops until then.
+  pod 'CrashReportBridge', :path => '../../crash-report-bridge'
 end
 
 target 'App' do

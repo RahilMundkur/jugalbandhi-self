@@ -10,12 +10,13 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace "com.rahilmundkur.jugalbandhiself"
-    compileSdk rootProject.ext.compileSdkVersion
-    // Play Asset Delivery: three on-demand packs for the FR/HI/TH audio.
+    namespace = "com.rahilmundkur.jugalbandhiself"
+    compileSdk = rootProject.ext.compileSdkVersion
+    // Play Asset Delivery: four on-demand packs for the EN/FR/HI/TH audio.
     // Each pack is its own Gradle module declared in settings.gradle and
-    // lives under audio-packs-android/.
-    assetPacks = [':audio_fr', ':audio_hi', ':audio_th']
+    // lives under audio-packs-android/. English moved on-demand (was baked
+    // into the base APK) to shrink the base install size.
+    assetPacks = [':audio_en', ':audio_fr', ':audio_hi', ':audio_th', ':audio_es', ':audio_zh', ':audio_zh_tw']
     defaultConfig {
         applicationId "com.rahilmundkur.jugalbandhiself"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -23,14 +24,783 @@ android {
         // Bubblewrap shipped at versionCode 11 / versionName "3".
         // First Capacitor build was 12 / "3.1" but Play reserved that
         // versionCode on a draft upload, so used 13.
-        // 14 = same 3.1 release, rebuilt with the new yin-yang app icon.
-        versionCode 14
-        versionName "3.1"
+        // 14 = same 3.1 release, rebuilt with the first yin-yang app icon.
+        // 15 = same 3.1 release, rebuilt with the clean text-free yin-yang icon.
+        // 16 = same 3.1 release, rebuilt with the Ch.1/10/21/24 audio-splice
+        // fixes, per-paragraph play button rework (tap-to-reveal, two
+        // independent buttons, hidden on non-audio languages), and the
+        // prev/next chapter nav label redesign ("Chapter N: Title").
+        // 17 = rebuild of 16 to pick up changes that were reportedly missing
+        // from the v16 internal-testing install.
+        // 18 = all audio re-encoded to 64kbps mono (was 128kbps for en/fr/hi
+        // and the 8 chapter-1/10/21/24 splice files in th; th's other 278
+        // native files stay at their original 32kbps). Cuts base download
+        // roughly in half and shrinks the fr/hi on-demand packs similarly.
+        // 19 = same build as 18; version code 18 was already reserved by
+        // Play (an earlier upload attempt, even though not the live release).
+        // 20 = replaced the indeterminate audio-pack download spinner with a
+        // real Play Store-style progress ring, driven by actual
+        // bytesDownloaded/bytesTotal from the native AudioPack Kotlin plugin
+        // (new 'packProgress' event).
+        // 21 = same build as 20, plus the slow-flashing "Downloading…" label
+        // added right after (no functional/native change, web assets only).
+        // 22 = enlarged the download progress ring (~30px) and added the
+        // actual percentage number centered inside it (web assets only).
+        // 23 = moved English audio to an on-demand Play Asset Delivery pack
+        // (was baked into the base APK). New :audio_en Gradle module added
+        // to assetPacks; base install size drops by the ~66MB English audio.
+        // 24 = added an in-app backup/restore feature (Export backup /
+        // Import backup, sidebar). Exports reading progress, highlights,
+        // and settings to a JSON file via the new @capacitor/filesystem +
+        // existing @capacitor/share; import re-reads that JSON via a file
+        // picker. No manifest change needed — FileProvider/cache-path was
+        // already configured.
+        // 25 = accessibility pass (web assets only, no native change):
+        // aria-label on icon-only/ambiguous buttons (autoscroll, focus-exit,
+        // random-chapter, close ✕ buttons), role="dialog"/aria-modal/
+        // aria-labelledby on the note/audio-pack/language modals, the
+        // search panel, and the completion overlay; aria-pressed kept in
+        // sync on the auto-scroll and side-by-side toggle buttons; the
+        // completion "Close" control changed from a bare clickable <div>
+        // to a real, keyboard-reachable <button>.
+        // 26 = Crashlytics/Analytics scaffolding. New :crash-report-bridge
+        // Gradle module + CrashReportPlugin.kt exposes logMessage/
+        // recordError to the WebView; _warn()/_err() and a global
+        // window.onerror/unhandledrejection handler now feed it. Entirely
+        // inert (safe no-op) until google-services.json is dropped into
+        // android/app/ from a real Firebase project — see the conditional
+        // apply-plugin block above and CrashReportPlugin.kt's try/catch
+        // guards. Not testable in this environment; needs a real device/
+        // Play Console build with that file present to confirm crashes
+        // actually show up in the Firebase console.
+        // 27 = Export backup no longer includes the ElevenLabs/DeepL API
+        // keys in plaintext (web assets only) — the backup file is meant
+        // to be shareable without leaking credentials. Also updated
+        // privacy-policy.html to disclose Crashlytics/Analytics data
+        // collection (not part of the app bundle, hosted separately).
+        // 28 = added a "Crash reports: On/Off" sidebar toggle so readers can
+        // opt out of Crashlytics/Analytics at runtime (web assets only).
+        // Calls CrashReportPlugin.setEnabled(), which was scaffolded in v26
+        // but unused until now; also applied once on every launch so the
+        // reader's last choice is restored.
+        // 29 = the crash-reporting toggle now also disables Firebase
+        // Analytics collection (CrashReportPlugin.setEnabled() calls
+        // FirebaseAnalytics.setAnalyticsCollectionEnabled() alongside
+        // Crashlytics'), not just crash/diagnostic reporting. Needed so
+        // "App interactions" and "Device or other IDs" are genuinely
+        // optional too, for an accurate Play Console Data Safety
+        // declaration. Renamed the sidebar toggle to "Crash & usage
+        // reports" to reflect the wider scope.
+        // 30 = replaced the app icon (new yin-yang portrait artwork). Regenerated
+        // all Android launcher assets from the new source: legacy square icons
+        // (mipmap-*/ic_launcher.png), circular-masked icons (ic_launcher_round.png),
+        // and the adaptive-icon foreground layer (ic_launcher_foreground.png) at
+        // every density (mdpi through xxxhdpi), plus refreshed the adaptive-icon
+        // background color (values/ic_launcher_background.xml) to match the new
+        // artwork's edge tone. Also updated the iOS AppIcon
+        // (ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png) and
+        // the reference master copies in resources/ used for manual Play Store
+        // listing uploads.
+        // 31 = fixed Listen/Pause getting permanently wedged after any uncaught
+        // error inside _getParas() (toggleTTS() and ttsStartFrom()) — since that
+        // error used to fire after _ttsStarting was set true but before it was
+        // ever reset, every later tap of the Listen/Pause button silently did
+        // nothing until the page reloaded, in every view mode (reported as
+        // "Pause not working in side-by-side," found via chrome://inspect: an
+        // uncaught ReferenceError from an older build of _detectSpeaker). Both
+        // functions now wrap their _getParas() call in try/catch so the guard
+        // always releases and the reader gets a toast instead of a dead button.
+        // 32 = finished the long-press paragraph action sheet (web assets only).
+        // Its CSS (#action-sheet, #action-sheet-backdrop, .action-sheet-btn) and
+        // JS (openActionSheet/closeActionSheet/actionSheetCopy) already existed,
+        // but the actual HTML markup was never added — every long-press on a
+        // paragraph threw "Cannot read properties of null (reading 'classList')"
+        // in openActionSheet() and did nothing. Added the missing markup (a
+        // bottom sheet with a text preview and a Copy button, matching the
+        // existing dialog/aria-modal pattern used by the other overlays) and a
+        // new localized "copy" UI string (falls back to English like the rest
+        // of the data-ui-key labels for languages that don't have it yet).
+        // 33 = removed the unused "quote card" placeholder strings (card,
+        // quoteCardTitle, download, share) from _EN_UI — no HTML or JS ever
+        // referenced them, per product decision to drop that feature rather
+        // than build it. Also three side-by-side/touch fixes (web assets
+        // only): (1) all .btn elements now set touch-action: manipulation, so
+        // taps register immediately instead of needing a firmer/more
+        // deliberate press (the browser was treating quick taps as a possible
+        // double-tap-zoom gesture and waiting to disambiguate); (2) the header
+        // Search button is now a toggle (toggleSearchPanel()) so it also
+        // closes the search panel, since the panel's own ✕ close button can
+        // end up hard to reach behind the on-screen back-gesture arrow area in
+        // landscape; (3) widened the side-by-side book title's max-width
+        // (140px → 220px) — close enough to "Jugalbandhi Self"'s actual
+        // rendered width that it could clip into an unreadable ellipsis on
+        // some devices. Also hardened verify.js's reader/index parity check to
+        // match the diff's shape instead of a hardcoded line number, which
+        // this changeset's earlier edits had already made stale.
+        // 34 = fixed the cover/back-matter ambient auto-scroll silently
+        // hijacking taps (web assets only). openCover()/openMatter() start a
+        // 3-second countdown before auto-scroll kicks in; the existing
+        // wheel/touchstart guards only paused an ALREADY-RUNNING auto-scroll,
+        // never cancelled that still-pending countdown. So scrolling manually
+        // (e.g. to compose a screenshot), then pausing for a few seconds, let
+        // the timer fire anyway and start auto-scroll from wherever the
+        // reader had scrolled to — the page kept sliding on its own, so the
+        // next tap could land on whatever had scrolled into that spot instead
+        // of the intended button (reported as "the buttons stopped working").
+        // Added wheel/touchmove listeners that cancel the pending timer on
+        // any genuine user scroll, same reasoning as the TTS module's
+        // existing manual-scroll guard elsewhere in this file.
+        // 35 = v34's fix wasn't the whole story — it only cancels the pending
+        // auto-scroll countdown when a genuine touch/scroll happens ON THE
+        // PHONE. Taking a screenshot via `adb exec-out screencap` from a Mac
+        // terminal touches nothing on the device at all, so a normal
+        // switch-to-Terminal-and-back pause could still cross the old 3s
+        // threshold and trigger it. Raised the idle delay before ambient
+        // auto-scroll starts from 3s to 8s (new _AS_IDLE_DELAY_MS constant,
+        // replacing 4 duplicated hardcoded "3000"s) so a quick glance away —
+        // to a screenshot tool, a message, anything — has real headroom,
+        // while still kicking in for genuinely idle browsing.
+        // 36 = reverted v35's 8s delay back to 3s (_AS_IDLE_DELAY_MS = 3000)
+        // per explicit product decision: a longer timeout was the wrong fix.
+        // Instead, added a permanent-until-explicit-tap lock (_asUserPaused):
+        // any genuine manual scroll — wheel/touchmove, at any point, whether
+        // during the initial idle countdown, a restart-from-top countdown, or
+        // while auto-scroll is actively running — now sets _asUserPaused and
+        // cancels any pending timer outright. While that flag is set, every
+        // timer-driven auto-start call site (openCover(), openMatter(), the
+        // initial hash-routing handler, and the restart-from-top branch in
+        // toggleAutoScroll()) bails out instead of starting. The flag is only
+        // cleared by an explicit tap on the auto-scroll button itself
+        // (toggleAutoScroll()'s top-level reset), or by a fresh page visit to
+        // a new eligible page. This makes the exact idle delay length a
+        // non-issue — a reader who scrolls to compose a screenshot, then
+        // steps away for any length of time, will never have auto-scroll
+        // silently kick back in on its own.
+        // 37 = fixed broken/incomplete letter shapes in the header title
+        // ("Jugalbandhi Self", weight 600) and header buttons (weight 500,
+        // e.g. the French "Télécharger l'audio" download label) reported on
+        // a real device (web assets only, no native change). Body text
+        // (weight 400) looked fine — only non-regular weights were
+        // affected, which matches a known class of bug where some Android
+        // WebView/Skia builds mis-render *interpolated* instances of a
+        // variable font (any weight the font doesn't ship literal outlines
+        // for) while the base/default instance renders correctly. Added
+        // static (non-variable) instances at exactly weight 500
+        // (Inter_18pt-Medium.ttf) and weight 600 (CormorantGaramond-
+        // SemiBold.ttf) as higher-priority @font-face matches for those two
+        // weights specifically — both font families already ship these
+        // pre-built static files alongside their variable fonts, so no new
+        // font was sourced. Purely additive: the variable fonts are still
+        // used for every other weight, so this can't regress anything that
+        // already looked correct. UNVERIFIED on-device — root-caused from
+        // the CSS/font setup and the specific weight-400-OK/weight-500+600-
+        // broken pattern the user reported, not yet confirmed against a
+        // rebuilt install.
+        // 38 = paragraph highlight menu (#annot-toolbar) rework, web assets
+        // only. (1) Whichever color dot (yellow/green/pink) matches a
+        // paragraph's currently-applied highlight now shows a small ✕
+        // overlay (.hl-dot.active, new _updateAnnotToolbarDots()) so the
+        // reader can see at a glance which color is on and that tapping it
+        // again removes it. (2) To make that indicator actually visible and
+        // usable, the menu no longer auto-closes after every color tap —
+        // applyHighlight() only calls hideAnnotToolbar() now for the
+        // explicit ✕ (remove) button; applying or toggling off a color just
+        // re-renders the dots and leaves the menu open. (3) Tapping the same
+        // paragraph again while its menu is open now toggles it closed
+        // (previously it just reopened/repositioned the same menu) — new
+        // _annotOpenParaKey/_annotSuppressReopen pair coordinates this
+        // between the mousedown listener (which fires first and would
+        // otherwise wipe the state this check needs) and the mouseup
+        // listener that actually opens the menu for a plain paragraph tap.
+        // 39 = switching the reading language while Listen is active or
+        // paused now restarts playback from the top of the current chapter
+        // in the new language, instead of picking up mid-chapter (web assets
+        // only). _speakElevenLabs() already re-reads the current language on
+        // every call, so a language switch took effect on the very next
+        // paragraph — but _ttsIdx itself was untouched, so it just continued
+        // wherever it already was, which read as the chapter "resuming"
+        // mid-way through in a language the reader hadn't heard any of yet.
+        // New window._ttsRestartForLangChange(), called from the langSelect
+        // 'change' handler: a no-op if Listen isn't active/paused, otherwise
+        // a hard _ttsStop() (unlike _ttsPause(), which deliberately preserves
+        // _ttsIdx for a plain resume) followed by the same fresh-start
+        // sequence toggleTTS() uses, re-probing the asset pack / ElevenLabs
+        // config for the new language before restarting at paragraph 0.
+        // 40 = fixed header buttons not responding to taps near their top
+        // edge in side-by-side mode (web assets only). Reported as buttons
+        // only registering taps lower down, never near the top. Side-by-side
+        // is always landscape, and its header had only 4px of padding above
+        // the button row — close enough to the physical top of the screen
+        // that taps landing near a button's top edge were likely being
+        // absorbed by the device itself (e.g. a system gesture/status-bar
+        // strip) before the WebView ever saw them, not by anything in this
+        // layout. Grew the empty buffer above the row (not the row's own
+        // height) from 4px to 12px + the real safe-area-inset-top on devices
+        // that report one even in landscape, pushing the actual tap targets
+        // further from that edge. Left/right/bottom unchanged.
+        // 41 = fixed the search panel's ✕ close button being untappable in
+        // side-by-side mode (web assets only). The panel ran flush to the
+        // screen's right edge (right:0), same edge where phones commonly run
+        // their on-screen nav buttons as a vertical strip in landscape —
+        // reported as the close tap landing on a phone nav button instead of
+        // the ✕. Added body.side-by-side #search-panel { right: calc(20px +
+        // var(--safe-right)); } to inset the whole panel (and its ✕ with it)
+        // away from that edge.
+        // 42 = full-text search now searches the currently selected reading
+        // language instead of always searching the English text (web assets
+        // only). Every language's full chapter/paragraph text is already
+        // baked into TRANSLATIONS[lang].chapters — not just UI strings — so
+        // this works fully offline for all 34 languages, falling back to the
+        // English paragraph only where an individual translation happens to
+        // be missing. Search-hit chapter labels and titles are localized
+        // too. Clicking a non-English result now flash-highlights the
+        // translation block (rendered right after its English <p> by
+        // openChapter()'s existing renderStoredTranslations() call) instead
+        // of the English paragraph, since that's the text that actually
+        // matched.
+        // 43 = bumped sw.js's CORE_CACHE ('jb-core-v3' → 'jb-core-v4', see
+        // that file's own comment). This is why the last several versionCode
+        // bumps' web-asset fixes (side-by-side header/search taps,
+        // language-aware search, and everything before) weren't actually
+        // visible on a rebuilt/reinstalled device: browsers only detect a
+        // service worker update by byte-diffing sw.js itself, and none of
+        // those changes touched sw.js, so the old worker kept serving
+        // reader.html/index.html from its existing cache no matter how many
+        // times the APK/AAB was rebuilt. No web-asset changes in this bump —
+        // purely a cache-invalidation fix so the app actually picks up
+        // everything already shipped.
+        // 44 = changing the reading language now resets scroll to the top of
+        // the chapter, matching _ttsRestartForLangChange's existing
+        // restart-from-paragraph-1 behavior for audio (web assets only).
+        // Reported: after a language switch mid-chapter, the new language's
+        // audio correctly started over from paragraph 1, but the visible
+        // text stayed wherever the reader had scrolled to — audio and text
+        // no longer agreeing on where the chapter "started." The langSelect
+        // 'change' handler's window.scrollTo(0, 0) was previously only run
+        // when ambient auto-scroll (_asRunning) was active; made it
+        // unconditional so it also covers plain reading (no Listen session)
+        // and an active/paused Listen session alike. Also bumped sw.js's
+        // CORE_CACHE to 'jb-core-v5' (see that file's own comment, and
+        // versionCode 43's note) since this is another change to
+        // reader.html/index.html.
+        // 45 = fixed the second paragraph (and every one after it) not
+        // scrolling fully into view as Listen read it, following a
+        // language-change restart (web assets only). v44 correctly restarted
+        // audio and text at paragraph 1, but _ttsRestartForLangChange()
+        // never reset _userScrollOverride — a flag that, once set true by
+        // any manual scroll gesture during Listen (_onManualScrollGesture),
+        // makes _startAutoScroll() bail out early for every subsequent
+        // paragraph, since it's meant to mean "the reader took manual
+        // control, stop auto-scrolling until they start a fresh Listen
+        // session." A language-switch restart is exactly that kind of fresh
+        // start (toggleTTS()/ttsStartFrom() already reset it for their own
+        // restarts), so this was just a missed reset, not a new mechanism.
+        // Also bumped sw.js's CORE_CACHE to 'jb-core-v6'.
+        // 46 = root-caused and fixed the "paragraphs not snapping/scrolling
+        // correctly on language change" bug that persisted even after v44/
+        // v45 (web assets only). The actual cause: the langSelect 'change'
+        // handler called window.scrollTo(0, 0) BEFORE renderStoredTranslations
+        // (or clearStoredTranslations), which then does a large DOM rewrite
+        // (removing and recreating every .translation-block). Chromium's
+        // scroll-anchoring feature — which exists to compensate scroll
+        // position for content shifts above the viewport — was reacting to
+        // that rewrite and silently re-adjusting scroll position afterward,
+        // fighting our own reset. That explains the exact symptom reported:
+        // audio correctly restarted at paragraph 0 (confirmed in console
+        // logs) while the visible scroll position stayed near the chapter's
+        // end. Fixed two ways: (1) moved window.scrollTo(0, 0) to run AFTER
+        // the translation re-render/nav-update block instead of before it,
+        // so there's no further layout shift for anchoring to react to; (2)
+        // added `overflow-anchor: none` to the global `html` rule to disable
+        // scroll anchoring outright as defense-in-depth (Chromium/Android
+        // WebView honors this; iOS WKWebView will just ignore it). Also
+        // bumped sw.js's CORE_CACHE to 'jb-core-v7'.
+        // 47 = found and fixed the actual root cause of the language-change
+        // scroll bug — v46's scroll-anchoring fix was real but secondary; the
+        // primary bug was a listener-registration-order issue (web assets
+        // only). There are two separate langSelect 'change' listeners: one
+        // (near the top of the script) restarts Listen via
+        // _ttsRestartForLangChange(), another (registered inside
+        // DOMContentLoaded, further down) rebuilds the translation-block DOM
+        // via renderStoredTranslations()/clearStoredTranslations() and resets
+        // scroll. DOM listeners fire in registration order, and the TTS
+        // restart listener is registered first (at script-parse time, before
+        // DOMContentLoaded fires) — so it was always firing BEFORE the DOM
+        // rebuild, not after as assumed. _ttsRestartForLangChange() calls
+        // _getParas() synchronously to build its paragraph list, which meant
+        // it captured references to the OLD language's paragraph elements —
+        // elements the other listener then immediately tore down and
+        // recreated. Every subsequent highlight/scrollIntoView the restarted
+        // TTS performed was targeting detached nodes no longer in the page,
+        // so nothing visibly moved, regardless of v46's fix. Moved the
+        // _ttsRestartForLangChange() call out of the early listener and into
+        // the DOMContentLoaded one, right after the translation DOM rewrite
+        // completes (and before the final window.scrollTo(0,0)), so
+        // _getParas() always reads the live, current-language elements. Also
+        // bumped sw.js's CORE_CACHE to 'jb-core-v8'.
+        // 48 = Listen audio no longer keeps playing after the app is closed
+        // or switched away from (web assets only). Reported: TTS narration
+        // continued in the background instead of stopping like a reading
+        // app should (unlike a music/podcast player). Two new listeners call
+        // the existing window._ttsPauseIfPlaying() (already used elsewhere
+        // to pause on paragraph tap/text selection) whenever the app is
+        // backgrounded: document 'visibilitychange' (fires in every context
+        // this app runs in — native WebViews and the plain browser/PWA
+        // build alike) as the primary mechanism, plus Capacitor's App
+        // 'pause' event (@capacitor/app was already a dependency, no native
+        // change needed) as a native-only backstop. Pausing rather than a
+        // hard stop preserves the current paragraph so reopening the app
+        // resumes where it left off. Also bumped sw.js's CORE_CACHE to
+        // 'jb-core-v9'.
+        // 49 = no code changes — plain version bump for a fresh build number.
+        // 50 = DIAGNOSTIC BUILD, web assets only, no functional change. v49
+        // was confirmed genuinely installed and tested on-device (dumpsys
+        // showed versionCode=49) and the language-change scroll bug still
+        // reproduced, so the v46 (scroll-anchoring) and v47 (listener-order)
+        // fixes are not the full story. Rather than guess a fourth time,
+        // added console.log('[jbDiag] ...') statements at every decision
+        // point in the language-change → TTS-restart → highlight/scroll
+        // chain: the langSelect 'change' listener's entry/exit and scrollY
+        // at several delays after its scrollTo(0,0), _ttsRestartForLangChange
+        // (entry, bail-out points, whether _getParas()'s paragraph-0 element
+        // is actually connected to the live DOM), _highlightPara (whether it
+        // scrolls or skips, and scrollY before/after), _startAutoScroll
+        // (_userScrollOverride state), and restoreScrollPos (in case it's
+        // firing unexpectedly). Test with Chrome DevTools console attached
+        // (chrome://inspect) and capture the full [jbDiag] log sequence from
+        // a language switch — that will show which link in the chain is
+        // actually failing instead of another guess. Remove all [jbDiag]
+        // logging once the real fix is found. Also bumped sw.js's
+        // CORE_CACHE to 'jb-core-v10'.
+        // 51 = removed all [jbDiag] diagnostic console.log statements added
+        // in v50 (web assets only, no functional change). The language-
+        // change scroll bug was confirmed fixed on-device once a stale
+        // Android System WebView cache was cleared (Settings → Apps →
+        // Android System WebView → Storage → Clear cache, plus a reboot —
+        // a plain app uninstall/reinstall alone did not clear it, which is
+        // why v50's diagnostic logging appeared not to run at all during
+        // testing even though the APK genuinely contained it). This build
+        // is the same v47/v49 fix set (scroll-anchoring reorder +
+        // listener-order fix) with the temporary logging stripped back out
+        // now that the root cause is confirmed resolved. Also bumped
+        // sw.js's CORE_CACHE to 'jb-core-v11'.
+        // 52 = pressing the on-screen keyboard's Search/Enter key in the
+        // full-text search panel now dismisses the keyboard (web assets
+        // only). Reported: after typing a query, the keyboard covered the
+        // results with no way to get rid of it short of closing the whole
+        // search panel. #search-panel-input now blurs itself on both the
+        // keydown Enter case and the native 'search' event some WebViews
+        // fire specifically for type="search" inputs — covers both ways a
+        // mobile keyboard's search action can report itself. Also bumped
+        // sw.js's CORE_CACHE to 'jb-core-v12'.
+        // 53 = swiping down on the search results list now dismisses the
+        // on-screen keyboard, for keyboards/IMEs that don't show a
+        // dedicated Search/dismiss key (v52's fix didn't help there — web
+        // assets only). #search-results gets a touchstart listener that
+        // blurs #search-panel-input the instant a finger touches the list,
+        // mirroring the "dismiss on drag" behavior native app scroll views
+        // get for free. Also bumped sw.js's CORE_CACHE to 'jb-core-v13'.
+        // 54 = added a dedicated "hide keyboard" button in the search
+        // panel's header (web assets only). Reported: in side-by-side mode
+        // the keyboard can take up so much of the screen that v53's
+        // swipe-on-results-list dismiss has little to no visible area left
+        // to touch. A literal swipe gesture on the keyboard itself isn't
+        // something a web page can detect — the on-screen keyboard is a
+        // separate system surface outside the page's touch events entirely
+        // — so instead added a small ⌄ button in the header (which always
+        // stays visible above the keyboard) that blurs the search input
+        // without closing the panel or losing the query/results. Also
+        // bumped sw.js's CORE_CACHE to 'jb-core-v14'.
+        // 55 = reworked the search panel's header controls per feedback
+        // (web assets only). The ✕ close button is gone — closing the
+        // panel now happens only by pressing the header's Search button
+        // again (toggleSearchPanel(), already a toggle). That freed up the
+        // slot next to v54's ⌄ hide-keyboard button, which has been
+        // replaced by a single combined control: a keyboard icon whose
+        // arrow points down (tap to hide the keyboard) or up (tap to bring
+        // it back), kept in sync with the search input's actual focus
+        // state via new focus/blur listeners — so it reflects reality
+        // whether the keyboard was dismissed by this button, the Enter/
+        // search key, or swiping the results list. Also bumped sw.js's
+        // CORE_CACHE to 'jb-core-v15'.
+        // 56 = fixed the v55 keyboard-toggle button not actually working
+        // (web assets only). Root cause: tapping any element other than
+        // the focused input blurs that input automatically, as a side
+        // effect of the tap itself — this happens BEFORE the button's own
+        // 'click' event fires. toggleSearchKeyboard() was checking
+        // document.activeElement at click time, so it always found the
+        // input already blurred (regardless of which state the reader
+        // tapped from) and only ever re-focused it — the "hide" direction
+        // silently never worked. Fixed by calling preventDefault() on the
+        // button's own mousedown/touchstart, which stops that automatic
+        // blur from happening, so focus state at click time still reflects
+        // reality. Also bumped sw.js's CORE_CACHE to 'jb-core-v16'.
+        // 57 = fixed the Search header button looking permanently
+        // "on"/highlighted right after tapping it to close the search
+        // panel (web assets only). Not a state bug — #btn-search never
+        // gets an .active class toggled at all. The cause was
+        // .theme-btn:hover, which mobile WebViews commonly keep applied
+        // after a tap until the next tap lands elsewhere on the page
+        // (touch devices don't have real hover, but many WebViews still
+        // simulate a "stuck" hover state from the tap). Wrapped that hover
+        // rule in @media (hover:hover), which only matches devices with an
+        // actual pointer, so touch taps never trigger it while mouse users
+        // keep the intended hover feedback. Also bumped sw.js's CORE_CACHE
+        // to 'jb-core-v17'.
+        // 58 = the header Search button now shows the same highlighted
+        // .active/aria-pressed state while the search panel is open that
+        // the dark-mode and side-by-side toggle buttons already show for
+        // their own features (web assets only) — makes it visually clear
+        // Search is "on" and that tapping it again closes the panel.
+        // openSearchPanel()/closeSearchPanel() now toggle .active and
+        // aria-pressed on #btn-search alongside opening/closing the panel
+        // itself. Also bumped sw.js's CORE_CACHE to 'jb-core-v18'.
+        // 59 = fixed the search panel's keyboard show/hide button
+        // (#search-panel-kb-toggle) being unresponsive to tapping (web
+        // assets only). Root cause: the v56 fix called preventDefault() on
+        // the button's own touchstart just to stop the tap from blurring
+        // the search input, then still relied on the 'click' event that
+        // follows to actually run the toggle — but canceling touchstart
+        // also suppresses the synthetic mousedown/click a WebView
+        // generates for that same tap, so 'click' sometimes never fired.
+        // Reworked to run the toggle directly inside the mousedown/
+        // touchstart handler itself (removed the onclick attribute from
+        // the markup, which is now unused), so there's no dependency on
+        // 'click' firing at all. Also increased the button's touch-target
+        // padding (4px 6px → 8px 10px) for easier tapping. Also bumped
+        // sw.js's CORE_CACHE to 'jb-core-v19'.
+        // 60 = fixed the keyboard toggle button toggling twice per tap and
+        // undoing itself (web assets only). The v59 fix made the button
+        // listen on both 'touchstart' and 'mousedown' to guarantee it
+        // fired — but on-device this WebView actually dispatches BOTH
+        // events for a single physical tap (the synthetic mousedown that
+        // normally follows touch wasn't suppressed either). So tapping
+        // "hide keyboard" ran the toggle twice: touchstart blurred the
+        // input, then mousedown immediately saw it already blurred and
+        // re-focused it — the keyboard would start to close and then pop
+        // straight back up. Added a _touchHandled flag so a mousedown
+        // arriving right after a touchstart already handled is ignored;
+        // real mouse-only input (no preceding touch) still works. Also
+        // bumped sw.js's CORE_CACHE to 'jb-core-v20'.
+        // 61 = Fixed the Thai translation of Chapter 9, paragraph 1, which
+        // had a sentence ("Were they truly just another form of Me?") left
+        // untranslated and inline in English — likely because the raw
+        // footnote marker fused directly onto the preceding word with no
+        // space ("exist5.") confused DeepL's sentence segmentation and
+        // caused it to skip that one sentence while translating everything
+        // around it. Replaced with a hand-translated Thai sentence
+        // ("พวกเขาเป็นเพียงอีกรูปแบบหนึ่งของฉันจริงหรือ?") in
+        // TRANSLATIONS.th.chapters['9']['0'] (web assets only — the
+        // English source paragraph in BOOK_DATA is untouched). Also
+        // spliced new Google Cloud TTS audio for that one sentence into
+        // th_ch09_p000_narrator.mp3, replacing the ~3.7s where the old
+        // audio spoke the English fragment aloud in the middle of Thai
+        // narration; cut points were chosen at the silence gaps
+        // immediately surrounding that sentence (found via ffmpeg
+        // silencedetect + a character-offset estimate) so the splice
+        // lands in natural pauses rather than mid-word. Updated in all 4
+        // audio locations (repo audio/th, the Android audio_th asset
+        // pack, ios/App/th, and the external Documents working/
+        // generation folder) plus the same 4 splice-file fixes to the
+        // working folder made in v60's session (chapters 1, 10, 21, 24
+        // were previously missing their splice files there). Also bumped
+        // sw.js's CORE_CACHE to 'jb-core-v21'.
+        // 62 = Re-spliced Chapter 9, paragraph 1's Thai narrator audio
+        // (th_ch09_p000_narrator.mp3) with an improved TTS take of the
+        // fixed sentence — the v61 splice used a clip generated with
+        // Gemini 2.5 Flash/Pro TTS that didn't meet quality; this one uses
+        // Gemini 3.1 Flash TTS instead. No text changes (the Thai
+        // translation itself was already correct from v61) — audio only.
+        // Cut points were re-derived from the CURRENT (already-spliced)
+        // file's own silence gaps via ffmpeg silencedetect, not re-derived
+        // from the original pre-v61 English-fragment audio, since that no
+        // longer exists in the shipped file. Updated in all 4 audio
+        // locations (repo audio/th, the Android audio_th asset pack,
+        // ios/App/th, and the external Documents working/generation
+        // folder). Also bumped sw.js's AUDIO_CACHE to 'jb-audio-v2' (new
+        // — previously never bumped this session) since this is a
+        // same-filename content change to an already-shipped audio file;
+        // the audio fetch handler is cache-first, so without this a
+        // web/PWA user who'd already played this paragraph once would
+        // keep hearing the old (v61) clip indefinitely.
+        // 63 = Corrected the Thai wording for "one Self" in Chapter 1,
+        // paragraphs 0 and 1 (TRANSLATIONS.th.chapters['1']) — replaced
+        // "มีตัวตนเพียงคนเดียว" (lit. "there's only one PERSON") with
+        // "มีตัวตนเพียงหนึ่งเดียว" ("there's only ONE/a single [entity]"),
+        // a more accurate rendering for a non-dual-spirituality context
+        // where "คนเดียว" reads as counting people rather than expressing
+        // metaphysical oneness. Applied to both the plain and "...เท่านั้น"
+        // ("...only") variants. Web assets only, no audio change this time
+        // — audio for these two paragraphs still needs regenerating
+        // separately to match. Also bumped sw.js's CORE_CACHE to
+        // 'jb-core-v22'.
+        // 64 = Completed the full-book Thai audio regeneration using Google
+        // Cloud's Gemini 3.1 Flash TTS (started at v61-63): all 32 chapters'
+        // Thai narration re-synthesized end-to-end via generate-thai-tts.js
+        // (new script; ported the app's own live speaker-detection/
+        // segmentation logic from reader.html into tts-units.js so unit
+        // boundaries match exactly what "Listen" already produces).
+        // Fixed two bugs discovered mid-regeneration: Gemini-TTS's real
+        // 4,000-byte input.text limit (not just an output-duration cap as
+        // documented), requiring automatic byte-safe chunking for long
+        // segments; and gcloud access tokens expiring mid-run on the full
+        // book, fixed by refreshing the token before every request instead
+        // of once at start. Multi-chunk segments are now stitched with a
+        // short ffmpeg crossfade at each seam instead of raw concatenation,
+        // smoothing the small loudness/tone shift between independently-
+        // synthesized chunks.
+        //
+        // Also fixed a range of translation gaps found by manual review and
+        // a systematic scan comparing every Thai paragraph against its
+        // English source for exact matches / near-entirely-ASCII content: a
+        // missing sentence in Chapter 4 ("You will recognise that you are
+        // forever transcendent to circumstance"), a dropped reflexive
+        // pronoun in Chapter 11 ("เพื่อตัว" → "เพื่อตัวเอง"), footnote 4
+        // restored in Chapter 5 (previously dropped from the Thai text
+        // entirely), and two fully-untranslated paragraphs (Chapter 24 para
+        // 16 and Chapter 13 para 4, both of which had raw English sitting in
+        // the Thai translation slot). Chapter 24 also got several targeted
+        // wording fixes: "รักตนเอง" → "รักตัวตนเดียว" and untranslated
+        // "Self" → "ตัวตนเดียว" (consistent with the "one Self" terminology
+        // from v63), a corrected "Ultimate Reality is non-dual, One" line
+        // that had previously been mistranslated with an inverted meaning,
+        // and "Unmanifest"/"Shakti"/"Maya" transliterated into Thai
+        // (สิ่งที่ไม่ปรากฏ / ศักติ / มายา) instead of being left in Latin
+        // script.
+        //
+        // Separately, discovered and fixed a bug affecting TTS in every
+        // language, not just Thai: _clean() (in reader.html and its
+        // tts-units.js port) only stripped BRACKETED footnote markers
+        // ("[5]"), not this book's actual bare-digit inline convention
+        // ("exist5."), so footnote numbers were being read aloud by both the
+        // live ElevenLabs TTS and the pre-generated Thai audio. Fixed the
+        // regex to match the same pattern renderTransPara() already uses to
+        // lift these into visual superscripts. Affected audio in 9 chapters
+        // (4, 5, 9, 10, 11, 28, 29, 30, 32), all regenerated.
+        //
+        // Also fixed a live-playback bug: tapping a paragraph that's part
+        // of a merged multi-paragraph speech unit (consecutive same-speaker
+        // dialogue synthesized as one clip) always restarted playback from
+        // the first paragraph of that merged block instead of the tapped
+        // one. ttsStartFrom() now tracks which position within the merged
+        // unit was tapped and seeks into the clip (via elLens' proportional
+        // character-length estimate — the same one _scheduleSubHighlights
+        // already used for moving the highlight) instead of always starting
+        // at position 0; the initial highlight and auto-scroll now also
+        // land on the correct paragraph.
+        //
+        // Bumped sw.js's AUDIO_CACHE to 'jb-audio-v3' (many Thai files
+        // changed content at the same filenames across the fixes above) and
+        // CORE_CACHE to 'jb-core-v23' (the tap-to-play seek fix changes
+        // reader.html/index.html's JS).
+        // 65 = Upgraded Capacitor 6.1.0 → 8.4.2 (via the 6→7 and 7→8 hops,
+        // using `npx cap migrate` for the mechanical parts) to satisfy
+        // Google Play's target API level requirement — apps/updates
+        // published after Aug 31, 2026 must target API 36 (Android 16), and
+        // Capacitor ties its supported target SDK to its own major version,
+        // so staying on Capacitor 6 while just bumping targetSdkVersion was
+        // explicitly unsupported per Capacitor's own docs. No web-asset
+        // changes in this bump — reader.html/index.html/sw.js are untouched.
+        //
+        // variables.gradle: minSdkVersion 22→24, compileSdkVersion/
+        // targetSdkVersion 35→36, and the AndroidX/JUnit/cordova-android
+        // version floors Capacitor 8 requires (androidxActivityVersion
+        // 1.11.0, androidxAppCompatVersion 1.7.1, androidxCoordinatorLayout
+        // Version 1.3.0, androidxCoreVersion 1.17.0, androidxFragmentVersion
+        // 1.8.9, coreSplashScreenVersion 1.2.0, androidxWebkitVersion
+        // 1.14.0, androidxJunitVersion 1.3.0, androidxEspressoCoreVersion
+        // 3.7.0, cordovaAndroidVersion 14.0.1). minSdkVersion 24 means
+        // devices on Android 5.1-6.0 (API 22-23) can no longer install this
+        // update — a real compatibility narrowing, but those versions are a
+        // negligible share of active devices at this point.
+        //
+        // Also bumped: com.google.gms:google-services 4.4.0→4.4.4, the
+        // Gradle wrapper 8.13→8.14.3 (AGP itself was already at 8.13.2,
+        // ahead of Capacitor 8's 8.13.0 minimum, so left as-is), and — in
+        // the two custom native plugins this project ships (audio-pack-
+        // bridge, crash-report-bridge), which aren't managed by `cap
+        // migrate` since they're local `file:` dependencies, not npm
+        // packages — their own embedded buildscript classpaths: AGP 8.2.1
+        // →8.13.2 and kotlin-gradle-plugin 1.9.22→2.2.20 (Capacitor 8's
+        // recommended Kotlin version), to avoid a version mismatch against
+        // the rest of the build. Their Kotlin/Java compile target stayed at
+        // 17 (unchanged) — Android's runtime doesn't require every module
+        // in an app to target the same bytecode version, and Capacitor's
+        // own guidance for this upgrade only calls out kotlin_version, not
+        // per-module jvmTarget, so there was no indication this needed to
+        // move too.
+        //
+        // `cap migrate` added `navigation` (v7) and `density` (v8) to the
+        // app activity's configChanges in AndroidManifest.xml, and updated
+        // deprecated Gradle property syntax in this file (`namespace "x"` →
+        // `namespace = "x"`, `compileSdk rootProject.ext...` → `compileSdk =
+        // rootProject.ext...`, same for aaptOptions' ignoreAssetsPattern).
+        //
+        // UNVERIFIED: could not actually run a Gradle build in this
+        // environment (no Android SDK, and Capacitor 8's own android core
+        // module now requires JDK 21 — this sandbox only has JDK 11). All
+        // of the above was applied and cross-checked against Capacitor's
+        // official 7.0/8.0 upgrade guides, and the local plugins' settings/
+        // build.gradle wiring was confirmed intact after `cap sync`, but
+        // this needs a real `./gradlew` run (with JDK 21+ actually
+        // available) to confirm it compiles clean before this ships.
+        // 66 = No code/content change from 65 — same Capacitor 8/API 36
+        // upgrade. Bumped purely because versionCode 65 had already been
+        // uploaded to the Internal Testing track, and Play Console requires
+        // version codes to be unique across the whole app (all tracks
+        // share one version-code namespace), not just within a single
+        // track. This build is otherwise identical to 65.
+        // 67 = No code/content change from 66 — same reason as the 65->66
+        // bump: versionCode 66 had already been uploaded to a track, and
+        // Play Console rejected this build with "Version code 66 has
+        // already been used" when attempting the Production upload.
+        // 68 = Wired es/zh/zh-tw into the audio-pack download/Listen UI
+        // (index.html/reader.html: _LOCAL_TTS_LANGS, _ASSET_PACK_LANGS,
+        // _LANG_DISPLAY, _AUDIO_PACK_PROBE_FILE, _AUDIO_PACK_SIZE_MB,
+        // _ttsLangs, _LANG_ASSET_PACKS, plus translated _AUDIO_UI_TEXT
+        // strings) — previously only en/fr/hi/th had audio buttons even
+        // though the 3 new asset packs shipped in 65-67. Also fixed a
+        // packNameFor() bug in AudioPackPlugin.kt where the zh-tw pack
+        // name wasn't normalized from hyphen to underscore, which would've
+        // silently broken Traditional Chinese audio downloads. Bumped
+        // purely because versionCode 67 had already been uploaded to a
+        // track (same reason as every bump above).
+        // 69 = (1) Amended the Chapter 4 "Cogito, ergo sum" paragraph to
+        // add the English translation inline. (2) Fixed low-contrast text:
+        // added android:forceDarkAllowed="false" to AppTheme/AppTheme.
+        // NoActionBar in styles.xml, plus a matching <meta name="color-
+        // scheme" content="light dark"> + CSS color-scheme in reader.html/
+        // index.html, so Android WebView's automatic force-dark color
+        // inversion can no longer conflict with the page's own light/dark
+        // theme when the system is in dark mode.
+        // 70 = Added a "Reading settings" accessibility panel (new #btn-a11y
+        // header button → #a11y-panel): (1) raised the font-size cap from
+        // 26px/28px (two different caps in two places, now unified) to
+        // 40px, (2) new independently-adjustable line spacing (--reading-
+        // line-height, changeLineHeight()), applied to #chapter-body, .
+        // translation-block, and the endnote blocks, (3) new high-contrast
+        // theme (body.contrast / body.dark.contrast, toggleContrastMode())
+        // — pure black/white plus darker/lighter gold+blue accents, since
+        // the default --gold fails contrast (~2.5:1) on light backgrounds.
+        // The old always-visible 2-button .font-size-ctrl header control
+        // (hidden on mobile in favor of pinch-zoom) is replaced by this one
+        // consolidated button/panel, which stays visible on mobile since
+        // pinch-zoom can't substitute for line-spacing or contrast mode.
+        // 71 = Translated the Chapter 4 "Cogito, ergo sum" amendment (added in
+        // v69) into all other supported languages in TRANSLATIONS.chapters
+        // ['4']['11'] — 33 of 35 languages needed the addition (Punjabi and
+        // Tamil already had an equivalent "I think, therefore I am" phrase
+        // present and were correctly left untouched). Each language's
+        // version was inserted immediately after its own "Cogito, ergo sum"
+        // reference/transliteration, matching the punctuation pattern used
+        // in the English source (quoted phrase - translated phrase - rest of
+        // sentence). Also cleaned up a garbled Arabic clause in the same
+        // paragraph while correcting it. Web assets only, no native change.
+        // 72 = Corrected Ishwar's Thai first-person pronoun throughout the
+        // book: ผม (formal/masculine "I") for his direct spoken dialogue,
+        // ฉัน for his own narration -- including narrative-attribution
+        // clauses embedded before AND after quoted dialogue within the same
+        // speech unit (e.g. "I retorted", "I lamented", "I proffered as an
+        // excuse"), which the app's internal speaker-tagging groups under
+        // the same 'male' TTS voice category as his direct-address lines.
+        // Found via full-book text scan (not just the flagged low-confidence
+        // set): 5 originally-reported units, 2 more found checking Vidya's
+        // own lines for a stray ผม, 22 more from a systematic pre-quote
+        // narration scan, 13 more from a follow-up post-quote scan (missed
+        // narration trailing after a closing quote mark). Also discovered
+        // and reconciled a pre-existing, unrelated divergence: capacitor-
+        // project/www's Thai chapters had at some earlier point undergone a
+        // blanket, indiscriminate ผม->ฉัน replacement across ~44 paragraphs
+        // in multiple chapters, including inside genuine quoted dialogue
+        // where ผม is correct -- reader.html's carefully rule-verified
+        // version (respecting the dialogue/narration distinction, confirmed
+        // via before/after regression checks against tts-units.js's own
+        // segmentation logic) was taken as authoritative and re-synced onto
+        // www/android/ios. One unrelated pre-existing wording difference in
+        // ch7 (a female-speaker line, unconnected to this pronoun issue) was
+        // deliberately left untouched. Web assets only, no native change.
+        // 73 = Normalized a stray third Thai first-person pronoun,
+        // ข้าพเจ้า (a formal/archaic register), to ฉัน in the 12 places it
+        // appeared in narration or post-quote narrative-attribution context
+        // (ch3, ch8, ch18, ch22, ch27 x3, ch28, ch29 x2, ch30 x2) --
+        // consistency confirmed against the already-correct ฉัน used
+        // elsewhere in each of those same paragraphs. Deliberately left one
+        // occurrence untouched (ch16, within Vidya's own formal teaching
+        // passage that also addresses Ishwar with the elevated ท่าน rather
+        // than her usual คุณ) as a plausibly intentional register choice
+        // outside the scope of Ishwar's own pronoun convention. Also
+        // translated one sentence in ch30 that had been left in English
+        // ("And because it was no longer personal, there was no suffering
+        // arising from personal denial.") -- an unrelated translation gap
+        // found incidentally while reviewing that paragraph. Web assets
+        // only, no native change.
+        // 74 = Full ElevenLabs eleven_v3 TTS migration for fr/hi/zh/zh-tw/es,
+        // with tts-units.js's existing _MOOD_MAP hints now applied as real
+        // v3 audio tags (silent delivery direction, e.g. "[hushed,
+        // epiphanic]") for the first time -- validated via extensive pilot
+        // testing (stability 0.5, not v3's often-recommended 0.3-0.4, to
+        // avoid an intermittent glitch). en runs a mixed setup: male/
+        // narrator (Ishwar, "James England") on v3, but female (Vidya,
+        // "Ruhani") stays on v2 -- her Indian-accented English consistently
+        // flattened out under v3 across four different candidate voices,
+        // confirmed against their own v2 previews, pointing to a systemic
+        // v3 issue with that accent rather than a bad voice pick. Thai
+        // narration separately migrated to Google Gemini 3.1 Flash TTS
+        // (generate-thai-tts.js), routing the same _MOOD_MAP hints into
+        // Gemini's silent style-steering prompt field. Also fixed an
+        // untranslated-English-word bug ("Self"/"Unmanifest"/etc. left in
+        // the source language) found and corrected across 11 translation
+        // languages (zh-tw, es, it, pt, ru, ko, nl, pl, sv, tr, el), plus a
+        // separate Polish Unmanifest/Manifest rendering bug. Android/iOS UX:
+        // (1) added a Capacitor backButton listener so back now returns to
+        // the library/cover view instead of exiting from inside a chapter,
+        // (2) added a left/right edge-exclusion zone to the swipe-chapter
+        // gesture so it stops colliding with the system back gesture,
+        // (3) added a Screen Wake Lock held during TTS playback so the
+        // device's normal screen-off timeout can no longer stall the Web
+        // Audio onended-driven playback queue mid-chapter. Audio assets
+        // regenerated for all 6 ElevenLabs languages + Thai; web assets
+        // (reader.html/index.html/tts-units.js) updated; no native Kotlin/
+        // Swift code changes.
+        // 75 = Five bug fixes, no new features. (1) audio_zh_tw asset pack was
+        // shipping completely empty (manifest only, 0 mp3s) -- traced to its
+        // Gradle module living at audio-packs-android/audio_zh-tw (hyphen),
+        // the only pack directory not matching the audio_{lang} underscore
+        // convention every sibling module uses; renamed to audio_zh_tw and
+        // updated settings.gradle's projectDir, which fixed asset packaging
+        // for that module. (2) Front-cover ambient auto-scroll could get
+        // silently and permanently paused by the language picker: two
+        // separate window-level gesture listeners (wheel/touchmove, and a
+        // second touchstart listener) treated any touch inside the picker
+        // modal as "the reader manually scrolled the book," which pauses
+        // auto-scroll without a way to resume it automatically -- both now
+        // ignore touches originating inside a [role="dialog"] element.
+        // (3) Even with that fixed, once the initial auto-scroll run had
+        // already finished, picking a new language re-rendered the cover's
+        // text but never restarted it, since language switching didn't
+        // touch any auto-scroll state -- pickLang() now calls openCover()
+        // again when already on the cover, which resets scroll position and
+        // re-arms a fresh run for the new language. (4) The "Aa Reading
+        // settings" toolbar button had no English fallback anywhere for its
+        // data-ui-key ("a11ySettings" was missing from both _EN_UI and every
+        // language's TRANSLATIONS.ui), so once translated into another
+        // language it could never be reset back to English -- added the
+        // missing fallback. (5) The URL hash stayed stale at the previous
+        // chapter after returning to the cover via the sidebar's "Front
+        // Cover" link or the hardware back button -- root reader.html/
+        // index.html already called openCoverAndHash() there, but that fix
+        // had never been synced to the ios/android copies, which still
+        // called bare openCover(). All found and verified via live
+        // on-device debugging through chrome://inspect. Web assets only, no
+        // native Kotlin/Swift code changes (aside from the Gradle module
+        // rename, which touches no app code).
+        versionCode 75
+        versionName "3.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
              // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
-            ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
+            ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
     signingConfigs {
@@ -83,7 +853,12 @@ try {
     def servicesJSON = file('google-services.json')
     if (servicesJSON.text) {
         apply plugin: 'com.google.gms.google-services'
+        // Crashlytics + Analytics: add a Firebase project's google-services.json
+        // here to turn these on. Until then the CrashReport plugin's Kotlin
+        // code still compiles fine, it just no-ops at runtime (Firebase's
+        // default app instance never initializes without this file).
+        apply plugin: 'com.google.firebase.crashlytics'
     }
 } catch(Exception e) {
-    logger.info("google-services.json not found, google-services plugin not applied. Push Notifications won't work")
+    logger.info("google-services.json not found, google-services/crashlytics plugins not applied. Push Notifications and crash reporting won't work")
 }

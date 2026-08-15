@@ -16,9 +16,21 @@ import java.io.File
  *
  * Pack naming convention: the asset-pack module names in app/build.gradle's
  * assetPacks list must match what we look up here. We use:
- *     audio_fr   → French
- *     audio_hi   → Hindi
- *     audio_th   → Thai
+ *     audio_fr     → French
+ *     audio_hi     → Hindi
+ *     audio_th     → Thai
+ *     audio_es     → Spanish
+ *     audio_zh     → Chinese (Simplified)
+ *     audio_zh_tw  → Chinese (Traditional)
+ *
+ * Note the underscore vs hyphen mismatch for Traditional Chinese: the JS
+ * lang code is "zh-tw" (hyphen — matches BCP 47 / the on-disk audio file
+ * naming, e.g. zh-tw_ch01_p000_female.mp3), but Gradle asset-pack module
+ * names can't contain hyphens, so that pack is named "audio_zh_tw"
+ * (underscore) in app/build.gradle/settings.gradle. packNameFor() below
+ * normalizes hyphens to underscores for the pack-name lookup only; the
+ * filename half (getFileUri) must keep the raw hyphenated lang so it
+ * matches the actual on-disk mp3 names.
  *
  * Inside each pack the audio files live at the path
  *     assets/audio/{lang}/{lang}_ch{NN}_p{NNN}_{speaker}.mp3
@@ -33,7 +45,7 @@ class AudioPackPlugin : Plugin() {
         AssetPackManagerFactory.getInstance(context.applicationContext)
     }
 
-    private fun packNameFor(lang: String): String = "audio_$lang"
+    private fun packNameFor(lang: String): String = "audio_${lang.replace("-", "_")}"
 
     private fun statusToString(status: Int): String = when (status) {
         AssetPackStatus.COMPLETED   -> "available"
@@ -104,6 +116,22 @@ class AudioPackPlugin : Plugin() {
         call.resolve(ret)
     }
 
+    // Emits a 'packProgress' JS event so the reader UI can drive a real
+    // determinate progress ring (Play Store-style) instead of a generic
+    // spinner. Every event carries 'lang' so the JS side can ignore updates
+    // for a pack it isn't currently showing progress for.
+    private fun emitProgress(lang: String, status: String, bytesDownloaded: Long?, bytesTotal: Long?) {
+        val ret = JSObject()
+        ret.put("lang", lang)
+        ret.put("status", status)
+        if (bytesTotal != null && bytesTotal > 0) {
+            ret.put("bytesDownloaded", bytesDownloaded ?: 0L)
+            ret.put("bytesTotal", bytesTotal)
+            ret.put("progress", (bytesDownloaded ?: 0L).toDouble() / bytesTotal.toDouble())
+        }
+        notifyListeners("packProgress", ret)
+    }
+
     @PluginMethod
     fun requestPack(call: PluginCall) {
         val lang = call.getString("lang") ?: return call.reject("lang required")
@@ -115,13 +143,17 @@ class AudioPackPlugin : Plugin() {
                 when (state.status()) {
                     AssetPackStatus.COMPLETED -> {
                         packManager.unregisterListener(this)
+                        emitProgress(lang, "available", state.bytesDownloaded(), state.totalBytesToDownload())
                         call.resolve()
                     }
                     AssetPackStatus.FAILED -> {
                         packManager.unregisterListener(this)
                         call.reject("Pack download failed (errorCode ${state.errorCode()})")
                     }
-                    else -> { /* ignore intermediate */ }
+                    AssetPackStatus.DOWNLOADING, AssetPackStatus.TRANSFERRING -> {
+                        emitProgress(lang, "downloading", state.bytesDownloaded(), state.totalBytesToDownload())
+                    }
+                    else -> { /* PENDING, WAITING_FOR_WIFI, CANCELED, UNKNOWN — no byte count yet */ }
                 }
             }
         }
