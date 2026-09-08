@@ -1,0 +1,9 @@
+com.jugalbandhi.crashreport.crash-report-bridge-pngs-0 /Users/rahilmundkur/code/jugalbandhi-self/capacitor-project/crash-report-bridge/android/build/generated/res/pngs/release
+com.jugalbandhi.crashreport.crash-report-bridge-resValues-1 /Users/rahilmundkur/code/jugalbandhi-self/capacitor-project/crash-report-bridge/android/build/generated/res/resValues/release
+com.jugalbandhi.crashreport.crash-report-bridge-updated_navigation_xml-2 /Users/rahilmundkur/code/jugalbandhi-self/capacitor-project/crash-report-bridge/android/build/generated/updated_navigation_xml/release
+com.jugalbandhi.crashreport.crash-report-bridge-mergeReleaseResources-3 /Users/rahilmundkur/code/jugalbandhi-self/capacitor-project/crash-report-bridge/android/build/intermediates/incremental/release/mergeReleaseResources/merged.dir
+com.jugalbandhi.crashreport.crash-report-bridge-mergeReleaseResources-4 /Users/rahilmundkur/code/jugalbandhi-self/capacitor-project/crash-report-bridge/android/build/intermediates/incremental/release/mergeReleaseResources/stripped.dir
+com.jugalbandhi.crashreport.crash-report-bridge-release-5 /Users/rahilmundkur/code/jugalbandhi-self/capacitor-project/crash-report-bridge/android/build/intermediates/merged_res/release/mergeReleaseResources
+com.jugalbandhi.crashreport.crash-report-bridge-release-6 /Users/rahilmundkur/code/jugalbandhi-self/capacitor-project/crash-report-bridge/android/build/intermediates/packaged_res/release/packageReleaseResources
+com.jugalbandhi.crashreport.crash-report-bridge-main-7 /Users/rahilmundkur/code/jugalbandhi-self/capacitor-project/crash-report-bridge/android/src/main/res
+com.jugalbandhi.crashreport.crash-report-bridge-release-8 /Users/rahilmundkur/code/jugalbandhi-self/capacitor-project/crash-report-bridge/android/src/release/res

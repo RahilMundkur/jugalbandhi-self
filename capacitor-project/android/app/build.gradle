@@ -794,8 +794,27 @@ android {
         // on-device debugging through chrome://inspect. Web assets only, no
         // native Kotlin/Swift code changes (aside from the Gradle module
         // rename, which touches no app code).
-        versionCode 75
-        versionName "3.2"
+        // 76 = One bug fix, one audio tweak, no new features. (1) Listen
+        // audio could auto-start on a language switch even when it had only
+        // been paused (not actively playing) beforehand --
+        // _ttsRestartForLangChange() previously hard-reset then
+        // unconditionally resumed playback in the new language regardless of
+        // prior state; it now only auto-resumes if playback was actually
+        // running, otherwise it settles back into the paused state at
+        // paragraph 1 of the new language. (2) Chapter 1's two opening Vidya
+        // lines (ch01_p000, ch01_p001) regenerated on eleven_v3 with
+        // mood-hint audio tags for slower, more deliberate pacing, after
+        // confirming Ruhani's Indian accent holds at this length --
+        // production default otherwise keeps English female on v2
+        // book-wide; see tts-units.js _MOOD_MAP and regen-ch1-vidya-v3.js.
+        // Web assets and audio only, no native Kotlin/Swift code changes.
+        // 77 = No functional change from 76 -- same fixes described above.
+        // Play Console rejected versionCode 76 as already used (uploaded
+        // during earlier closed/open testing track experimentation), so
+        // this is purely a re-tag to get a fresh, never-used versionCode
+        // for the production upload.
+        versionCode 77
+        versionName "3.2.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
@@ -816,7 +835,13 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // 'proguard-android.txt' bakes in -dontoptimize and is no longer
+            // accepted by newer AGP (blocks R8 optimizations); the current
+            // AGP/Gradle version wants 'proguard-android-optimize.txt'
+            // instead. minifyEnabled is false here regardless, so neither
+            // file actually does anything to this build yet -- this just
+            // satisfies AGP's validation at configuration time.
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             // Use the release signing config when key.properties is present;
             // otherwise fall through to debug signing so the build doesn't
             // break for contributors who don't have the keystore.
