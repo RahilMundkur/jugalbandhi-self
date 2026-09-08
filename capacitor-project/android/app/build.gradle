@@ -813,8 +813,15 @@ android {
         // during earlier closed/open testing track experimentation), so
         // this is purely a re-tag to get a fresh, never-used versionCode
         // for the production upload.
-        versionCode 77
-        versionName "3.2.1"
+        // 78 (3.3.0) -- minor bump: full close-read translation-quality pass
+        // across all 34 non-English languages (titles, false friends, gender
+        // agreement, formal/informal register consistency), a TTS pipeline
+        // bug fix (en-dash was being read aloud as the word "to"), full
+        // audio regeneration for all 7 language packs against the corrected
+        // text, and text-rendering fixes (endnote superscript, quote
+        // typography). Web assets and audio only, no native code changes.
+        versionCode 78
+        versionName "3.3.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
