@@ -2607,22 +2607,25 @@
 				th_ch01_p000_female.mp3 = (
 					audio_th,
 				);
-				th_ch01_p001_male.mp3 = (
+				th_ch01_p001_female.mp3 = (
 					audio_th,
 				);
 				th_ch01_p002_male.mp3 = (
 					audio_th,
 				);
-				th_ch01_p003_female.mp3 = (
+				th_ch01_p003_male.mp3 = (
 					audio_th,
 				);
-				th_ch01_p004_male.mp3 = (
+				th_ch01_p004_female.mp3 = (
 					audio_th,
 				);
-				th_ch01_p005_female.mp3 = (
+				th_ch01_p005_male.mp3 = (
 					audio_th,
 				);
-				th_ch01_p006_narrator.mp3 = (
+				th_ch01_p006_female.mp3 = (
+					audio_th,
+				);
+				th_ch01_p007_narrator.mp3 = (
 					audio_th,
 				);
 				th_ch02_p000_male.mp3 = (
@@ -2952,25 +2955,28 @@
 				th_ch10_p009_female.mp3 = (
 					audio_th,
 				);
-				th_ch10_p010_male.mp3 = (
+				th_ch10_p010_female.mp3 = (
 					audio_th,
 				);
-				th_ch10_p011_female.mp3 = (
+				th_ch10_p011_male.mp3 = (
 					audio_th,
 				);
-				th_ch10_p012_male.mp3 = (
+				th_ch10_p012_female.mp3 = (
 					audio_th,
 				);
-				th_ch10_p013_female.mp3 = (
+				th_ch10_p013_male.mp3 = (
 					audio_th,
 				);
-				th_ch10_p014_narrator.mp3 = (
+				th_ch10_p014_female.mp3 = (
 					audio_th,
 				);
 				th_ch10_p015_narrator.mp3 = (
 					audio_th,
 				);
 				th_ch10_p016_narrator.mp3 = (
+					audio_th,
+				);
+				th_ch10_p017_narrator.mp3 = (
 					audio_th,
 				);
 				th_ch11_p000_male.mp3 = (
@@ -3102,13 +3108,16 @@
 				th_ch21_p001_female.mp3 = (
 					audio_th,
 				);
-				th_ch21_p002_male.mp3 = (
+				th_ch21_p002_female.mp3 = (
 					audio_th,
 				);
-				th_ch21_p003_female.mp3 = (
+				th_ch21_p003_male.mp3 = (
 					audio_th,
 				);
-				th_ch21_p004_narrator.mp3 = (
+				th_ch21_p004_female.mp3 = (
+					audio_th,
+				);
+				th_ch21_p005_narrator.mp3 = (
 					audio_th,
 				);
 				th_ch22_p000_male.mp3 = (
@@ -3222,22 +3231,25 @@
 				th_ch24_p018_female.mp3 = (
 					audio_th,
 				);
-				th_ch24_p019_male.mp3 = (
+				th_ch24_p019_female.mp3 = (
 					audio_th,
 				);
-				th_ch24_p020_female.mp3 = (
+				th_ch24_p020_male.mp3 = (
 					audio_th,
 				);
-				th_ch24_p021_male.mp3 = (
+				th_ch24_p021_female.mp3 = (
 					audio_th,
 				);
-				th_ch24_p022_female.mp3 = (
+				th_ch24_p022_male.mp3 = (
 					audio_th,
 				);
-				th_ch24_p023_male.mp3 = (
+				th_ch24_p023_female.mp3 = (
 					audio_th,
 				);
-				th_ch24_p024_female.mp3 = (
+				th_ch24_p024_male.mp3 = (
+					audio_th,
+				);
+				th_ch24_p025_female.mp3 = (
 					audio_th,
 				);
 				th_ch25_p000_male.mp3 = (
@@ -3795,6 +3807,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 68;
+				DEVELOPMENT_TEAM = 2D4JDQLJK2;
 				INFOPLIST_FILE = App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3818,6 +3831,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 68;
+				DEVELOPMENT_TEAM = 2D4JDQLJK2;
 				INFOPLIST_FILE = App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
