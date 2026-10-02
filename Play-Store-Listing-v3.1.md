@@ -49,7 +49,9 @@ Pick whichever fits your voice best. I'd recommend the one at the top.
 >
 > · Read the full English text, also translated into 35 languages including Hindi, French, Thai, Sanskrit, Tamil, Telugu, Gujarati, Marathi, Bengali, Malayalam, Punjabi, Nepali, Arabic, Persian, Urdu, Hebrew, Burmese, Vietnamese, Japanese, Chinese (Simplified & Traditional), Korean, Russian, Ukrainian, Greek, Spanish, German, Italian, Portuguese, Dutch, Polish, Swedish, Turkish, Indonesian, and Konkani
 >
-> · Listen to the book with native audio narration in English, French, Hindi, and Thai. English audio ships with the app; the others are optional downloads — choose the languages you want, save device storage on the ones you don't.
+> · Listen to the book with native audio narration in English, Spanish, French, Hindi, Thai, and Chinese (Simplified & Traditional). All audio packs are optional downloads — choose the languages you want, save device storage on the ones you don't.
+>
+> **[CORRECTION — 2026-09: this file is stale.]** English audio does NOT ship with the base app; it is an on-demand download like every other language (confirmed via `audio_en/build.gradle`: "English used to be baked into the base APK; moved on-demand to shrink the base install size"). Also, two more audio languages have been added since this draft was written: Spanish (`es`) and Chinese Traditional (`zh-tw`), alongside the original English, French, Hindi, Thai, and Chinese Simplified. The current full list of 7 audio-pack languages is: English, Spanish, French, Hindi, Thai, Chinese (Simplified), Chinese (Traditional).
 >
 > · Fully offline reading — every translation is embedded. The text works without internet on planes, trains, and remote retreats.
 >
@@ -65,9 +67,11 @@ Pick whichever fits your voice best. I'd recommend the one at the top.
 >
 > Whether you approach this book through philosophy, spirituality, or simple curiosity, Jugalbandhi Self invites you to look inward.
 >
-> No account required. No ads. No data collected.
+> No account required. No ads. Anonymous crash and usage data is sent to help fix bugs — you can turn this off anytime from Settings.
 
 *(approximately 1,750 / 4,000 chars)*
+
+**[CORRECTION — 2026-09: this file was stale.]** The original line here read "No data collected," which is inaccurate for the Android build — `google-services.json` is present in `android/app/`, so Firebase Crashlytics and Analytics are genuinely active by default (crash logs, device/app info, and basic usage signals are sent, tied to a random per-install ID, not to any personal identifier). A v29 build added a "Crash & usage reports" toggle in Settings that lets users disable this collection entirely. The privacy-policy.html page already discloses this accurately; only this marketing line was out of sync. Note: this does NOT apply to the iOS build — no `GoogleService-Info.plist` exists there, so Firebase never initializes on iOS and "No data collected" remains accurate for that platform only, for now.
 
 Changes from your April draft:
 
@@ -84,7 +88,7 @@ If you'd rather keep the description shorter / more poetic, here's a tighter alt
 > The word jugalbandhi describes a duet in Indian classical music: two voices, one resonance. This book brings the perennial question "Who am I?" into conversation with the modern mind.
 >
 > · Read the full text in 35 languages, including Sanskrit, Hindi, Tamil, Arabic, Mandarin, Japanese, Korean, Russian, and Spanish.
-> · Listen in English (included), with downloadable audio packs for French, Hindi, and Thai.
+> · Listen with downloadable audio packs in English, Spanish, French, Hindi, Thai, and Chinese (Simplified & Traditional). **[CORRECTION — 2026-09: English is not "included"; it's on-demand like the rest — see note above.]**
 > · Fully offline reading. No accounts. No ads. No tracking.
 > · Side-by-side bilingual mode, highlights, bookmarks, notes, and full-text search.
 > · 32 chapters, about 1 hr 28 min reading time.
