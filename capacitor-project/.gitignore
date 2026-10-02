@@ -30,3 +30,4 @@ audio-packs-android/*/build/
 
 # Audio pack staging — git-ignored because the MP3 files are heavy
 audio-packs-android/*/src/main/assets/audio/*/*.mp3
+build/
