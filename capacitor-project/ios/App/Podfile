@@ -9,7 +9,13 @@ require_relative '../../node_modules/@capacitor/ios/scripts/pods_helpers'
 # Unverified: no Xcode/macOS environment was available to actually run
 # `pod install` and confirm this clears the error — see capacitor.config.ts.
 platform :ios, '15.0'
-use_frameworks!
+# :linkage => :static resolves a CocoaPods warning/build failure where
+# Firebase's transitive dependencies (e.g. FirebaseAnalytics.xcframework)
+# ship as statically linked binaries, which conflicts with plain dynamic
+# use_frameworks! and can surface as "Unable to resolve module dependency:
+# 'FirebaseCore'" at archive/device-build time even though `pod install`
+# succeeds cleanly.
+use_frameworks! :linkage => :static
 
 # workaround to avoid Xcode caching of Pods that requires
 # Product -> Clean Build Folder after new Cordova plugins installed

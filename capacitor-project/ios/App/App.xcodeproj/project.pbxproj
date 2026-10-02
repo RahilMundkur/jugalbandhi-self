@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 75;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -33,7 +33,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		5669B1DB30282E4F00DD67AB /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		5669B1DB30282E4F00DD67AB /* Exceptions for "en" folder in "App" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			assetTagsByRelativePath = {
 				en_ch01_p000_female.mp3 = (
@@ -897,7 +897,7 @@
 			};
 			target = 504EC3031FED79650016851F /* App */;
 		};
-		5698FEE12FB32CAD000D59DD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		5698FEE12FB32CAD000D59DD /* Exceptions for "fr" folder in "App" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			assetTagsByRelativePath = {
 				fr_ch01_p000_female.mp3 = (
@@ -1749,7 +1749,7 @@
 			};
 			target = 504EC3031FED79650016851F /* App */;
 		};
-		5698FEE22FB32CC7000D59DD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		5698FEE22FB32CC7000D59DD /* Exceptions for "hi" folder in "App" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			assetTagsByRelativePath = {
 				hi_ch01_p000_female.mp3 = (
@@ -2601,7 +2601,7 @@
 			};
 			target = 504EC3031FED79650016851F /* App */;
 		};
-		5698FEE32FB32CEB000D59DD /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		5698FEE32FB32CEB000D59DD /* Exceptions for "th" folder in "App" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			assetTagsByRelativePath = {
 				th_ch01_p000_female.mp3 = (
@@ -3465,10 +3465,54 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		5669B0BC30282C5500DD67AB /* en */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5669B1DB30282E4F00DD67AB /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = en; sourceTree = "<group>"; };
-		5698F95C2FB327B3000D59DD /* fr */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5698FEE12FB32CAD000D59DD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = fr; sourceTree = "<group>"; };
-		5698FB912FB328BD000D59DD /* hi */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5698FEE22FB32CC7000D59DD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = hi; sourceTree = "<group>"; };
-		5698FDC62FB328E3000D59DD /* th */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5698FEE32FB32CEB000D59DD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = th; sourceTree = "<group>"; };
+		5669B0BC30282C5500DD67AB /* en */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				5669B1DB30282E4F00DD67AB /* Exceptions for "en" folder in "App" target */,
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = en;
+			sourceTree = "<group>";
+		};
+		5698F95C2FB327B3000D59DD /* fr */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				5698FEE12FB32CAD000D59DD /* Exceptions for "fr" folder in "App" target */,
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = fr;
+			sourceTree = "<group>";
+		};
+		5698FB912FB328BD000D59DD /* hi */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				5698FEE22FB32CC7000D59DD /* Exceptions for "hi" folder in "App" target */,
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = hi;
+			sourceTree = "<group>";
+		};
+		5698FDC62FB328E3000D59DD /* th */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				5698FEE32FB32CEB000D59DD /* Exceptions for "th" folder in "App" target */,
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = th;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -3549,6 +3593,7 @@
 				504EC3011FED79650016851F /* Frameworks */,
 				504EC3021FED79650016851F /* Resources */,
 				9592DBEFFC6D2A0C8D5DEB22 /* [CP] Embed Pods Frameworks */,
+				0FCFAFA5E3AA78B1A67850E4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -3622,6 +3667,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0FCFAFA5E3AA78B1A67850E4 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-App/Pods-App-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		6634F4EFEBD30273BCE97C65 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3647,12 +3707,8 @@
 			);
 			inputFileListPaths = (
 			);
-			inputPaths = (
-			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
